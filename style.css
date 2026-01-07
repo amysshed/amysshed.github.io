@@ -12,26 +12,30 @@ padding: 2rem;
 line-height: 1.6;
 }
 
-@media (max-width: 600px) {
-  .site-header {
-    flex-direction: column;
-  }
+.site-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 4rem;
+}
 
-  .header-title {
-    position: static;
-    transform: none;
-    margin-bottom: 1rem;
-  }
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .header-nav a {
-  margin-right: 1rem;
+  color: #000;
+  text-decoration: none;
+  margin-left: 1.5rem;
 }
 
-nav a:hover {
-text-decoration: underline;
+.header-nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
-
 
 .projects article,
 main article {
@@ -49,6 +53,7 @@ max-width: 600px;
 margin-bottom: 4rem;
 
 }
+
 
 
 
