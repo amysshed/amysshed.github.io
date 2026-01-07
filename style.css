@@ -12,22 +12,16 @@ padding: 2rem;
 line-height: 1.6;
 }
 
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4rem;
-}
+@media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+  }
 
-.header-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.header-title img {
-  max-height: 60px; /* adjust */
-  width: auto;
+  .header-title {
+    position: static;
+    transform: none;
+    margin-bottom: 1rem;
+  }
 }
 
 .header-nav a {
@@ -55,6 +49,7 @@ max-width: 600px;
 margin-bottom: 4rem;
 
 }
+
 
 
 
