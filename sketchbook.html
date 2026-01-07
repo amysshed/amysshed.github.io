@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sketchbook</title>
+  <link rel="stylesheet" href="sketchbook.css" />
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-title">
+    <a href="index.html"><img src="title.png" alt="Site title"></a>
+  </div>
+  <nav class="header-nav">
+    <a href="journal.html">Journal</a>
+    <a href="Sketchbook.html">Sketchbook</a>
+  </nav>
+</header>
+
+<!-- Masonry gallery -->
+<main>
+  <section class="sketchbook-gallery">
+    <img src="image1.jpg" alt="Sketch 1">
+    <img src="image2.jpg" alt="Sketch 2">
+    <img src="image3.jpg" alt="Sketch 3">
+    <img src="image4.jpg" alt="Sketch 4">
+    <img src="image5.jpg" alt="Sketch 5">
+    <img src="image6.jpg" alt="Sketch 6">
+    <img src="image7.jpg" alt="Sketch 7">
+    <img src="image8.jpg" alt="Sketch 8">
+    <!-- Add as many images as you like -->
+  </section>
+</main>
+
+<script>
+const gallery = document.querySelector('.sketchbook-gallery');
+const imgs = gallery.querySelectorAll('img');
+
+imgs.forEach(img => {
+  img.addEventListener('load', () => {
+    const rowHeight = parseInt(getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
+    const rowGap = parseInt(getComputedStyle(gallery).getPropertyValue('gap'));
+    const rowSpan = Math.ceil((img.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+    img.style.setProperty('--row-span', rowSpan);
+  });
+});
+</script>
+
+</body>
+</html>
