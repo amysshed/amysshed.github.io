@@ -12,20 +12,18 @@ padding: 2rem;
 line-height: 1.6;
 }
 
-header {
-display: flex;
-justify-content: space-between;
-margin-bottom: 4rem;
-}
-
-.title-image {
+.site-header {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin: 6rem 0;
+  margin-bottom: 4rem;
 }
 
-.title-image img {
+.header-title {
+  margin: 4rem 0 2rem 0;
+}
+
+.header-title img {
   max-width: 100%;
   height: auto;
 }
@@ -58,3 +56,4 @@ max-width: 600px;
 margin-bottom: 4rem;
 
 }
+
