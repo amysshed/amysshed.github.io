@@ -5,11 +5,11 @@
 body {
   font-family: Andale Mono;
   background: #fff;
-  color: #909596;
+  color: #111212;
   margin: 0;
   padding: 2rem;
-  font-size: 18px
-  line-height: 1.6;
+  font-size: 45px
+ 
   position: relative;
   z-index: 1; /* Ensure content is above video */
 }
@@ -98,6 +98,7 @@ footer {
   z-index: 1;         /* above background video */
   /*background: rgba(255, 255, 255, 0.2); /* optional subtle background */
 }
+
 
 
 
