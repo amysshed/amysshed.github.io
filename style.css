@@ -37,6 +37,10 @@ line-height: 1.6;
   text-underline-offset: 4px;
 }
 
+.header-nav a:visited {
+  color: #000;
+}
+
 .projects article,
 main article {
 margin-bottom: 3rem;
@@ -53,6 +57,7 @@ max-width: 600px;
 margin-bottom: 4rem;
 
 }
+
 
 
 
