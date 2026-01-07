@@ -88,6 +88,18 @@ h1, h2 {
   margin-bottom: 4rem;
 }
 
+footer {
+  position: fixed;   /* keeps it in place */
+  bottom: 0;         /* align to bottom */
+  left: 0;           /* align to left */
+  padding: 1rem 2rem; /* optional spacing */
+  font-size: 0.9rem;  /* slightly smaller text */
+  color: #111;        /* match body text */
+  z-index: 1;         /* above background video */
+  background: rgba(255, 255, 255, 0.2); /* optional subtle background */
+}
+
+
 
 
 
