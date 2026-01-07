@@ -22,7 +22,7 @@ body {
   height: 100vw;  /* viewport width becomes height */
   z-index: -1;
   object-fit: cover;
-  transform: rotate(90deg) translate(-50%, -50%);
+  transform: rotate(180deg) translate(-50%, -50%);
   transform-origin: center center;
   overflow: hidden;
 }
@@ -88,5 +88,6 @@ h1, h2 {
   max-width: 600px;
   margin-bottom: 4rem;
 }
+
 
 
