@@ -28,6 +28,14 @@ body {
 .header-nav {
   margin-left: auto;
 }
+.header-title a {
+  display: inline-block;
+}
+
+.header-title a img {
+  display: block;
+  max-height: 60px; /* keep your original size */
+}
 
 nav a,
 nav a:visited {
@@ -54,3 +62,4 @@ h1, h2 {
   max-width: 600px;
   margin-bottom: 4rem;
 }
+
