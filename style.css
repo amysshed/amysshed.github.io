@@ -3,12 +3,13 @@
 }
 
 body {
-  font-family: trixy;
+  font-family: Andalé Mono;
   background: #fff;
   color: #fff;
   margin: 0;
   padding: 2rem;
-  line-height: 4;
+  font-size: 18px
+  line-height: 1.6;
   position: relative;
   z-index: 1; /* Ensure content is above video */
 }
@@ -86,6 +87,7 @@ h1, h2 {
   max-width: 600px;
   margin-bottom: 4rem;
 }
+
 
 
 
