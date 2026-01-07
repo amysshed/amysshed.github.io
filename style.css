@@ -18,8 +18,8 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 100vh;       /* viewport height becomes width after rotation */
-  height: 100vw;      /* viewport width becomes height */
+  width: 100vw;       /* viewport height becomes width after rotation */
+  height: 100vh;      /* viewport width becomes height */
   object-fit: cover;
   transform: rotate(90deg) translate(-50%, -50%);
   transform-origin: center center;
@@ -88,6 +88,7 @@ h1, h2 {
   max-width: 600px;
   margin-bottom: 4rem;
 }
+
 
 
 
