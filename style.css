@@ -18,13 +18,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: -1; /* puts it behind your content */
-  object-fit: cover; /* ensures it fills the screen without distortion */
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* scale to fill the viewport */
+  z-index: -1;       /* behind all content */
 }
 
 /* Overlay for readability */
@@ -89,6 +86,7 @@ h1, h2 {
   max-width: 600px;
   margin-bottom: 4rem;
 }
+
 
 
 
