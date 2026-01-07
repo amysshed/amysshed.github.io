@@ -1,0 +1,49 @@
+* {
+box-sizing: border-box;
+}
+
+
+body {
+font-family: serif;
+background: #fff;
+color: #111;
+margin: 0;
+padding: 2rem;
+line-height: 1.6;
+}
+
+
+header {
+display: flex;
+justify-content: space-between;
+margin-bottom: 4rem;
+}
+
+
+nav a {
+margin-left: 1rem;
+text-decoration: none;
+color: inherit;
+}
+
+
+nav a:hover {
+text-decoration: underline;
+}
+
+
+.projects article,
+main article {
+margin-bottom: 3rem;
+}
+
+
+h1, h2 {
+font-weight: normal;
+}
+
+
+.intro {
+max-width: 600px;
+margin-bottom: 4rem;
+}
