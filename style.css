@@ -3,9 +3,9 @@
 }
 
 body {
-  font-family: Andalé Mono;
+  font-family: Andale Mono;
   background: #fff;
-  color: #fff;
+  color: #909596;
   margin: 0;
   padding: 2rem;
   font-size: 18px
@@ -64,7 +64,7 @@ body {
 
 nav a,
 nav a:visited {
-  color: #000;
+  color: #fff;
   text-decoration: none;
   margin-left: 1.5rem;
 }
@@ -94,10 +94,11 @@ footer {
   left: 0;           /* align to left */
   padding: 1rem 2rem; /* optional spacing */
   font-size: 0.9rem;  /* slightly smaller text */
-  color: #111;        /* match body text */
+  color: #fff;        /* match body text */
   z-index: 1;         /* above background video */
-  background: rgba(255, 255, 255, 0.2); /* optional subtle background */
+  /*background: rgba(255, 255, 255, 0.2); /* optional subtle background */
 }
+
 
 
 
