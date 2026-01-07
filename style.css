@@ -14,26 +14,25 @@ line-height: 1.6;
 
 .site-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 4rem;
 }
 
 .header-title {
-  margin: 4rem 0 2rem 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .header-title img {
-  max-width: 100%;
-  height: auto;
+  max-height: 60px; /* adjust */
+  width: auto;
 }
 
-nav a {
-margin-left: 1rem;
-text-decoration: none;
-color: inherit;
+.header-nav a {
+  margin-left: 1rem;
 }
-
 
 nav a:hover {
 text-decoration: underline;
@@ -56,4 +55,5 @@ max-width: 600px;
 margin-bottom: 4rem;
 
 }
+
 
