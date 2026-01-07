@@ -16,7 +16,7 @@ line-height: 1.6;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 4rem;
 }
 
@@ -53,6 +53,7 @@ max-width: 600px;
 margin-bottom: 4rem;
 
 }
+
 
 
 
