@@ -65,6 +65,9 @@ h1, h2 {
 /* Index Page */
 .intro {
   font-family: "Rock 3D", serif;
+  text-shadow:
+    0.5px 0 0 currentColor,
+   -0.5px 0 0 currentColor;
   font-weight: 400;
   font-style: normal;
   letter-spacing: 0.02em;
@@ -180,6 +183,7 @@ body.journal-page {
 body.sketchbook-page {
   background: #FAEAE1;
 }
+
 
 
 
