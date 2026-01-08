@@ -81,7 +81,7 @@ h2 {
   margin-bottom: 4rem;
   font-size: 4rem;
   line-height: 1.9;
-  color: #333333;
+  color: #0D0D0D;
 
   /* Slight stroke effect */
   text-shadow:
@@ -207,3 +207,4 @@ body.sketchbook-page {
   padding: 0.35rem 0.75rem;
   border-radius: 4px;
 }
+
