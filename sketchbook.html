@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Journal</title>
+<title>Sketchbook</title>
 <link rel="stylesheet" href="style.css" />
 <link rel="icon" type="image/png" href="favicon.png">
 </head>
@@ -17,15 +17,12 @@
     </a>
   </div>
 
-
-<nav class="header-nav">
-  <a href="journal.html">Follow</a>
-  <a href="sketchbook.html">Sketchbook</a>
-</nav>
+  <nav class="header-nav">
+    <a href="journal.html">Follow</a>
+    <a href="sketchbook.html">Sketchbook</a>
+  </nav>
 </header>
 
-  
-<!-- Masonry gallery -->
 <main>
   <section class="sketchbook-gallery">
 
@@ -48,41 +45,12 @@
       <img src="images/sketchbook/image-04.jpg" alt="Sketch 04" data-date="Apr 2026">
       <div class="overlay"><span class="date"></span></div>
     </div>
+
   </section>
 </main>
 
-<script>
-window.addEventListener('load', () => {
-  const gallery = document.querySelector('.sketchbook-gallery');
-  const tiles = gallery.querySelectorAll('.sketchbook-tile');
-
-  tiles.forEach(tile => {
-    const img = tile.querySelector('img');
-    const overlayDate = tile.querySelector('.date');
-
-    // Populate the date from data-date attribute
-    overlayDate.textContent = img.dataset.date;
-
-    // Calculate row span for masonry
-    const rowHeight = parseInt(getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
-    const rowGap = parseInt(getComputedStyle(gallery).getPropertyValue('gap'));
-    const rowSpan = Math.ceil((img.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
-    tile.style.setProperty('--row-span', rowSpan);
-  });
-});
+<!-- Load JS at the very end -->
+<script src="js/sketchbook.js"></script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
