@@ -124,8 +124,13 @@ footer {
 }
 
 body.sketchbook-page {
-  background: #FAEAE1; /* example color */
+  background: #FAEAE1;
 }
+
+body.journal-page {
+  background: #F0FCFF;
+}
+
 
 
 
