@@ -84,6 +84,9 @@ h1, h2 {
 }
 
 .intro {
+  font-family: "Rock 3D", system-ui;
+  font-weight: 400;
+  font-style: normal;
   max-width: auto;
   margin-bottom: 4rem;
   font-size: 2rem;    /* larger than default body text */
@@ -116,6 +119,7 @@ footer {
   object-fit: cover;
   grid-row-end: span var(--row-span); /* spans correct number of rows for masonry */
 }
+
 
 
 
