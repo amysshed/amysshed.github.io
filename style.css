@@ -208,3 +208,58 @@ body.sketchbook-page {
   border-radius: 4px;
 }
 
+/* =========================
+   Code that makes all journal entries in the journalentries folder have the same css style
+   ========================= */
+/* Journal Entry Pages */
+body.journal-entry-page {
+  background: #F0FCFF;      /* Example background color */
+  font-family: "New Amsterdam", sans-serif;
+  color: #111;              /* Default text color */
+  padding: 3rem 2rem;
+  line-height: 1.8;
+}
+
+/* Headings */
+body.journal-entry-page h1, 
+body.journal-entry-page h2, 
+body.journal-entry-page h3 {
+  font-family: "Rock 3D", serif;
+  color: #0D0D0D;          /* Titles stay black even when clicked */
+  margin-bottom: 1rem;
+}
+
+/* Paragraphs */
+body.journal-entry-page p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Images inside entries */
+body.journal-entry-page img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+  border-radius: 8px;       /* optional rounded corners */
+}
+
+/* Optional: Figure captions */
+body.journal-entry-page figure figcaption {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+/* Optional: Links inside entries */
+body.journal-entry-page a {
+  color: #0D0D0D;           /* link stays black */
+  text-decoration: none;
+}
+
+body.journal-entry-page a:hover {
+  text-decoration: underline;
+}
+
+
