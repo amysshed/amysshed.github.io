@@ -3,7 +3,7 @@
 }
 /*General Layout */
 body {
-  font-family: Andale Mono;
+  font-family: "New Amsterdam", sans-serif;;
   background: #fff;
   color: #333333;
   margin: 0;
@@ -182,6 +182,7 @@ body.journal-page {
 body.sketchbook-page {
   background: #FAEAE1;
 }
+
 
 
 
