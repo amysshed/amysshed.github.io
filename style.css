@@ -90,7 +90,7 @@ h1, h2 {
   letter-spacing: 0.02em;
   max-width: auto;
   margin-bottom: 4rem;
-  font-size: 2rem;    /* larger than default body text */
+  font-size: 4rem;    /* larger than default body text */
   line-height: 1.9
 }
 
@@ -120,6 +120,7 @@ footer {
   object-fit: cover;
   grid-row-end: span var(--row-span); /* spans correct number of rows for masonry */
 }
+
 
 
 
