@@ -122,6 +122,10 @@ footer {
   grid-row-end: span var(--row-span); /* spans correct number of rows for masonry */
 }
 
+body.sketchbook-page {
+  <background: #FCDDD2> /* example color */
+}
+
 
 
 
