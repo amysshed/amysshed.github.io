@@ -5,7 +5,7 @@
 body {
   font-family: Andale Mono;
   background: #fff;
-  color: #111212;
+  color: #333333;
   margin: 0;
   padding: 2rem;
   font-size: 15px;
@@ -65,7 +65,7 @@ body {
 
 nav a,
 nav a:visited {
-  color: #fff;
+  color: #333333;
   text-decoration: none;
   margin-left: 1.5rem;
 }
@@ -94,6 +94,7 @@ h1, h2 {
   max-width: auto;
   font-size: 4rem;    /* larger than default body text */
   line-height: 1.9;
+  color: #333333;
 }
 
 footer {
@@ -130,6 +131,7 @@ body.sketchbook-page {
 body.journal-page {
   background: #F0FCFF;
 }
+
 
 
 
