@@ -130,6 +130,9 @@ body.journal-page {
 /* Tile wrapper */
 .sketchbook-tile {
   grid-row-end: span var(--row-span);
+}
+
+.tile-inner {
   position: relative;
   overflow: hidden;
   border-radius: 8px;
@@ -183,6 +186,7 @@ body.journal-page {
 body.sketchbook-page {
   background: #FAEAE1;
 }
+
 
 
 
