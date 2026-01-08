@@ -8,7 +8,8 @@ body {
   color: #333333;
   margin: 0;
   padding: 2rem;
-  font-size: 15px;
+  font-size: 20px;
+  font-weight: bold;
  
   position: relative;
   z-index: 1; /* Ensure content is above video */
@@ -131,6 +132,7 @@ body.sketchbook-page {
 body.journal-page {
   background: #F0FCFF;
 }
+
 
 
 
