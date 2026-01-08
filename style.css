@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
 }
-
+/*General Layout */
 body {
   font-family: Andale Mono;
   background: #fff;
@@ -9,32 +9,9 @@ body {
   margin: 0;
   padding: 2rem;
   font-size: 20px;
-  font-weight: bold;
  
   position: relative;
   z-index: 1; /* Ensure content is above video */
-}
-
-/* Background video */
-#bg-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* scale to fill the viewport */
-  z-index: -1;       /* behind all content */
-}
-
-/* Overlay for readability */
-#video-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2); /* subtle light overlay */
-  z-index: 0;
 }
 
 .site-header {
@@ -85,6 +62,7 @@ h1, h2 {
   font-weight: normal;
 }
 
+/* Index Page */
 .intro {
   font-family: "Rock 3D", serif;
   font-weight: 400;
@@ -98,6 +76,28 @@ h1, h2 {
   color: #333333;
 }
 
+/* Background video */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* scale to fill the viewport */
+  z-index: -1;       /* behind all content */
+}
+
+/* Overlay for readability */
+#video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2); /* subtle light overlay */
+  z-index: 0;
+}
+
 footer {
   position: fixed;   /* keeps it in place */
   bottom: 0;         /* align to bottom */
@@ -109,6 +109,13 @@ footer {
   /*background: rgba(255, 255, 255, 0.2); /* optional subtle background */
 }
 
+/* Journal Page */
+body.journal-page {
+  background: #F0FCFF;
+}
+
+
+/* Sketchbook page */
 /* Masonry-style gallery */
 .sketchbook-gallery {
   display: grid;
@@ -117,21 +124,63 @@ footer {
   gap: 1rem;            /* equal spacing between tiles */
 }
 
-.sketchbook-gallery img {
+/* Tile wrapper */
+.sketchbook-tile {
+  position: relative;
+  overflow: hidden; /* ensures overlay doesn’t spill outside */
+  border-radius: 8px;
+}
+
+/* Images */
+.sketchbook-tile img {
   width: 100%;
   display: block;
-  border-radius: 8px;
   object-fit: cover;
-  grid-row-end: span var(--row-span); /* spans correct number of rows for masonry */
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Hover effect: subtle zoom and grey overlay */
+.sketchbook-tile:hover img {
+  transform: scale(1.05);
+  filter: brightness(60%); /* greyed-out effect */
+}
+
+/* Overlay container */
+.sketchbook-tile .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* hidden by default */
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* allows hovering the image normally */
+}
+
+/* Show overlay on hover */
+.sketchbook-tile:hover .overlay {
+  opacity: 1;
+}
+
+/* Date text */
+.sketchbook-tile .overlay .date {
+  color: #fff;
+  font-family: "Rock 3D", serif; /* optional, matches your intro */
+  font-size: 1.5rem;
+  text-align: center;
+  background: rgba(0,0,0,0.4); /* optional subtle background behind text */
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
 }
 
 body.sketchbook-page {
   background: #FAEAE1;
 }
 
-body.journal-page {
-  background: #F0FCFF;
-}
+
 
 
 
