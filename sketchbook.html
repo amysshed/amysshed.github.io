@@ -52,6 +52,27 @@
 <main>
 
 <script>
+window.addEventListener('load', () => {
+  const gallery = document.querySelector('.sketchbook-gallery');
+  const tiles = gallery.querySelectorAll('.sketchbook-tile');
+
+  tiles.forEach(tile => {
+    const img = tile.querySelector('img');
+    const overlayDate = tile.querySelector('.date');
+
+    // Populate the date from data-date attribute
+    overlayDate.textContent = img.dataset.date;
+
+    // Calculate row span for masonry
+    const rowHeight = parseInt(getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
+    const rowGap = parseInt(getComputedStyle(gallery).getPropertyValue('gap'));
+    const rowSpan = Math.ceil((img.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+    tile.style.setProperty('--row-span', rowSpan);
+  });
+});
+</script>
+
+<script>
 const gallery = document.querySelector('.sketchbook-gallery');
 const imgs = gallery.querySelectorAll('img');
 
@@ -65,8 +86,10 @@ imgs.forEach(img => {
 });
 </script>
 
+
 </body>
 </html>
+
 
 
 
