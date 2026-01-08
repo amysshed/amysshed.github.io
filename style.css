@@ -126,19 +126,17 @@ body.journal-page {
 
 /* Tile wrapper */
 .sketchbook-tile {
+  grid-row-end: span var(--row-span);
   position: relative;
-  overflow: hidden; /* ensures overlay doesn’t spill outside */
+  overflow: hidden;
   border-radius: 8px;
 }
 
 /* Images */
 .sketchbook-tile img {
   width: 100%;
-  max-height: 500px;   /* prevents super tall images from dominating */
-  min-height: 150px;   /* prevents tiny thumbnails */
   display: block;
   object-fit: cover;
-  grid-row-end: span var(--row-span);
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
@@ -182,6 +180,7 @@ body.journal-page {
 body.sketchbook-page {
   background: #FAEAE1;
 }
+
 
 
 
