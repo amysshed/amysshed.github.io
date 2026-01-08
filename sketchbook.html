@@ -48,8 +48,8 @@
       <img src="images/sketchbook/image-04.jpg" alt="Sketch 04" data-date="Apr 2026">
       <div class="overlay"><span class="date"></span></div>
     </div>
- <section>
-<main>
+  </section>
+</main>
 
 <script>
 window.addEventListener('load', () => {
@@ -70,25 +70,10 @@ window.addEventListener('load', () => {
     tile.style.setProperty('--row-span', rowSpan);
   });
 });
-</script>
-
-<script>
-const gallery = document.querySelector('.sketchbook-gallery');
-const imgs = gallery.querySelectorAll('img');
-
-imgs.forEach(img => {
-  img.addEventListener('load', () => {
-    const rowHeight = parseInt(getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
-    const rowGap = parseInt(getComputedStyle(gallery).getPropertyValue('gap'));
-    const rowSpan = Math.ceil((img.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
-    img.style.setProperty('--row-span', rowSpan);
-  });
-});
-</script>
-
 
 </body>
 </html>
+
 
 
 
