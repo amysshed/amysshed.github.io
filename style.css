@@ -8,7 +8,7 @@ body {
   color: #111212;
   margin: 0;
   padding: 2rem;
-  font-size: 45px;
+  font-size: 25px;
  
   position: relative;
   z-index: 1; /* Ensure content is above video */
@@ -126,6 +126,7 @@ footer {
 body.sketchbook-page {
   background: #FCDDD2; /* example color */
 }
+
 
 
 
