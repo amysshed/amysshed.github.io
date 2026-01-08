@@ -28,24 +28,28 @@
 <!-- Masonry gallery -->
 <main>
   <section class="sketchbook-gallery">
+
     <div class="sketchbook-tile">
-    <img src="images/sketchbook/image1.jpg" alt="Sketch 01">
-      <div class="overlay">
-        <span class="date">Jan 2026</span>
-      </div>
-    <img src="images/sketchbook/image2.jpg" alt="Sketch 2">
-      <div class="overlay">
-        <span class="date">Feb 2026</span>
-      </div>
-    <img src="images/sketchbook/image-03.jpg" alt="Sketch 3">
-    <img src="images/sketchbook/image-04.jpg" alt="Sketch 4">
-    <img src="images/sketchbook/image-05.jpg" alt="Sketch 5">
-    <img src="images/sketchbook/image-06.jpg" alt="Sketch 6">
-    <img src="images/sketchbook/image-07.jpg" alt="Sketch 7">
-    <img src="images/sketchbook/image-08.jpg" alt="Sketch 8">
-    <!-- Add as many images as you like -->
-  </section>
-</main>
+      <img src="images/sketchbook/image1.jpg" alt="Sketch 01" data-date="Jan 2026">
+      <div class="overlay"><span class="date"></span></div>
+    </div>
+
+    <div class="sketchbook-tile">
+      <img src="images/sketchbook/image2.jpg" alt="Sketch 02" data-date="Feb 2026">
+      <div class="overlay"><span class="date"></span></div>
+    </div>
+
+    <div class="sketchbook-tile">
+      <img src="images/sketchbook/image-03.jpg" alt="Sketch 03" data-date="Mar 2026">
+      <div class="overlay"><span class="date"></span></div>
+    </div>
+
+    <div class="sketchbook-tile">
+      <img src="images/sketchbook/image-04.jpg" alt="Sketch 04" data-date="Apr 2026">
+      <div class="overlay"><span class="date"></span></div>
+    </div>
+ <section>
+<main>
 
 <script>
 const gallery = document.querySelector('.sketchbook-gallery');
@@ -63,6 +67,7 @@ imgs.forEach(img => {
 
 </body>
 </html>
+
 
 
 
