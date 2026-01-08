@@ -25,25 +25,40 @@
 </header>
 
 <main>
-<article>
-<section class="journal-list"> data-file="journalentries/.WIT08_01_2026.html">
-  <div class="journal-preview">
-    <a href="journalentries/.WIT08_01_2026.html" class="journal-title">WIT</a>
-    <figure class="preview-image">
-      <img src="images/journalentries/wit01.jpg" alt="WIT preview">
-    </figure>
-    <p class="journal-excerpt"></p>
-  </div>
-</section>
-</article>
+  <article>
+    <section class="journal-list">
+      <div class="journal-preview" data-file="journalentries/WIT08_01_2026.html">
+        <a href="journalentries/WIT08_01_2026.html" class="journal-title">WIT</a>
+        <figure class="preview-image">
+          <img src="images/journalentries/wit01.jpg" alt="WIT preview">
+        </figure>
+        <p class="journal-excerpt"></p>
+      </div>
+    </section>
+  </article>
+</main>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const previews = document.querySelectorAll(".journal-preview");
 
-<!article>
-<!h2><!a href="entries/entry-002.html"!><!Notes on Visibility<!/a><!/h2>
-<!p><!March 2026</p>
-<!/article>
-<!/main>
+  previews.forEach(preview => {
+    const file = preview.dataset.file;
 
+    fetch(file)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const firstParagraph = doc.querySelector("article p");
+        if (firstParagraph) {
+          preview.querySelector(".journal-excerpt").textContent = firstParagraph.textContent;
+        }
+      })
+      .catch(err => console.error("Could not load journal entry:", err));
+  });
+});
+</script>
 
 <footer>
 <p>© 2026. All rights reserved.</p>
@@ -52,6 +67,7 @@
 </body>
 
 </html>
+
 
 
 
