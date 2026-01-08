@@ -8,7 +8,7 @@ body {
   color: #111212;
   margin: 0;
   padding: 2rem;
-  font-size: 45px
+  font-size: 45px;
  
   position: relative;
   z-index: 1; /* Ensure content is above video */
@@ -53,6 +53,7 @@ body {
 .header-nav {
   margin-left: auto;
 }
+
 .header-title a {
   display: inline-block;
 }
@@ -92,7 +93,7 @@ h1, h2 {
   margin-bottom: 4rem;
   max-width: auto;
   font-size: 4rem;    /* larger than default body text */
-  line-height: 1.9
+  line-height: 1.9;
 }
 
 footer {
@@ -125,6 +126,7 @@ footer {
 body.sketchbook-page {
   <background: #FCDDD2; /* example color */
 }
+
 
 
 
