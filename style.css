@@ -138,8 +138,8 @@ body.journal-page {
 /* Images */
 .sketchbook-tile img {
   width: 100%;
+  height: auto;     
   display: block;
-  object-fit: cover;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
@@ -183,6 +183,7 @@ body.journal-page {
 body.sketchbook-page {
   background: #FAEAE1;
 }
+
 
 
 
