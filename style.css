@@ -232,6 +232,29 @@ body.sketchbook-page {
   background: #f0f0f0;
 }
 
+/* Filter container */
+.sketchbook-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+/* Dropdown styling */
+#sketchbook-filter {
+  font-family: "New Amsterdam", sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #333;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Remove default blue focus ring */
+#sketchbook-filter:focus {
+  outline: none;
+}
+
 /* Hidden tiles */
 .sketchbook-tile.is-hidden {
   display: none;
@@ -363,6 +386,7 @@ body.journal-entry-page a:hover {
   display: block;
   clear: both;
 }
+
 
 
 
