@@ -191,6 +191,53 @@ body.sketchbook-page {
   border-radius: 8px;
 }
 
+/* Filter UI */
+.filter-container {
+  position: relative;
+  margin-left: 1.5rem;
+}
+
+.filter-toggle {
+  background: none;
+  border: none;
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.filter-menu {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.5rem;
+  display: none;
+  z-index: 10;
+}
+
+.filter-menu button {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.filter-menu button:hover {
+  background: #f0f0f0;
+}
+
+/* Hidden tiles */
+.sketchbook-tile.is-hidden {
+  display: none;
+}
+
+
 /* =========================
    Images (GPU Accelerated)
    ========================= */
@@ -316,6 +363,7 @@ body.journal-entry-page a:hover {
   display: block;
   clear: both;
 }
+
 
 
 
