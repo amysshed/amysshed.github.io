@@ -2,7 +2,9 @@ window.addEventListener("load", () => {
   const gallery = document.querySelector(".sketchbook-gallery");
   if (!gallery) return;
 
-  const tiles = gallery.querySelectorAll(".sketchbook-tile");
+  const tiles = Array.from(
+    gallery.querySelectorAll(".sketchbook-tile")
+  );
 
   const rowHeight = parseInt(
     getComputedStyle(gallery).getPropertyValue("grid-auto-rows")
@@ -11,81 +13,63 @@ window.addEventListener("load", () => {
     getComputedStyle(gallery).getPropertyValue("gap")
   );
 
+  // ---------- Masonry resize ----------
+  function resizeAllTiles() {
+    tiles.forEach(tile => {
+      if (tile.classList.contains("is-hidden")) return;
+
+      const img = tile.querySelector("img");
+      if (!img) return;
+
+      const height = img.getBoundingClientRect().height;
+      const rowSpan = Math.ceil(
+        (height + rowGap) / (rowHeight + rowGap)
+      );
+
+      tile.style.setProperty("--row-span", rowSpan);
+    });
+  }
+
+  // ---------- Initial setup ----------
   tiles.forEach(tile => {
     const img = tile.querySelector("img");
     const dateSpan = tile.querySelector(".date");
 
-    if (img.dataset.date && dateSpan) {
+    // Populate date
+    if (img?.dataset.date && dateSpan) {
       dateSpan.textContent = img.dataset.date;
     }
 
-    const resizeTile = () => {
-      const imageHeight = img.getBoundingClientRect().height;
-      const rowSpan = Math.ceil(
-        (imageHeight + rowGap) / (rowHeight + rowGap)
-      );
-      tile.style.setProperty("--row-span", rowSpan);
-    };
-
-    if (img.complete) {
-      resizeTile();
+    // Ensure resize after image load
+    if (img?.complete) {
+      resizeAllTiles();
     } else {
-      img.addEventListener("load", resizeTile);
+      img?.addEventListener("load", resizeAllTiles);
     }
   });
-});
 
+  // ---------- FILTER (select dropdown) ----------
+  const filterSelect = document.getElementById("sketchbook-filter");
 
-// FILTER LOGIC
-const filterToggle = document.querySelector(".filter-toggle");
-const filterMenu = document.querySelector(".filter-menu");
-const filterButtons = document.querySelectorAll(".filter-menu button");
-const tiles = document.querySelectorAll(".sketchbook-tile");
+  if (filterSelect) {
+    filterSelect.addEventListener("change", () => {
+      const filter = filterSelect.value.toLowerCase();
 
-// Toggle menu
-filterToggle.addEventListener("click", () => {
-  filterMenu.style.display =
-    filterMenu.style.display === "block" ? "none" : "block";
-});
+      tiles.forEach(tile => {
+        const tags = tile.dataset.tags
+          ?.toLowerCase()
+          .split(",")
+          .map(t => t.trim());
 
-// Apply filter
-filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    const filter = button.dataset.filter;
+        if (filter === "all" || tags?.includes(filter)) {
+          tile.classList.remove("is-hidden");
+        } else {
+          tile.classList.add("is-hidden");
+        }
+      });
 
-    tiles.forEach(tile => {
-      const tags = tile.dataset.tags
-        ?.toLowerCase()
-        .split(",")
-        .map(t => t.trim());
-
-      if (filter === "all" || tags?.includes(filter)) {
-        tile.classList.remove("is-hidden");
-      } else {
-        tile.classList.add("is-hidden");
-      }
+      // Force masonry recalculation
+      requestAnimationFrame(resizeAllTiles);
     });
-
-    filterMenu.style.display = "none";
-  });
+  }
 });
-
-const filterSelect = document.getElementById("sketchbook-filter");
-const tiles = document.querySelectorAll(".sketchbook-tile");
-
-filterSelect.addEventListener("change", () => {
-  const filter = filterSelect.value;
-
-  tiles.forEach(tile => {
-    const tags = tile.dataset.tags || "";
-
-    if (filter === "all" || tags.includes(filter)) {
-      tile.style.display = "";
-    } else {
-      tile.style.display = "none";
-    }
-  });
-});
-
-
-
