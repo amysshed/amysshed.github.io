@@ -382,8 +382,8 @@ body.journal-entry-page a:hover {
 /* Wrapped image inside journal entry */
 .journal-inline-image {
   float: right;
-  width: 40%;
-  max-width: 280px;
+  width: 25%;
+  max-width: 200px;
   margin: 0 0 1rem 1.5rem;
   border-radius: 8px;
 }
@@ -394,6 +394,7 @@ body.journal-entry-page a:hover {
   display: block;
   clear: both;
 }
+
 
 
 
