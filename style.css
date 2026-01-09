@@ -239,20 +239,28 @@ body.sketchbook-page {
   margin-bottom: 1rem;
 }
 
-/* Dropdown styling */
+/* Text-only dropdown */
 #sketchbook-filter {
-  font-family: "New Amsterdam", sans-serif;
-  font-size: 1rem;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #333;
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: 0.95rem;
+  color: #000;
   background: transparent;
-  color: #333;
+  border: none;
+  padding: 0;
   cursor: pointer;
+
+  /* Remove native styling */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 /* Remove default blue focus ring */
 #sketchbook-filter:focus {
   outline: none;
+}
+#sketchbook-filter:hover {
+  opacity: 0.7;
 }
 
 /* Hidden tiles */
@@ -386,6 +394,7 @@ body.journal-entry-page a:hover {
   display: block;
   clear: both;
 }
+
 
 
 
