@@ -34,3 +34,40 @@ window.addEventListener("load", () => {
     }
   });
 });
+
+
+// FILTER LOGIC
+const filterToggle = document.querySelector(".filter-toggle");
+const filterMenu = document.querySelector(".filter-menu");
+const filterButtons = document.querySelectorAll(".filter-menu button");
+const tiles = document.querySelectorAll(".sketchbook-tile");
+
+// Toggle menu
+filterToggle.addEventListener("click", () => {
+  filterMenu.style.display =
+    filterMenu.style.display === "block" ? "none" : "block";
+});
+
+// Apply filter
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const filter = button.dataset.filter;
+
+    tiles.forEach(tile => {
+      const tags = tile.dataset.tags
+        ?.toLowerCase()
+        .split(",")
+        .map(t => t.trim());
+
+      if (filter === "all" || tags?.includes(filter)) {
+        tile.classList.remove("is-hidden");
+      } else {
+        tile.classList.add("is-hidden");
+      }
+    });
+
+    filterMenu.style.display = "none";
+  });
+});
+
+
