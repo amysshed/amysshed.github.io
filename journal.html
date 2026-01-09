@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const doc = parser.parseFromString(html, "text/html");
 
         // Grab first paragraph anywhere in the entry
-        const firstParagraph = doc.querySelector("p");
+        const firstParagraph = doc.querySelector(".entry-content p");
         if (firstParagraph) {
           preview.querySelector(".journal-excerpt").textContent = firstParagraph.textContent;
         }
@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </body>
 
 </html>
+
 
 
 
