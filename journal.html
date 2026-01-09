@@ -56,7 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // Grab first paragraph from entry content
         const firstParagraph = doc.querySelector(".entry-content p");
         if (firstParagraph) {
-          preview.querySelector(".journal-excerpt").textContent = firstParagraph.textContent;
+          let text = firstParagraph.textContent.trim();
+
+          // Limit to first 100 characters
+          if (text.length > 100) {
+            text = text.slice(0, 100) + "…";
+          }
+
+          preview.querySelector(".journal-excerpt").textContent = text;
         }
 
         // Grab date from entry
@@ -70,9 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+
 <footer>
 <p>© 2026. All rights reserved.</p>
 </footer>
   
 </body>
 </html>
+
