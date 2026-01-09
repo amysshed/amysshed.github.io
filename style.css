@@ -384,7 +384,8 @@ body.journal-entry-page a:hover {
   float: right;
   width: 25%;
   max-width: 200px;
-  margin: 0 0 1rem 1.5rem;
+     /* Top | Right | Bottom | Left */
+  margin: 0 0 1rem 2rem;
   border-radius: 8px;
 }
 
@@ -394,6 +395,7 @@ body.journal-entry-page a:hover {
   display: block;
   clear: both;
 }
+
 
 
 
