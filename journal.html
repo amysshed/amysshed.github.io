@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (firstParagraph) {
           let text = firstParagraph.textContent.trim();
 
-          // Limit to first 100 characters
-          if (text.length > 100) {
-            text = text.slice(0, 100) + "…";
+          // Limit to first 200 characters
+          if (text.length > 200) {
+            text = text.slice(0, 200) + "…";
           }
 
           preview.querySelector(".journal-excerpt").textContent = text;
@@ -84,4 +84,5 @@ document.addEventListener("DOMContentLoaded", () => {
   
 </body>
 </html>
+
 
