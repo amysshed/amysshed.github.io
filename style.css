@@ -82,8 +82,6 @@ h2 {
   font-size: 4rem;
   line-height: 1.9;
   color: #0D0D0D;
-
-  /* Slight stroke effect */
   text-shadow:
     0.5px 0 0 currentColor,
    -0.5px 0 0 currentColor;
@@ -126,6 +124,7 @@ footer {
 /* =========================
    Journal list page
    ========================= */
+
 /* Journal list titles */
 .journal-title {
   font-family: "Rock 3D", serif;
@@ -147,25 +146,23 @@ body.journal-page {
   background: #F0FCFF;
 }
 
-body.journal-list {
-   font-family: "Rock 3D", serif;
-   color: #0D0D0D;
-}
-
+/* Journal Preview Container */
 .journal-preview {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 0.5rem;
+  grid-template-columns: 2fr 1fr; /* text | image */
+  gap: 0.25rem;                   /* smaller spacing between text and image */
   align-items: start;
 }
 
+/* Preview Image */
 .preview-image img {
   width: 100%;
-  max-width: 200px;
-  height: auto; 
+  max-width: 220px; /* slightly larger image */
+  height: auto;
   border-radius: 6px;
 }
 
+/* Preview Text */
 .journal-preview .journal-title {
   margin-bottom: 0.25rem;
   display: block;
@@ -173,15 +170,15 @@ body.journal-list {
 
 .journal-preview .journal-date {
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* closer to title and text */
   color: #555;
   display: block;
 }
 
 .journal-preview p.journal-excerpt {
-  margin-top: 0;
+  margin: 0.25rem 0 0.5rem 0;
+  line-height: 1.5;
 }
-
 
 /* =========================
    Sketchbook Masonry Grid
@@ -198,12 +195,10 @@ body.sketchbook-page {
   gap: 1rem;
 }
 
-/* Each masonry item */
 .sketchbook-tile {
   grid-row-end: span var(--row-span);
 }
 
-/* Inner wrapper (controls rounding & clipping) */
 .tile-inner {
   position: relative;
   overflow: hidden;
@@ -251,14 +246,12 @@ body.sketchbook-page {
   background: #f0f0f0;
 }
 
-/* Filter container */
 .sketchbook-controls {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1rem;
 }
 
-/* Text-only dropdown */
 #sketchbook-filter {
   font-family: "Atkinson Hyperlegible Mono", sans-serif;
   font-size: 0.95rem;
@@ -267,14 +260,11 @@ body.sketchbook-page {
   border: none;
   padding: 0;
   cursor: pointer;
-
-  /* Remove native styling */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 
-/* Remove default blue focus ring */
 #sketchbook-filter:focus {
   outline: none;
 }
@@ -282,38 +272,26 @@ body.sketchbook-page {
   opacity: 0.7;
 }
 
-/* Hidden tiles */
 .sketchbook-tile.is-hidden {
   display: none;
 }
 
-
-/* =========================
-   Images (GPU Accelerated)
-   ========================= */
-
+/* Images (GPU Accelerated) */
 .sketchbook-tile img {
   width: 100%;
   height: auto;
   display: block;
-
-  /* GPU acceleration */
   will-change: transform;
   transform: translateZ(0);
-
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Hover effects */
 .sketchbook-tile:hover .tile-inner img {
   transform: scale(1.05);
   filter: brightness(60%);
 }
 
-/* =========================
-   Overlay & Date
-   ========================= */
-
+/* Overlay & Date */
 .tile-inner .overlay {
   position: absolute;
   inset: 0;
@@ -339,42 +317,38 @@ body.sketchbook-page {
 }
 
 /* =========================
-   Code that makes all journal entries in the journalentries folder have the same css style
+   Journal Entry Pages
    ========================= */
-/* Journal Entry Pages */
+
 body.journal-entry-page {
-  background: #F0FCFF;      /* Example background color */
+  background: #F0FCFF;
   font-family: "Atkinson Hyperlegible Mono", sans-serif;
-  color: #111;              /* Default text color */
+  color: #111;
   padding: 3rem 2rem;
   line-height: 1.8;
 }
 
-/* Headings */
 body.journal-entry-page h1, 
 body.journal-entry-page h2, 
 body.journal-entry-page h3 {
   font-family: "Rock 3D", serif;
-  color: #0D0D0D;          /* Titles stay black even when clicked */
+  color: #0D0D0D;
   margin-bottom: 1rem;
 }
 
-/* Paragraphs */
 body.journal-entry-page p {
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
 }
 
-/* Images inside entries */
 body.journal-entry-page img {
   max-width: 100%;
   height: auto;
   display: block;
   margin: 1rem 0;
-  border-radius: 4px;       /* optional rounded corners */
+  border-radius: 4px;
 }
 
-/* Optional: Figure captions */
 body.journal-entry-page figure figcaption {
   font-size: 0.9rem;
   text-align: center;
@@ -382,15 +356,15 @@ body.journal-entry-page figure figcaption {
   margin-top: 0.5rem;
 }
 
-/* Optional: Links inside entries */
 body.journal-entry-page a {
-  color: #0D0D0D;           /* link stays black */
+  color: #0D0D0D;
   text-decoration: none;
 }
 
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
+
 /* Journal entry layout */
 .journal-entry {
   max-width: 700px;
@@ -403,8 +377,7 @@ body.journal-entry-page a:hover {
   float: right;
   width: 30%;
   max-width: 200px;
-     /* Top | Right | Bottom | Left */
-  margin: 0 0 1rem 2rem;
+  margin: 0 0 1rem 2rem; /* space between text and image */
   border-radius: 4px;
 }
 
@@ -414,15 +387,3 @@ body.journal-entry-page a:hover {
   display: block;
   clear: both;
 }
-
-
-
-
-
-
-
-
-
-
-
-
