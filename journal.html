@@ -30,10 +30,11 @@
     <section class="journal-list">
       <div class="journal-preview" data-file="journalentries/WIT08_01_2026.html">
         <a href="journalentries/WIT08_01_2026.html" class="journal-title">WIT</a>
+        <span class="journal-date"></span>
+        <p class="journal-excerpt"></p>
         <figure class="preview-image">
           <img src="images/journalentries/wit01.jpeg" alt="WIT preview">
         </figure>
-        <p class="journal-excerpt"></p>
       </div>
     </section>
   </article>
@@ -52,10 +53,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
 
-        // Grab first paragraph anywhere in the entry
+        // Grab first paragraph from entry content
         const firstParagraph = doc.querySelector(".entry-content p");
         if (firstParagraph) {
           preview.querySelector(".journal-excerpt").textContent = firstParagraph.textContent;
+        }
+
+        // Grab date from entry
+        const entryDate = doc.querySelector(".entry-date");
+        if (entryDate) {
+          preview.querySelector(".journal-date").textContent = entryDate.textContent;
         }
       })
       .catch(err => console.error("Could not load journal entry:", err));
@@ -68,36 +75,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </footer>
   
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
