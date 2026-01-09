@@ -70,4 +70,22 @@ filterButtons.forEach(button => {
   });
 });
 
+const filterSelect = document.getElementById("sketchbook-filter");
+const tiles = document.querySelectorAll(".sketchbook-tile");
+
+filterSelect.addEventListener("change", () => {
+  const filter = filterSelect.value;
+
+  tiles.forEach(tile => {
+    const tags = tile.dataset.tags || "";
+
+    if (filter === "all" || tags.includes(filter)) {
+      tile.style.display = "";
+    } else {
+      tile.style.display = "none";
+    }
+  });
+});
+
+
 
