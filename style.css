@@ -131,6 +131,11 @@ body.journal-page {
   background: #F0FCFF;
 }
 
+body.journal-list {
+   font-family: "Rock 3D", serif;
+   color: #0D0D0D;
+}
+
 body.sketchbook-page {
   background: #FAEAE1;
 }
@@ -261,6 +266,7 @@ body.journal-entry-page a {
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
+
 
 
 
