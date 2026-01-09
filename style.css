@@ -124,8 +124,24 @@ footer {
 }
 
 /* =========================
-   Page Backgrounds
+   Journal list page
    ========================= */
+/* Journal list titles */
+.journal-title {
+  font-family: "Rock 3D", serif;
+  font-size: 2rem;
+  color: #0D0D0D;
+  text-decoration: none;
+}
+
+/* Prevent blue / purple visited state */
+.journal-title:visited {
+  color: #0D0D0D;
+}
+
+.journal-title:hover {
+  text-decoration: underline;
+}
 
 body.journal-page {
   background: #F0FCFF;
@@ -136,13 +152,25 @@ body.journal-list {
    color: #0D0D0D;
 }
 
-body.sketchbook-page {
-  background: #FAEAE1;
+.journal-preview {
+  display: grid;
+  grid-template-columns: 1fr 150px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.preview-image img {
+  width: 100%;
+  border-radius: 6px;
 }
 
 /* =========================
    Sketchbook Masonry Grid
    ========================= */
+
+body.sketchbook-page {
+  background: #FAEAE1;
+}
 
 .sketchbook-gallery {
   display: grid;
@@ -266,6 +294,29 @@ body.journal-entry-page a {
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
+/* Journal entry layout */
+.journal-entry {
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Wrapped image inside journal entry */
+.journal-inline-image {
+  float: right;
+  width: 40%;
+  max-width: 280px;
+  margin: 0 0 1rem 1.5rem;
+  border-radius: 8px;
+}
+
+/* Clear float at end of article */
+.journal-entry::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 
 
 
