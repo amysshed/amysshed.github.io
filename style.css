@@ -11,7 +11,7 @@
    ========================= */
 
 body {
-  font-family: "New Amsterdam", sans-serif;
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
   background: #fff;
   color: #333333;
   margin: 0;
@@ -214,7 +214,7 @@ body.sketchbook-page {
 /* Journal Entry Pages */
 body.journal-entry-page {
   background: #F0FCFF;      /* Example background color */
-  font-family: "New Amsterdam", sans-serif;
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
   color: #111;              /* Default text color */
   padding: 3rem 2rem;
   line-height: 1.8;
@@ -261,5 +261,6 @@ body.journal-entry-page a {
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
+
 
 
