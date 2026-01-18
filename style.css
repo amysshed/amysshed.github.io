@@ -401,7 +401,7 @@ body.journal-entry-page a:hover {
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
 
   .site-header {
     flex-direction: column;
@@ -410,26 +410,25 @@ body.journal-entry-page a:hover {
     margin-bottom: 2rem;
   }
 
+  /* Remove absolute positioning entirely */
   .header-title {
-    position: static;       /* CRITICAL */
+    position: static;
     transform: none;
-    z-index: 1;
+    order: 1;
   }
 
   .header-nav {
     position: static;
-    margin-left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
-    z-index: 2;             /* ensures links are on top */
+    margin-left: 0;
+    order: 2;
   }
 
   .header-nav a {
     margin-left: 0;
-    pointer-events:
+    font-size: 1rem;
   }
 }
-
-
