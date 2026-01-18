@@ -401,7 +401,7 @@ body.journal-entry-page a:hover {
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
 
   .site-header {
     flex-direction: column;
@@ -431,4 +431,5 @@ body.journal-entry-page a:hover {
     pointer-events:
   }
 }
+
 
