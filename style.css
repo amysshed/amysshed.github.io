@@ -399,7 +399,7 @@ body.journal-entry-page a {
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
   .site-header {
     position: static;
@@ -430,5 +430,6 @@ body.journal-entry-page a:hover {
     font-size: 1rem;
   }
 }
+
 
 
