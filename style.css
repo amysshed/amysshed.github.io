@@ -399,26 +399,29 @@ body.journal-entry-page a {
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
+
+
 @media (max-width: 900px) {
 
   .site-header {
-    position: static;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 2rem;
   }
 
-  .header-title {
-    position: static;
-    left: auto;
-    transform: none;
+  .header-title,
+  .header-nav {
+    justify-self: center;
+  }
+
+  .header-title img {
+    max-width: 85vw;
+    height: auto;
   }
 
   .header-nav {
-    margin-left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -430,6 +433,3 @@ body.journal-entry-page a:hover {
     font-size: 1rem;
   }
 }
-
-
-
