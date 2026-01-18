@@ -401,35 +401,34 @@ body.journal-entry-page a:hover {
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
 
   .site-header {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1rem;
     margin-bottom: 2rem;
   }
 
-  .header-title,
-  .header-nav {
-    justify-self: center;
-  }
-
-  .header-title img {
-    max-width: 85vw;
-    height: auto;
+  .header-title {
+    position: static;       /* CRITICAL */
+    transform: none;
+    z-index: 1;
   }
 
   .header-nav {
+    position: static;
+    margin-left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.75rem;
+    z-index: 2;             /* ensures links are on top */
   }
 
   .header-nav a {
-    margin: 0;
-    padding: 0.25rem 0;
-    font-size: 1rem;
+    margin-left: 0;
+    pointer-events:
   }
 }
+
