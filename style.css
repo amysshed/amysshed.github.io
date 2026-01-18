@@ -399,22 +399,21 @@ body.journal-entry-page a {
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
-
-/* =========================
-   Responsive Header (Mobile)
-   ========================= */
-
 @media (max-width: 768px) {
 
   .site-header {
+    position: static;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     gap: 1rem;
     margin-bottom: 2rem;
   }
 
   .header-title {
     position: static;
+    left: auto;
     transform: none;
   }
 
@@ -423,13 +422,11 @@ body.journal-entry-page a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
   }
 
-  nav a {
-    margin-left: 0;
+  .header-nav a {
+    margin: 0;
+    padding: 0.25rem 0;
     font-size: 1rem;
   }
 }
-
-
