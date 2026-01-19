@@ -1,3 +1,63 @@
+const gallery = document.getElementById("sketchbook-gallery");
+
+// Load journal images into sketchbook
+fetch("journalentries/journal-manifest.json")
+  .then(res => res.json())
+  .then(entries => {
+    entries.forEach(entry => {
+      fetch(`journalentries/${entry}`)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+
+          const images = doc.querySelectorAll('img[data-sketchbook="true"]');
+
+          images.forEach(img => {
+            const tile = document.createElement("div");
+            tile.className = "sketchbook-tile";
+            tile.dataset.source = "journal";
+
+            tile.dataset.tags = img.dataset.tags
+              ? img.dataset.tags.toLowerCase()
+              : "journal";
+
+            const inner = document.createElement("div");
+            inner.className = "tile-inner";
+
+            const newImg = document.createElement("img");
+            newImg.src = img.getAttribute("src");
+            newImg.alt = img.getAttribute("alt") || "";
+
+            inner.appendChild(newImg);
+
+            // Optional date overlay
+            if (img.dataset.date) {
+              const overlay = document.createElement("div");
+              overlay.className = "overlay";
+
+              const date = document.createElement("span");
+              date.className = "date";
+              date.textContent = img.dataset.date;
+
+              overlay.appendChild(date);
+              inner.appendChild(overlay);
+            }
+
+            tile.appendChild(inner);
+            gallery.appendChild(tile);
+          });
+
+          // IMPORTANT: re-run masonry sizing if you use it
+          if (typeof updateMasonry === "function") {
+            updateMasonry();
+          }
+        });
+    });
+  })
+  .catch(err => console.error("Journal manifest load error:", err));
+
+
 window.addEventListener("load", () => {
   const gallery = document.querySelector(".sketchbook-gallery");
   if (!gallery) return;
