@@ -37,7 +37,7 @@ fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
     entries.forEach(entry => {
-      fetch(`journalentries/${entry}`)
+      fetch(`JE1/${entry}`)
         .then(res => res.text())
         .then(html => {
           const parser = new DOMParser();
