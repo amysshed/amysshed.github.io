@@ -5,8 +5,7 @@ if (!gallery) {
 
 /* =========================
    MASONRY LOGIC
-   ========================= */
-
+========================= */
 function resizeAllTiles() {
   if (!gallery) return;
 
@@ -36,8 +35,7 @@ function resizeAllTiles() {
 
 /* =========================
    DATE OVERLAY POPULATION
-   ========================= */
-
+========================= */
 function populateDates() {
   document.querySelectorAll(".sketchbook-tile").forEach(tile => {
     const img = tile.querySelector("img");
@@ -51,8 +49,7 @@ function populateDates() {
 
 /* =========================
    LOAD JOURNAL IMAGES
-   ========================= */
-
+========================= */
 fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
@@ -63,15 +60,15 @@ fetch("JE1/manifest.json")
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, "text/html");
 
-          const images = doc.querySelectorAll(
-            'img[data-sketchbook="true"]'
-          );
+          const images = doc.querySelectorAll('img[data-sketchbook="true"]');
 
           images.forEach(img => {
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
             tile.dataset.source = "journal";
+            tile.dataset.entry = entry; // Link back to journal page
 
+            // Set tags
             tile.dataset.tags = img.dataset.tags
               ? img.dataset.tags.toLowerCase()
               : "journal";
@@ -83,6 +80,7 @@ fetch("JE1/manifest.json")
             newImg.src = img.getAttribute("src");
             newImg.alt = img.getAttribute("alt") || "";
 
+            // Copy date
             if (img.dataset.date) {
               newImg.dataset.date = img.dataset.date;
             }
@@ -92,17 +90,42 @@ fetch("JE1/manifest.json")
             // Overlay (date)
             const overlay = document.createElement("div");
             overlay.className = "overlay";
-
             const dateSpan = document.createElement("span");
             dateSpan.className = "date";
-
             overlay.appendChild(dateSpan);
             inner.appendChild(overlay);
 
             tile.appendChild(inner);
-            gallery.appendChild(tile);
 
-            // Resize after load
+            // Insert sorted by date (most recent first)
+            if (newImg.dataset.date) {
+              const tilesArray = Array.from(gallery.querySelectorAll(".sketchbook-tile"));
+              let inserted = false;
+
+              for (let i = 0; i < tilesArray.length; i++) {
+                const existingDate = tilesArray[i].querySelector("img")?.dataset.date;
+                if (existingDate && new Date(newImg.dataset.date) > new Date(existingDate)) {
+                  gallery.insertBefore(tile, tilesArray[i]);
+                  inserted = true;
+                  break;
+                }
+              }
+
+              if (!inserted) {
+                gallery.appendChild(tile);
+              }
+            } else {
+              gallery.appendChild(tile);
+            }
+
+            // Double-click to go to journal entry
+            tile.addEventListener("dblclick", () => {
+              if (tile.dataset.source === "journal" && tile.dataset.entry) {
+                window.location.href = `JE1/${tile.dataset.entry}`;
+              }
+            });
+
+            // Resize and populate dates after image load
             if (newImg.complete) {
               resizeAllTiles();
               populateDates();
@@ -125,8 +148,7 @@ fetch("JE1/manifest.json")
 
 /* =========================
    INITIAL SETUP (MANUAL TILES)
-   ========================= */
-
+========================= */
 window.addEventListener("load", () => {
   resizeAllTiles();
   populateDates();
@@ -134,8 +156,7 @@ window.addEventListener("load", () => {
 
 /* =========================
    FILTER LOGIC
-   ========================= */
-
+========================= */
 const filterSelect = document.getElementById("sketchbook-filter");
 
 if (filterSelect) {
