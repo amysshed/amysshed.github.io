@@ -1,10 +1,15 @@
-const gallery = document.getElementById("sketchbook-gallery");
+const gallery = document.querySelector(".sketchbook-gallery");
+if (!gallery) {
+  console.warn("Sketchbook gallery not found");
+}
 
 /* =========================
    MASONRY LOGIC
    ========================= */
 
 function resizeAllTiles() {
+  if (!gallery) return;
+
   const tiles = document.querySelectorAll(".sketchbook-tile");
 
   const rowHeight = parseInt(
@@ -26,6 +31,21 @@ function resizeAllTiles() {
     );
 
     tile.style.setProperty("--row-span", rowSpan);
+  });
+}
+
+/* =========================
+   DATE OVERLAY POPULATION
+   ========================= */
+
+function populateDates() {
+  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+    const img = tile.querySelector("img");
+    const dateSpan = tile.querySelector(".date");
+
+    if (img?.dataset.date && dateSpan) {
+      dateSpan.textContent = img.dataset.date;
+    }
   });
 }
 
@@ -63,31 +83,40 @@ fetch("JE1/manifest.json")
             newImg.src = img.getAttribute("src");
             newImg.alt = img.getAttribute("alt") || "";
 
+            if (img.dataset.date) {
+              newImg.dataset.date = img.dataset.date;
+            }
+
             inner.appendChild(newImg);
 
-            if (img.dataset.date) {
-              const overlay = document.createElement("div");
-              overlay.className = "overlay";
+            // Overlay (date)
+            const overlay = document.createElement("div");
+            overlay.className = "overlay";
 
-              const date = document.createElement("span");
-              date.className = "date";
-              date.textContent = img.dataset.date;
+            const dateSpan = document.createElement("span");
+            dateSpan.className = "date";
 
-              overlay.appendChild(date);
-              inner.appendChild(overlay);
-            }
+            overlay.appendChild(dateSpan);
+            inner.appendChild(overlay);
 
             tile.appendChild(inner);
             gallery.appendChild(tile);
 
-            // Resize after image loads
+            // Resize after load
             if (newImg.complete) {
               resizeAllTiles();
+              populateDates();
             } else {
-              newImg.addEventListener("load", resizeAllTiles);
+              newImg.addEventListener("load", () => {
+                resizeAllTiles();
+                populateDates();
+              });
             }
           });
-        });
+        })
+        .catch(err =>
+          console.error(`Failed loading journal entry ${entry}`, err)
+        );
     });
   })
   .catch(err =>
@@ -95,11 +124,12 @@ fetch("JE1/manifest.json")
   );
 
 /* =========================
-   INITIAL MASONRY (manual tiles)
+   INITIAL SETUP (MANUAL TILES)
    ========================= */
 
 window.addEventListener("load", () => {
   resizeAllTiles();
+  populateDates();
 });
 
 /* =========================
