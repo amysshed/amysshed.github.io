@@ -40,11 +40,34 @@ function populateDates() {
   document.querySelectorAll(".sketchbook-tile").forEach(tile => {
     const img = tile.querySelector("img");
     const dateSpan = tile.querySelector(".date");
-
     if (img?.dataset.date && dateSpan) {
       dateSpan.textContent = img.dataset.date;
     }
   });
+}
+
+function populateTitles() {
+  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+    const img = tile.querySelector("img");
+    const titleSpan = tile.querySelector(".title");
+    if (img?.dataset.title && titleSpan) {
+      titleSpan.textContent = img.dataset.title;
+    }
+  });
+}
+
+function sortGalleryByDate() {
+  const tiles = Array.from(
+    document.querySelectorAll(".sketchbook-tile")
+  );
+
+  tiles.sort((a, b) => {
+    const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
+    const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
+    return dateB - dateA; // newest first
+  });
+
+  tiles.forEach(tile => gallery.appendChild(tile));
 }
 
 /* =========================
@@ -132,14 +155,19 @@ fetch("JE1/manifest.json")
               }
             });
 
-            // Resize and populate dates after image load
+           
+            // Resize and populate metadata after image load
             if (newImg.complete) {
               resizeAllTiles();
               populateDates();
+              populateTitles();
+              sortGalleryByDate();
             } else {
               newImg.addEventListener("load", () => {
                 resizeAllTiles();
                 populateDates();
+                populateTitles();
+                sortGalleryByDate();
               });
             }
           });
@@ -159,7 +187,10 @@ fetch("JE1/manifest.json")
 window.addEventListener("load", () => {
   resizeAllTiles();
   populateDates();
+  populateTitles();
+  sortGalleryByDate();
 });
+
 
 /* =========================
    FILTER LOGIC
@@ -186,4 +217,22 @@ if (filterSelect) {
 
     requestAnimationFrame(resizeAllTiles);
   });
+}
+
+function sortGalleryByDate() {
+  const tiles = Array.from(
+    document.querySelectorAll(".sketchbook-tile")
+  );
+
+  tiles.sort((a, b) => {
+    const dateA = new Date(
+      a.querySelector("img")?.dataset.date || 0
+    );
+    const dateB = new Date(
+      b.querySelector("img")?.dataset.date || 0
+    );
+    return dateB - dateA; // newest first
+  });
+
+  tiles.forEach(tile => gallery.appendChild(tile));
 }
