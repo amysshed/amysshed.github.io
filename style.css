@@ -432,3 +432,20 @@ body.journal-entry-page a:hover {
     font-size: 1rem;
   }
 }
+
+.tile-inner .overlay {
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: center;
+}
+
+.tile-inner .overlay .title {
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.tile-inner .overlay .date {
+  font-family: "Rock 3D", serif;
+  font-size: 1.1rem;
+}
