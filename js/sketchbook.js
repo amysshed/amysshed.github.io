@@ -4,11 +4,9 @@ if (!gallery) {
 }
 
 /* =========================
-   MASONRY LOGIC
+   MASONRY
 ========================= */
 function resizeAllTiles() {
-  if (!gallery) return;
-
   const tiles = document.querySelectorAll(".sketchbook-tile");
 
   const rowHeight = parseInt(
@@ -34,7 +32,7 @@ function resizeAllTiles() {
 }
 
 /* =========================
-   DATE OVERLAY POPULATION
+   OVERLAY HELPERS
 ========================= */
 function populateDates() {
   document.querySelectorAll(".sketchbook-tile").forEach(tile => {
@@ -56,15 +54,16 @@ function populateTitles() {
   });
 }
 
+/* =========================
+   SORT BY DATE (NEWEST FIRST)
+========================= */
 function sortGalleryByDate() {
-  const tiles = Array.from(
-    document.querySelectorAll(".sketchbook-tile")
-  );
+  const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
   tiles.sort((a, b) => {
     const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
     const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
-    return dateB - dateA; // newest first
+    return dateB - dateA;
   });
 
   tiles.forEach(tile => gallery.appendChild(tile));
@@ -80,159 +79,87 @@ fetch("JE1/manifest.json")
       fetch(`JE1/${entry}`)
         .then(res => res.text())
         .then(html => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, "text/html");
+          const doc = new DOMParser().parseFromString(html, "text/html");
 
-          const images = doc.querySelectorAll('img[data-sketchbook="true"]');
+          doc
+            .querySelectorAll('img[data-sketchbook="true"]')
+            .forEach(img => {
 
-          images.forEach(img => {
-            const tile = document.createElement("div");
-            tile.className = "sketchbook-tile";
-            tile.dataset.source = "journal";
-            tile.dataset.entry = entry; // Link back to journal page
+              const tile = document.createElement("div");
+              tile.className = "sketchbook-tile";
+              tile.dataset.source = "journal";
+              tile.dataset.entry = entry;
+              tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
 
-            // Set tags
-            tile.dataset.tags = img.dataset.tags
-              ? img.dataset.tags.toLowerCase()
-              : "journal";
+              const inner = document.createElement("div");
+              inner.className = "tile-inner";
 
-            const inner = document.createElement("div");
-            inner.className = "tile-inner";
+              const newImg = document.createElement("img");
+              newImg.src = img.src; // ABSOLUTE path
+              newImg.alt = img.alt || "";
+              newImg.dataset.date = img.dataset.date || "";
+              newImg.dataset.title = img.dataset.title || "";
 
-            const newImg = document.createElement("img");
-            newImg.src = img.getAttribute("src");
-            newImg.alt = img.getAttribute("alt") || "";
+              inner.appendChild(newImg);
 
-            // Copy date
-            if (img.dataset.date) {
-              newImg.dataset.date = img.dataset.date;
-            }
+              const overlay = document.createElement("div");
+              overlay.className = "overlay";
 
-            inner.appendChild(newImg);
+              const titleSpan = document.createElement("span");
+              titleSpan.className = "title";
 
-            // Overlay (date + title)
-            const overlay = document.createElement("div");
-            overlay.className = "overlay";
+              const dateSpan = document.createElement("span");
+              dateSpan.className = "date";
 
-            const titleSpan = document.createElement("span");
-            titleSpan.className = "title";
-            titleSpan.textContent = img.dataset.title || "";
-            
-            const dateSpan = document.createElement("span");
-            dateSpan.className = "date";
-            dateSpan.textContent = img.dataset.date || "";
-            
-            overlay.appendChild(titleSpan);
-            overlay.appendChild(dateSpan);
-            inner.appendChild(overlay);
+              overlay.appendChild(titleSpan);
+              overlay.appendChild(dateSpan);
+              inner.appendChild(overlay);
 
-
-            // Insert sorted by date (most recent first)
-            if (newImg.dataset.date) {
-              const tilesArray = Array.from(gallery.querySelectorAll(".sketchbook-tile"));
-              let inserted = false;
-
-              for (let i = 0; i < tilesArray.length; i++) {
-                const existingDate = tilesArray[i].querySelector("img")?.dataset.date;
-                if (existingDate && new Date(newImg.dataset.date) > new Date(existingDate)) {
-                  gallery.insertBefore(tile, tilesArray[i]);
-                  inserted = true;
-                  break;
-                }
-              }
-
-              if (!inserted) {
-                gallery.appendChild(tile);
-              }
-            } else {
+              tile.appendChild(inner);
               gallery.appendChild(tile);
-            }
 
-            // Double-click to go to journal entry
-            tile.addEventListener("dblclick", () => {
-              if (tile.dataset.source === "journal" && tile.dataset.entry) {
-                window.location.href = `JE1/${tile.dataset.entry}`;
-              }
-            });
+              tile.addEventListener("dblclick", () => {
+                window.location.href = `JE1/${entry}`;
+              });
 
-           
-            // Resize and populate metadata after image load
-            if (newImg.complete) {
-              resizeAllTiles();
-              populateDates();
-              populateTitles();
-              sortGalleryByDate();
-            } else {
               newImg.addEventListener("load", () => {
-                resizeAllTiles();
                 populateDates();
                 populateTitles();
                 sortGalleryByDate();
+                resizeAllTiles();
               });
-            }
-          });
-        })
-        .catch(err =>
-          console.error(`Failed loading journal entry ${entry}`, err)
-        );
+            });
+        });
     });
   })
-  .catch(err =>
-    console.error("Journal manifest load error:", err)
-  );
+  .catch(err => console.error("Journal load error:", err));
 
 /* =========================
    INITIAL SETUP (MANUAL TILES)
 ========================= */
 window.addEventListener("load", () => {
-  resizeAllTiles();
   populateDates();
   populateTitles();
   sortGalleryByDate();
+  resizeAllTiles();
 });
 
-
 /* =========================
-   FILTER LOGIC
+   FILTER
 ========================= */
 const filterSelect = document.getElementById("sketchbook-filter");
-
 if (filterSelect) {
   filterSelect.addEventListener("change", () => {
     const filter = filterSelect.value.toLowerCase();
-    const tiles = document.querySelectorAll(".sketchbook-tile");
 
-    tiles.forEach(tile => {
-      const tags = tile.dataset.tags
-        ?.toLowerCase()
-        .split(",")
-        .map(t => t.trim());
-
-      if (filter === "all" || tags?.includes(filter)) {
-        tile.classList.remove("is-hidden");
-      } else {
-        tile.classList.add("is-hidden");
-      }
+    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
+      tile.classList.toggle(
+        "is-hidden",
+        filter !== "all" && !tags?.includes(filter)
+      );
     });
 
     requestAnimationFrame(resizeAllTiles);
   });
-}
-
-function sortGalleryByDate() {
-  const tiles = Array.from(
-    document.querySelectorAll(".sketchbook-tile")
-  );
-
-  tiles.sort((a, b) => {
-    const dateA = new Date(
-      a.querySelector("img")?.dataset.date || 0
-    );
-    const dateB = new Date(
-      b.querySelector("img")?.dataset.date || 0
-    );
-    return dateB - dateA; // newest first
-  });
-
-  tiles.forEach(tile => gallery.appendChild(tile));
 }
