@@ -87,15 +87,22 @@ fetch("JE1/manifest.json")
 
             inner.appendChild(newImg);
 
-            // Overlay (date)
+            // Overlay (date + title)
             const overlay = document.createElement("div");
             overlay.className = "overlay";
+
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "title";
+            titleSpan.textContent = img.dataset.title || "";
+            
             const dateSpan = document.createElement("span");
             dateSpan.className = "date";
+            dateSpan.textContent = img.dataset.date || "";
+            
+            overlay.appendChild(titleSpan);
             overlay.appendChild(dateSpan);
             inner.appendChild(overlay);
 
-            tile.appendChild(inner);
 
             // Insert sorted by date (most recent first)
             if (newImg.dataset.date) {
