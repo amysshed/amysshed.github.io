@@ -308,6 +308,11 @@ body.sketchbook-page {
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
+  z-index: 2;
+}
+.tile-inner img {
+  position: relative;
+  z-index: 1;
 }
 
 .sketchbook-tile:hover .tile-inner .overlay {
@@ -460,3 +465,4 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
