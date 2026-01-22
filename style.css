@@ -190,7 +190,7 @@ body.journal-page {
    ========================= */
 
 body.sketchbook-page {
-  background: #FAEAE1;
+  background: #F6F1E0;
 }
 
 .sketchbook-gallery {
@@ -331,7 +331,7 @@ body.sketchbook-page {
 .tile-inner .overlay .title {
   font-family: "Atkinson Hyperlegible Mono", sans-serif;
   font-size: 0.95rem;
-  color: #99b2de;
+  color: #F6F1E0;
   background: rgba(0, 0, 0, 0.35);
   padding: 0.25rem 0.6rem;
   border-radius: 4px;
@@ -465,6 +465,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
