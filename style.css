@@ -323,6 +323,17 @@ body.sketchbook-page {
   border-radius: 4px;
 }
 
+.tile-inner .overlay .title {
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  line-height: 1.3;
+  max-width: 90%;
+}
+
 /* =========================
    Journal Entry Pages
    ========================= */
