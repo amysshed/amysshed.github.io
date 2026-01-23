@@ -106,6 +106,26 @@ h2 {
   background: rgba(255, 255, 255, 0.2);
   z-index: 0;
 }
+/* =========================
+   Background Photo (Index)
+   ========================= */
+#bg-photo {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+/* existing overlay logic */
+#photo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 0;
+}
+
 
 /* =========================
    Footer
@@ -465,6 +485,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
