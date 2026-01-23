@@ -385,14 +385,34 @@ body.journal-entry-page img {
   border-radius: 4px;
 }
 
-.journal-center-image {
+.journal-image-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Text on left, image on right */
-  width: 30%;
-  max-width: 400px;
-  margin: 1rem 1rem 1rem 2rem; /* space between text and image */
+  grid-template-columns: repeat(3, 1fr); /* 3 x 2 = 6 images */
+  gap: 1rem;
+  margin: 3rem auto;
+  max-width: 700px; /* matches journal text width */
+  padding: 0 1rem; /* breathing room on small screens */
+}
+
+.journal-image-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
   border-radius: 4px;
 }
+
+@media (max-width: 768px) {
+  .journal-image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .journal-image-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .clear-below {
   clear: both;
 }
@@ -478,21 +498,6 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
