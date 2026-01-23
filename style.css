@@ -387,11 +387,11 @@ body.journal-entry-page img {
 
 .journal-image-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 x 2 = 6 images */
-  gap: 1rem;
-  margin: 3rem auto;
-  max-width: 700px; /* matches journal text width */
-  padding: 0 1rem; /* breathing room on small screens */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 1.5rem auto;
+  max-width: 900px;
+  padding: 0 0.5rem;
 }
 
 .journal-image-grid img {
@@ -498,6 +498,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
