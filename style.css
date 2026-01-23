@@ -369,10 +369,10 @@ body.journal-entry-page p {
 
 /* Images inside entries */
 body.journal-entry-page img {
-  max-width: 100%;
+  max-width: calc(100% - 2rem); /* prevents edge-to-edge */
   height: auto;
   display: block;
-  margin: 1rem 0;
+  margin: 1.5rem auto;
   border-radius: 4px;
 }
 
@@ -383,6 +383,10 @@ body.journal-entry-page img {
   max-width: 200px;
   margin: 0 0 1rem 2rem; /* space between text and image */
   border-radius: 4px;
+}
+
+.clear-below {
+  clear: both;
 }
 
 /* Journal entry layout */
@@ -466,6 +470,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
