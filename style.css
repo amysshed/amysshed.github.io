@@ -386,8 +386,8 @@ body.journal-entry-page img {
 }
 
 .journal-center-image {
-  float: left;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Text on left, image on right */
   width: 30%;
   max-width: 400px;
   margin: 1rem 1rem 1rem 2rem; /* space between text and image */
@@ -478,6 +478,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
