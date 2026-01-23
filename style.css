@@ -386,7 +386,7 @@ body.journal-entry-page img {
 }
 
 .journal-center-image {
-  float: none;
+  flex-wrap: wrap;
   width: 30%;
   max-width: 400px;
   margin: 0 0 1rem 2rem; /* space between text and image */
@@ -477,6 +477,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
