@@ -95,7 +95,12 @@ fetch("JE1/manifest.json")
               inner.className = "tile-inner";
 
               const newImg = document.createElement("img");
-              newImg.src = img.src; // ABSOLUTE path
+              const entryPath = `JE1/${entry}`;
+              const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
+              const imgSrc = img.getAttribute("src");  
+
+              newImg.src = new URL(imgSrc, window.location.origin + "/" + entryDir).href;
+
               newImg.alt = img.alt || "";
               newImg.dataset.date = img.dataset.date || "";
               newImg.dataset.title = img.dataset.title || "";
