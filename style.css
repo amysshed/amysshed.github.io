@@ -448,6 +448,25 @@ body.journal-entry-page a {
 body.journal-entry-page a:hover {
   text-decoration: underline;
 }
+/* Journal inline links */
+.journal-entry-page .journal-link {
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: inherit;
+  color: #0D0D0D;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* Hover (optional, subtle) */
+.journal-entry-page .journal-link:hover {
+  opacity: 0.7;
+}
+
+/* Visited link color: dark grey-blue */
+.journal-entry-page .journal-link:visited {
+  color: #3E4A5A;
+}
 
 
 @media (max-width: 1024px) {
@@ -498,6 +517,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
