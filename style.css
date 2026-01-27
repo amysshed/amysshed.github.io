@@ -394,6 +394,13 @@ body.journal-entry-page img {
   padding: 0 0.5rem;
 }
 
+/* Two large images variant */
+.journal-image-grid.grid-two-large {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 900px;
+}
+
 .journal-image-grid img {
   width: 100%;
   height: auto;
@@ -517,6 +524,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
