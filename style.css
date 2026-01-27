@@ -133,8 +133,8 @@ body.journal-page {
 /* Journal preview container */
 .journal-preview {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Text on left, image on right */
-  gap: 0.5rem;
+  grid-template-columns: 1fr auto; /* Text on left, image on right */
+  gap: 1rem;
   align-items: start;
   margin-bottom: 1.5rem;
 }
@@ -148,8 +148,15 @@ body.journal-page {
   display: block;
 }
 
+.journal-text {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Journal title */
 .journal-title {
+  margin-top: 0;
+  line-height: 1.2;
   font-family: "Rock 3D", serif;
   font-size: 2rem;
   color: #0D0D0D;
@@ -524,6 +531,7 @@ body.journal-entry-page a:hover {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
 }
+
 
 
 
