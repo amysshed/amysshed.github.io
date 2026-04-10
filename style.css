@@ -534,6 +534,43 @@ body.journal-entry-page a:hover {
 
 
 
+/* =========================
+   photo album Page
+   ========================= */
+/* DATE SECTION */
+.date-section {
+  margin-bottom: 3rem;
+}
+
+/* Divider line with centered text */
+.date-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0 1.5rem;
+}
+
+.date-divider::before,
+.date-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #999;
+}
+
+.date-divider::before {
+  margin-right: 1rem;
+}
+
+.date-divider::after {
+  margin-left: 1rem;
+}
+
+.date-title {
+  font-family: "Rock 3D", serif;
+  font-size: 1.2rem;
+  color: #333;
+}
+
 
 
 
