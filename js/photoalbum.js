@@ -82,13 +82,24 @@ fetch("JE1/manifest.json")
           const doc = new DOMParser().parseFromString(html, "text/html");
 
           doc
-            .querySelectorAll('img[data-photoalbum="true"]')
-            .forEach(img => {
+  .querySelectorAll('img[data-photoalbum="true"]')
+  .forEach(img => {
 
-              const tile = document.createElement("div");
-              tile.className = "sketchbook-tile";
-              tile.dataset.source = "journal";
-              tile.dataset.entry = entry;
+    // ✅ UNIQUE ID (ADD THIS)
+    const uniqueId = `${entry}-${img.getAttribute("src")}`;
+
+    // ✅ PREVENT DUPLICATES (ADD THIS)
+    if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
+
+    const tile = document.createElement("div");
+    tile.className = "sketchbook-tile";
+
+    // ✅ STORE ID (ADD THIS)
+    tile.dataset.id = uniqueId;
+
+    tile.dataset.source = "journal";
+    tile.dataset.entry = entry;
+
               tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
 
               const inner = document.createElement("div");
