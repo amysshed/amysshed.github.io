@@ -3,33 +3,7 @@ if (!gallery) {
   console.warn("Sketchbook gallery not found");
 }
 
-/* =========================
-   MASONRY
-========================= */
-function resizeAllTiles() {
-  const tiles = document.querySelectorAll(".sketchbook-tile");
 
-  const rowHeight = parseInt(
-    getComputedStyle(gallery).getPropertyValue("grid-auto-rows")
-  );
-  const rowGap = parseInt(
-    getComputedStyle(gallery).getPropertyValue("gap")
-  );
-
-  tiles.forEach(tile => {
-    if (tile.classList.contains("is-hidden")) return;
-
-    const img = tile.querySelector("img");
-    if (!img) return;
-
-    const height = img.getBoundingClientRect().height;
-    const rowSpan = Math.ceil(
-      (height + rowGap) / (rowHeight + rowGap)
-    );
-
-    tile.style.setProperty("--row-span", rowSpan);
-  });
-}
 
 /* =========================
    OVERLAY HELPERS
