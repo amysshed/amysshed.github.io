@@ -14,7 +14,7 @@
 
 body {
   font-family: "Atkinson Hyperlegible Mono", sans-serif;
-  background: #fff;
+  background: #DBC8AE;
   color: #333333;
   margin: 0;
   padding: 2rem;
@@ -127,7 +127,7 @@ footer {
    ========================= */
 
 body.journal-page {
-  background: #F0FCFF;
+  background: #DBC8AE;
 }
 
 /* Journal preview container */
@@ -198,7 +198,7 @@ body.journal-page {
    ========================= */
 
 body.sketchbook-page {
-  background: #F6F1E0;
+  background: #DBC8AE;
 }
 
 .sketchbook-gallery {
