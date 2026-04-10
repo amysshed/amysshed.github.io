@@ -66,7 +66,39 @@ function sortGalleryByDate() {
     return dateB - dateA;
   });
 
-  tiles.forEach(tile => gallery.appendChild(tile));
+  tiles.forEach(tile => const dateKey = newImg.dataset.date || "undated";
+
+// Find or create section for this date
+let section = gallery.querySelector(`[data-date-group="${dateKey}"]`);
+
+if (!section) {
+  section = document.createElement("div");
+  section.className = "date-section";
+  section.dataset.dateGroup = dateKey;
+
+  // Divider + title
+  const header = document.createElement("div");
+  header.className = "date-divider";
+
+  const title = document.createElement("span");
+  title.className = "date-title";
+  title.textContent = dateKey;
+
+  header.appendChild(title);
+  section.appendChild(header);
+
+  // Grid container for images
+  const grid = document.createElement("div");
+  grid.className = "date-grid";
+
+  section.appendChild(grid);
+
+  gallery.appendChild(section);
+}
+
+// Append tile into the correct grid
+section.querySelector(".date-grid").appendChild(tile);
+
 }
 
 /* =========================
