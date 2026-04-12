@@ -18,6 +18,8 @@ body {
   color: #333333;
   padding: 2rem;
   font-size: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 /* =========================
@@ -67,7 +69,7 @@ h1, h2 {
 }
 
 /* =========================
-   SKETCHBOOK (UNCHANGED)
+   SKETCHBOOK
 ========================= */
 
 body.sketchbook-page .sketchbook-gallery {
@@ -131,21 +133,20 @@ body.sketchbook-page .sketchbook-gallery {
 }
 
 /* =========================
-   PHOTO ALBUM (FIXED)
+   PHOTO ALBUM
 ========================= */
 
-/* 🔥 THIS FIXES YOUR LAYOUT */
+/* ✅ Vertical stacking FIX */
 body.photoalbum-page .sketchbook-gallery {
-  display: flex !important;
-  flex-direction: column;
+  display: block;
+  width: 100%;
 }
 
-/* DATE SECTION */
+/* Date section */
 .date-section {
   width: 100%;
   margin-bottom: 4rem;
 
-  /* scroll reveal */
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -156,7 +157,7 @@ body.photoalbum-page .sketchbook-gallery {
   transform: translateY(0);
 }
 
-/* Divider with centered date */
+/* Divider */
 .date-divider {
   display: flex;
   align-items: center;
@@ -186,7 +187,7 @@ body.photoalbum-page .sketchbook-gallery {
   white-space: nowrap;
 }
 
-/* GRID PER DATE */
+/* Grid inside each date */
 .date-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
