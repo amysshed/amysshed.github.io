@@ -213,6 +213,3 @@ if (filterSelect) {
   });
 }
 
-console.log("Photoalbum images found:", 
-  doc.querySelectorAll('img[data-photoalbum="true"]').length
-);
