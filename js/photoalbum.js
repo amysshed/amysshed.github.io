@@ -11,10 +11,10 @@ function resizeAllTiles() {
   const tiles = document.querySelectorAll(".sketchbook-tile");
 
   const rowHeight = parseInt(
-    getComputedStyle(gallery).getPropertyValue("grid-auto-rows")
+    getComputedStyle(document.querySelector(".date-grid")).getPropertyValue("grid-auto-rows")
   );
   const rowGap = parseInt(
-    getComputedStyle(gallery).getPropertyValue("gap")
+    getComputedStyle(document.querySelector(".date-grid")).getPropertyValue("gap")
   );
 
   tiles.forEach(tile => {
@@ -24,9 +24,7 @@ function resizeAllTiles() {
     if (!img) return;
 
     const height = img.getBoundingClientRect().height;
-    const rowSpan = Math.ceil(
-      (height + rowGap) / (rowHeight + rowGap)
-    );
+    const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
 
     tile.style.setProperty("--row-span", rowSpan);
   });
@@ -61,14 +59,12 @@ function populateTitles() {
 function sortGalleryByDate() {
   const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
-  // Sort newest first
   tiles.sort((a, b) => {
     const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
     const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
     return dateB - dateA;
   });
 
-  // Clear gallery before rebuilding
   gallery.innerHTML = "";
 
   tiles.forEach(tile => {
@@ -82,7 +78,6 @@ function sortGalleryByDate() {
       section.className = "date-section";
       section.dataset.dateGroup = dateKey;
 
-      // Divider
       const header = document.createElement("div");
       header.className = "date-divider";
 
@@ -93,7 +88,6 @@ function sortGalleryByDate() {
       header.appendChild(title);
       section.appendChild(header);
 
-      // Grid container
       const grid = document.createElement("div");
       grid.className = "date-grid";
 
@@ -103,113 +97,122 @@ function sortGalleryByDate() {
 
     section.querySelector(".date-grid").appendChild(tile);
   });
+
+  initScrollReveal(); // rebind reveal
 }
 
 /* =========================
-   LOAD PHOTOALBUM IMAGES
+   LIGHTBOX
+========================= */
+function createLightbox() {
+  const lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+
+  const img = document.createElement("img");
+  lightbox.appendChild(img);
+
+  document.body.appendChild(lightbox);
+
+  // close on click
+  lightbox.addEventListener("click", () => {
+    lightbox.classList.remove("active");
+  });
+
+  // close on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      lightbox.classList.remove("active");
+    }
+  });
+
+  return lightbox;
+}
+
+const lightbox = createLightbox();
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+let observer;
+
+function initScrollReveal() {
+  if (observer) observer.disconnect();
+
+  const sections = document.querySelectorAll(".date-section");
+
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  sections.forEach(section => observer.observe(section));
+}
+
+/* =========================
+   LOAD IMAGES
 ========================= */
 fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
     entries.forEach(entry => {
       fetch(`JE1/${entry}`)
-        .then(res => {
-          if (!res.ok) throw new Error(`Failed to load ${entry}`);
-          return res.text();
-        })
+        .then(res => res.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, "text/html");
 
-          doc
-            .querySelectorAll('img[data-photoalbum="true"]')
-            .forEach(img => {
+          doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
 
-              const uniqueId = `${entry}-${img.getAttribute("src")}`;
+            const uniqueId = `${entry}-${img.getAttribute("src")}`;
+            if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
 
-              if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
+            const tile = document.createElement("div");
+            tile.className = "sketchbook-tile";
+            tile.dataset.id = uniqueId;
+            tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
 
-              const tile = document.createElement("div");
-              tile.className = "sketchbook-tile";
-              tile.dataset.id = uniqueId;
-              tile.dataset.source = "journal";
-              tile.dataset.entry = entry;
-              tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
+            const inner = document.createElement("div");
+            inner.className = "tile-inner";
 
-              const inner = document.createElement("div");
-              inner.className = "tile-inner";
+            const newImg = document.createElement("img");
+            newImg.src = img.getAttribute("src");
+            newImg.dataset.date = img.dataset.date || "";
+            newImg.dataset.title = img.dataset.title || "";
 
-              const newImg = document.createElement("img");
-
-              // ✅ Your paths are already absolute → keep simple
-              newImg.src = img.getAttribute("src");
-
-              newImg.alt = img.alt || "";
-              newImg.dataset.date = img.dataset.date || "";
-              newImg.dataset.title = img.dataset.title || "";
-
-              inner.appendChild(newImg);
-
-              const overlay = document.createElement("div");
-              overlay.className = "overlay";
-
-              const titleSpan = document.createElement("span");
-              titleSpan.className = "title";
-
-              const dateSpan = document.createElement("span");
-              dateSpan.className = "date";
-
-              overlay.appendChild(titleSpan);
-              overlay.appendChild(dateSpan);
-              inner.appendChild(overlay);
-
-              tile.appendChild(inner);
-              gallery.appendChild(tile);
-
-              tile.addEventListener("dblclick", () => {
-                window.location.href = `JE1/${entry}`;
-              });
-
-              newImg.addEventListener("load", () => {
-                populateDates();
-                populateTitles();
-                sortGalleryByDate();
-                resizeAllTiles();
-              });
+            // 🔥 LIGHTBOX CLICK
+            newImg.addEventListener("click", () => {
+              lightbox.querySelector("img").src = newImg.src;
+              lightbox.classList.add("active");
             });
-        })
-        .catch(err => console.error(err));
+
+            inner.appendChild(newImg);
+
+            const overlay = document.createElement("div");
+            overlay.className = "overlay";
+
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "title";
+
+            const dateSpan = document.createElement("span");
+            dateSpan.className = "date";
+
+            overlay.appendChild(titleSpan);
+            overlay.appendChild(dateSpan);
+            inner.appendChild(overlay);
+
+            tile.appendChild(inner);
+            gallery.appendChild(tile);
+
+            newImg.addEventListener("load", () => {
+              populateDates();
+              populateTitles();
+              sortGalleryByDate();
+              resizeAllTiles();
+            });
+          });
+        });
     });
-  })
-  .catch(err => console.error("Journal load error:", err));
-
-/* =========================
-   INITIAL SETUP
-========================= */
-window.addEventListener("load", () => {
-  populateDates();
-  populateTitles();
-  sortGalleryByDate();
-  resizeAllTiles();
-});
-
-/* =========================
-   FILTER
-========================= */
-const filterSelect = document.getElementById("sketchbook-filter");
-
-if (filterSelect) {
-  filterSelect.addEventListener("change", () => {
-    const filter = filterSelect.value.toLowerCase();
-
-    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
-
-      tile.classList.toggle(
-        "is-hidden",
-        filter !== "all" && !tags?.includes(filter)
-      );
-    });
-
-    requestAnimationFrame(resizeAllTiles);
   });
-}
