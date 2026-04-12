@@ -10,14 +10,11 @@ if (!gallery) {
 function resizeAllTiles() {
   const tiles = document.querySelectorAll(".sketchbook-tile");
 
-  const grid = document.querySelector(".date-grid");
-  if (!grid) return;
-
   const rowHeight = parseInt(
-    getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+    getComputedStyle(document.querySelector(".date-grid")).getPropertyValue("grid-auto-rows")
   );
   const rowGap = parseInt(
-    getComputedStyle(grid).getPropertyValue("gap")
+    getComputedStyle(document.querySelector(".date-grid")).getPropertyValue("gap")
   );
 
   tiles.forEach(tile => {
@@ -101,7 +98,7 @@ function sortGalleryByDate() {
     section.querySelector(".date-grid").appendChild(tile);
   });
 
-  initScrollReveal();
+  initScrollReveal(); // rebind reveal
 }
 
 /* =========================
@@ -116,10 +113,12 @@ function createLightbox() {
 
   document.body.appendChild(lightbox);
 
+  // close on click
   lightbox.addEventListener("click", () => {
     lightbox.classList.remove("active");
   });
 
+  // close on ESC
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       lightbox.classList.remove("active");
@@ -183,28 +182,8 @@ fetch("JE1/manifest.json")
             newImg.dataset.date = img.dataset.date || "";
             newImg.dataset.title = img.dataset.title || "";
 
-            /* =========================
-               CLICK / DOUBLE CLICK LOGIC
-            ========================= */
-            let clickTimer = null;
-
+            // 🔥 LIGHTBOX CLICK
             newImg.addEventListener("click", () => {
-              clickTimer = setTimeout(() => {
-
-                // close others
-                document.querySelectorAll(".sketchbook-tile").forEach(t => {
-                  t.classList.remove("show-info");
-                });
-
-                // toggle this one
-                tile.classList.toggle("show-info");
-
-              }, 200);
-            });
-
-            newImg.addEventListener("dblclick", () => {
-              clearTimeout(clickTimer);
-
               lightbox.querySelector("img").src = newImg.src;
               lightbox.classList.add("active");
             });
