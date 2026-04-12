@@ -1,4 +1,5 @@
 const gallery = document.querySelector(".sketchbook-gallery");
+
 if (!gallery) {
   console.warn("Sketchbook gallery not found");
 }
@@ -55,161 +56,65 @@ function populateTitles() {
 }
 
 /* =========================
-   SORT BY DATE (NEWEST FIRST)
+   SORT + GROUP BY DATE
 ========================= */
 function sortGalleryByDate() {
   const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
+  // Sort newest first
   tiles.sort((a, b) => {
     const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
     const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
     return dateB - dateA;
   });
 
-  tiles.forEach(tile => const dateKey = newImg.dataset.date || "undated";
+  // Clear gallery before rebuilding
+  gallery.innerHTML = "";
 
-// Find or create section for this date
-let section = gallery.querySelector(`[data-date-group="${dateKey}"]`);
+  tiles.forEach(tile => {
+    const img = tile.querySelector("img");
+    const dateKey = img?.dataset.date || "undated";
 
-if (!section) {
-  section = document.createElement("div");
-  section.className = "date-section";
-  section.dataset.dateGroup = dateKey;
+    let section = gallery.querySelector(`[data-date-group="${dateKey}"]`);
 
-  // Divider + title
-  const header = document.createElement("div");
-  header.className = "date-divider";
+    if (!section) {
+      section = document.createElement("div");
+      section.className = "date-section";
+      section.dataset.dateGroup = dateKey;
 
-  const title = document.createElement("span");
-  title.className = "date-title";
-  title.textContent = dateKey;
+      // Divider
+      const header = document.createElement("div");
+      header.className = "date-divider";
 
-  header.appendChild(title);
-  section.appendChild(header);
+      const title = document.createElement("span");
+      title.className = "date-title";
+      title.textContent = dateKey;
 
-  // Grid container for images
-  const grid = document.createElement("div");
-  grid.className = "date-grid";
+      header.appendChild(title);
+      section.appendChild(header);
 
-  section.appendChild(grid);
+      // Grid container
+      const grid = document.createElement("div");
+      grid.className = "date-grid";
 
-  gallery.appendChild(section);
-}
+      section.appendChild(grid);
+      gallery.appendChild(section);
+    }
 
-// Append tile into the correct grid
-section.querySelector(".date-grid").appendChild(tile);
-
+    section.querySelector(".date-grid").appendChild(tile);
+  });
 }
 
 /* =========================
-   LOAD photo album IMAGES
+   LOAD PHOTOALBUM IMAGES
 ========================= */
 fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
     entries.forEach(entry => {
       fetch(`JE1/${entry}`)
-        .then(res => res.text())
-        .then(html => {
-          const doc = new DOMParser().parseFromString(html, "text/html");
-
-          doc
-  .querySelectorAll('img[data-photoalbum="true"]')
-  .forEach(img => {
-
-    // ✅ UNIQUE ID (ADD THIS)
-    const uniqueId = `${entry}-${img.getAttribute("src")}`;
-
-    // ✅ PREVENT DUPLICATES (ADD THIS)
-    if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
-
-    const tile = document.createElement("div");
-    tile.className = "sketchbook-tile";
-
-    // ✅ STORE ID (ADD THIS)
-    tile.dataset.id = uniqueId;
-
-    tile.dataset.source = "journal";
-    tile.dataset.entry = entry;
-
-              tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
-
-              const inner = document.createElement("div");
-              inner.className = "tile-inner";
-
-              const newImg = document.createElement("img");
-              const entryPath = `JE1/${entry}`;
-              const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
-              const imgSrc = img.getAttribute("src");  
-
-              newImg.src = new URL(imgSrc, window.location.origin + "/" + entryDir).href;
-
-              newImg.alt = img.alt || "";
-              newImg.dataset.date = img.dataset.date || "";
-              newImg.dataset.title = img.dataset.title || "";
-
-              inner.appendChild(newImg);
-
-              const overlay = document.createElement("div");
-              overlay.className = "overlay";
-
-              const titleSpan = document.createElement("span");
-              titleSpan.className = "title";
-
-              const dateSpan = document.createElement("span");
-              dateSpan.className = "date";
-
-              overlay.appendChild(titleSpan);
-              overlay.appendChild(dateSpan);
-              inner.appendChild(overlay);
-
-              tile.appendChild(inner);
-              gallery.appendChild(tile);
-
-              tile.addEventListener("dblclick", () => {
-                window.location.href = `JE1/${entry}`;
-              });
-
-              newImg.addEventListener("load", () => {
-                populateDates();
-                populateTitles();
-                sortGalleryByDate();
-                resizeAllTiles();
-              });
-            });
-        });
-    });
-  })
-  .catch(err => console.error("Journal load error:", err));
-
-
-/* =========================
-   INITIAL SETUP (MANUAL TILES)
-========================= */
-window.addEventListener("load", () => {
-  populateDates();
-  populateTitles();
-  sortGalleryByDate();
-  resizeAllTiles();
-});
-
-/* =========================
-   FILTER
-========================= */
-const filterSelect = document.getElementById("sketchbook-filter");
-if (filterSelect) {
-  filterSelect.addEventListener("change", () => {
-    const filter = filterSelect.value.toLowerCase();
-
-    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
-      tile.classList.toggle(
-        "is-hidden",
-        filter !== "all" && !tags?.includes(filter)
-      );
-    });
-
-    requestAnimationFrame(resizeAllTiles);
-  });
-}
-
+        .then(res => {
+          if (!res.ok) throw new Error(`Failed to load ${entry}`);
+          return res.text();
+        })
+        .then(htm
