@@ -117,4 +117,99 @@ fetch("JE1/manifest.json")
           if (!res.ok) throw new Error(`Failed to load ${entry}`);
           return res.text();
         })
-        .then(htm
+        .then(html => {
+          const doc = new DOMParser().parseFromString(html, "text/html");
+
+          doc
+            .querySelectorAll('img[data-photoalbum="true"]')
+            .forEach(img => {
+
+              const uniqueId = `${entry}-${img.getAttribute("src")}`;
+
+              if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
+
+              const tile = document.createElement("div");
+              tile.className = "sketchbook-tile";
+              tile.dataset.id = uniqueId;
+              tile.dataset.source = "journal";
+              tile.dataset.entry = entry;
+              tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
+
+              const inner = document.createElement("div");
+              inner.className = "tile-inner";
+
+              const newImg = document.createElement("img");
+
+              // ✅ Your paths are already absolute → keep simple
+              newImg.src = img.getAttribute("src");
+
+              newImg.alt = img.alt || "";
+              newImg.dataset.date = img.dataset.date || "";
+              newImg.dataset.title = img.dataset.title || "";
+
+              inner.appendChild(newImg);
+
+              const overlay = document.createElement("div");
+              overlay.className = "overlay";
+
+              const titleSpan = document.createElement("span");
+              titleSpan.className = "title";
+
+              const dateSpan = document.createElement("span");
+              dateSpan.className = "date";
+
+              overlay.appendChild(titleSpan);
+              overlay.appendChild(dateSpan);
+              inner.appendChild(overlay);
+
+              tile.appendChild(inner);
+              gallery.appendChild(tile);
+
+              tile.addEventListener("dblclick", () => {
+                window.location.href = `JE1/${entry}`;
+              });
+
+              newImg.addEventListener("load", () => {
+                populateDates();
+                populateTitles();
+                sortGalleryByDate();
+                resizeAllTiles();
+              });
+            });
+        })
+        .catch(err => console.error(err));
+    });
+  })
+  .catch(err => console.error("Journal load error:", err));
+
+/* =========================
+   INITIAL SETUP
+========================= */
+window.addEventListener("load", () => {
+  populateDates();
+  populateTitles();
+  sortGalleryByDate();
+  resizeAllTiles();
+});
+
+/* =========================
+   FILTER
+========================= */
+const filterSelect = document.getElementById("sketchbook-filter");
+
+if (filterSelect) {
+  filterSelect.addEventListener("change", () => {
+    const filter = filterSelect.value.toLowerCase();
+
+    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
+
+      tile.classList.toggle(
+        "is-hidden",
+        filter !== "all" && !tags?.includes(filter)
+      );
+    });
+
+    requestAnimationFrame(resizeAllTiles);
+  });
+}
