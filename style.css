@@ -331,21 +331,21 @@ body.sketchbook-page .sketchbook-gallery {
 }
 
 /* =========================
-   Photo Album Page (FINAL)
+   Photo Album Page (FINAL FIX)
    ========================= */
 
 body.photoalbum-page {
   background: #DBC8AE;
 }
 
-/* IMPORTANT: stack sections vertically */
+/* Stack sections vertically */
 body.photoalbum-page .sketchbook-gallery {
   display: flex;
   flex-direction: column;
   gap: 4rem;
 }
 
-/* Each date section */
+/* DATE SECTION */
 .date-section {
   width: 100%;
   display: flex;
@@ -382,44 +382,54 @@ body.photoalbum-page .sketchbook-gallery {
   white-space: nowrap;
 }
 
-/* GRID PER DATE */
+/* =========================
+   DESKTOP GRID (MASONRY)
+   ========================= */
+
 .date-grid {
   display: grid;
-  width: 100%;
-  gap: 1rem;
-
-  /* 🔥 KEY: responsive columns */
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 50px;
+  gap: 1rem;
 }
 
-/* Masonry still works */
 .date-grid .sketchbook-tile {
   grid-row-end: span var(--row-span);
 }
 
 /* =========================
-   RESPONSIVE GRID
+   TABLET
    ========================= */
 
-/* Tablet */
 @media (max-width: 1024px) {
   .date-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Small tablet */
-@media (max-width: 768px) {
-  .date-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+/* =========================
+   MOBILE FIX (NO MASONRY)
+   ========================= */
 
-/* Phone */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+
   .date-grid {
+    display: grid;
+
+    /*  KEY CHANGE */
     grid-template-columns: 1fr;
+
+    /*  disable masonry */
+    grid-auto-rows: auto;
+  }
+
+  .date-grid .sketchbook-tile {
+    grid-row-end: auto !important;
+  }
+
+  .sketchbook-tile img {
+    width: 100%;
+    height: auto;
   }
 }
 
