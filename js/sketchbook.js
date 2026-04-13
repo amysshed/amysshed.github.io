@@ -1,7 +1,4 @@
 const gallery = document.querySelector(".sketchbook-gallery");
-if (!gallery) {
-  console.warn("Sketchbook gallery not found");
-}
 
 /* =========================
    MASONRY
@@ -17,60 +14,44 @@ function resizeAllTiles() {
   );
 
   tiles.forEach(tile => {
-    if (tile.classList.contains("is-hidden")) return;
-
     const img = tile.querySelector("img");
     if (!img) return;
 
     const height = img.getBoundingClientRect().height;
-    const rowSpan = Math.ceil(
-      (height + rowGap) / (rowHeight + rowGap)
-    );
+    const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
 
     tile.style.setProperty("--row-span", rowSpan);
   });
 }
 
 /* =========================
-   OVERLAY HELPERS
+   META
 ========================= */
-function populateDates() {
-  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-    const img = tile.querySelector("img");
-    const dateSpan = tile.querySelector(".date");
-    if (img?.dataset.date && dateSpan) {
-      dateSpan.textContent = img.dataset.date;
-    }
-  });
-}
+function populateMeta(tile, img) {
+  const title = tile.querySelector(".title");
+  const date = tile.querySelector(".date");
 
-function populateTitles() {
-  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-    const img = tile.querySelector("img");
-    const titleSpan = tile.querySelector(".title");
-    if (img?.dataset.title && titleSpan) {
-      titleSpan.textContent = img.dataset.title;
-    }
-  });
+  if (title) title.textContent = img.dataset.title || "";
+  if (date) date.textContent = img.dataset.date || "";
 }
 
 /* =========================
-   SORT BY DATE (NEWEST FIRST)
+   SORT
 ========================= */
-function sortGalleryByDate() {
+function sortGallery() {
   const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
   tiles.sort((a, b) => {
-    const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
-    const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
-    return dateB - dateA;
+    const dA = new Date(a.querySelector("img").dataset.date || 0);
+    const dB = new Date(b.querySelector("img").dataset.date || 0);
+    return dB - dA;
   });
 
   tiles.forEach(tile => gallery.appendChild(tile));
 }
 
 /* =========================
-   LOAD JOURNAL IMAGES
+   LOAD
 ========================= */
 fetch("JE1/manifest.json")
   .then(res => res.json())
@@ -81,101 +62,48 @@ fetch("JE1/manifest.json")
         .then(html => {
           const doc = new DOMParser().parseFromString(html, "text/html");
 
-          doc
-  .querySelectorAll('img[data-sketchbook="true"]')
-  .forEach(img => {
+          doc.querySelectorAll('img[data-sketchbook="true"]').forEach(img => {
 
-    // ✅ UNIQUE ID (ADD THIS)
-    const uniqueId = `${entry}-${img.getAttribute("src")}`;
+            const tile = document.createElement("div");
+            tile.className = "sketchbook-tile";
 
-    // ✅ PREVENT DUPLICATES (ADD THIS)
-    if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
+            const inner = document.createElement("div");
+            inner.className = "tile-inner";
 
-    const tile = document.createElement("div");
-    tile.className = "sketchbook-tile";
+            const newImg = document.createElement("img");
 
-    // ✅ STORE ID (ADD THIS)
-    tile.dataset.id = uniqueId;
+            const entryPath = `JE1/${entry}`;
+            const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
 
-    tile.dataset.source = "journal";
-    tile.dataset.entry = entry;
+            newImg.src = new URL(
+              img.getAttribute("src"),
+              window.location.origin + "/" + entryDir
+            ).href;
 
-              tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
+            newImg.dataset.date = img.dataset.date || "";
+            newImg.dataset.title = img.dataset.title || "";
 
-              const inner = document.createElement("div");
-              inner.className = "tile-inner";
+            inner.appendChild(newImg);
 
-              const newImg = document.createElement("img");
-              const entryPath = `JE1/${entry}`;
-              const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
-              const imgSrc = img.getAttribute("src");  
+            const overlay = document.createElement("div");
+            overlay.className = "overlay";
 
-              newImg.src = new URL(imgSrc, window.location.origin + "/" + entryDir).href;
+            overlay.innerHTML = `
+              <span class="title"></span>
+              <span class="date"></span>
+            `;
 
-              newImg.alt = img.alt || "";
-              newImg.dataset.date = img.dataset.date || "";
-              newImg.dataset.title = img.dataset.title || "";
+            inner.appendChild(overlay);
+            tile.appendChild(inner);
+            gallery.appendChild(tile);
 
-              inner.appendChild(newImg);
+            populateMeta(tile, newImg);
 
-              const overlay = document.createElement("div");
-              overlay.className = "overlay";
-
-              const titleSpan = document.createElement("span");
-              titleSpan.className = "title";
-
-              const dateSpan = document.createElement("span");
-              dateSpan.className = "date";
-
-              overlay.appendChild(titleSpan);
-              overlay.appendChild(dateSpan);
-              inner.appendChild(overlay);
-
-              tile.appendChild(inner);
-              gallery.appendChild(tile);
-
-              tile.addEventListener("dblclick", () => {
-                window.location.href = `JE1/${entry}`;
-              });
-
-              newImg.addEventListener("load", () => {
-                populateDates();
-                populateTitles();
-                sortGalleryByDate();
-                resizeAllTiles();
-              });
+            newImg.addEventListener("load", () => {
+              sortGallery();
+              resizeAllTiles();
             });
+          });
         });
     });
-  })
-  .catch(err => console.error("Journal load error:", err));
-
-/* =========================
-   INITIAL SETUP (MANUAL TILES)
-========================= */
-window.addEventListener("load", () => {
-  populateDates();
-  populateTitles();
-  sortGalleryByDate();
-  resizeAllTiles();
-});
-
-/* =========================
-   FILTER
-========================= */
-const filterSelect = document.getElementById("sketchbook-filter");
-if (filterSelect) {
-  filterSelect.addEventListener("change", () => {
-    const filter = filterSelect.value.toLowerCase();
-
-    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
-      tile.classList.toggle(
-        "is-hidden",
-        filter !== "all" && !tags?.includes(filter)
-      );
-    });
-
-    requestAnimationFrame(resizeAllTiles);
   });
-}
