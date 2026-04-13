@@ -4,25 +4,40 @@ const gallery = document.querySelector(".sketchbook-gallery");
    MASONRY
 ========================= */
 function resizeAllTiles() {
-  const tiles = document.querySelectorAll(".sketchbook-tile");
 
-  const rowHeight = parseInt(
-    getComputedStyle(gallery).getPropertyValue("grid-auto-rows")
-  );
-  const rowGap = parseInt(
-    getComputedStyle(gallery).getPropertyValue("gap")
-  );
+  // 🔥 disable masonry on mobile
+  if (window.innerWidth <= 768) return;
 
-  tiles.forEach(tile => {
-    const img = tile.querySelector("img");
-    if (!img) return;
+  const grids = document.querySelectorAll(".date-grid");
 
-    const height = img.getBoundingClientRect().height;
-    const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+  grids.forEach(grid => {
 
-    tile.style.setProperty("--row-span", rowSpan);
+    const rowHeight = parseInt(
+      getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+    );
+
+    const rowGap = parseInt(
+      getComputedStyle(grid).getPropertyValue("gap")
+    );
+
+    const tiles = grid.querySelectorAll(".sketchbook-tile");
+
+    tiles.forEach(tile => {
+      const img = tile.querySelector("img");
+      if (!img) return;
+
+      const height = img.getBoundingClientRect().height;
+
+      const rowSpan = Math.ceil(
+        (height + rowGap) / (rowHeight + rowGap)
+      );
+
+      tile.style.setProperty("--row-span", rowSpan);
+    });
+
   });
 }
+
 
 /* =========================
    OVERLAY
@@ -190,8 +205,14 @@ fetch("JE1/manifest.json")
             handleClicks(tile, newImg);
 
             newImg.addEventListener("load", () => {
-              sortAndGroup();
-              resizeAllTiles();
+  resizeAllTiles();
+});
+             setTimeout(() => {
+  sortAndGroup();
+  resizeAllTiles();
+}, 500);
+
+
             });
           });
         });
