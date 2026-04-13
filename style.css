@@ -130,10 +130,6 @@ footer {
    Journal List Page
    ========================= */
 
-body.journal-page {
-  background: #DBC8AE;
-}
-
 .journal-preview {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -142,54 +138,39 @@ body.journal-page {
   margin-bottom: 1.5rem;
 }
 
-.preview-image img {
+/* Image container */
+.preview-image {
   width: 100%;
   max-width: 220px;
+}
+
+/* Image itself */
+.preview-image img {
+  width: 100%;
   height: auto;
+  display: block;
   border-radius: 6px;
-  display: block;
+  object-fit: cover;
 }
 
-.journal-text {
-  display: flex;
-  flex-direction: column;
-}
+/* =========================
+   MOBILE FIX
+   ========================= */
 
-.journal-title {
-  margin-top: 0;
-  line-height: 1.2;
-  font-family: "Rock 3D", serif;
-  font-size: 2rem;
-  color: #0D0D0D;
-  text-decoration: none;
-  margin-bottom: 0.25rem;
-  display: block;
-}
+@media (max-width: 768px) {
+  .journal-preview {
+    grid-template-columns: 1fr; /* stack */
+  }
 
-.journal-title:visited {
-  color: #0D0D0D;
-}
+  .preview-image {
+    max-width: 100%; /* allow full width */
+    margin-top: 0.5rem;
+  }
 
-.journal-title:hover {
-  text-decoration: underline;
-}
-
-.journal-date {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.25rem;
-  display: block;
-}
-
-.journal-excerpt {
-  margin-top: 0.25rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  .preview-image img {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* =========================
