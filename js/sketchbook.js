@@ -4,9 +4,6 @@ const gallery = document.querySelector(".sketchbook-gallery");
    MASONRY
 ========================= */
 function resizeAllTiles() {
-
-  if (!gallery) return;
-
   const tiles = document.querySelectorAll(".sketchbook-tile");
 
   const rowHeight = parseInt(
@@ -18,6 +15,8 @@ function resizeAllTiles() {
   );
 
   tiles.forEach(tile => {
+    if (tile.classList.contains("is-hidden")) return;
+
     const img = tile.querySelector("img");
     if (!img) return;
 
@@ -58,135 +57,84 @@ function sortGallery() {
 }
 
 /* =========================
-   FILTER (NEW SYSTEM)
+   FILTER (RESTORED)
 ========================= */
-function setupFilter() {
+const filterSelect = document.getElementById("sketchbook-filter");
 
-  const filterToggle = document.querySelector(".filter-toggle");
-  const filterMenu = document.querySelector(".filter-menu");
+if (filterSelect) {
+  filterSelect.addEventListener("change", () => {
+    const filter = filterSelect.value.toLowerCase();
 
-  if (!filterToggle || !filterMenu) return;
+    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
 
-  // Toggle menu
-  filterToggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    filterMenu.style.display =
-      filterMenu.style.display === "block" ? "none" : "block";
-  });
-
-  // Filter buttons
-  filterMenu.querySelectorAll("button").forEach(button => {
-    button.addEventListener("click", () => {
-
-      const filter = button.dataset.filter;
-
-      document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-        const tags = tile.dataset.tags
-          ?.split(",")
-          .map(t => t.trim());
-
-        tile.classList.toggle(
-          "is-hidden",
-          filter !== "all" && !tags?.includes(filter)
-        );
-      });
-
-      filterMenu.style.display = "none";
-
-      requestAnimationFrame(() => {
-        resizeAllTiles();
-      });
-
+      tile.classList.toggle(
+        "is-hidden",
+        filter !== "all" && !tags?.includes(filter)
+      );
     });
-  });
 
-  // Close when clicking outside
-  document.addEventListener("click", (e) => {
-    if (!filterToggle.contains(e.target) && !filterMenu.contains(e.target)) {
-      filterMenu.style.display = "none";
-    }
+    requestAnimationFrame(resizeAllTiles);
   });
 }
 
 /* =========================
-   LOAD (STABLE VERSION)
+   LOAD
 ========================= */
 fetch("JE1/manifest.json")
   .then(res => res.json())
-  .then(async entries => {
+  .then(entries => {
+    entries.forEach(entry => {
+      fetch(`JE1/${entry}`)
+        .then(res => res.text())
+        .then(html => {
+          const doc = new DOMParser().parseFromString(html, "text/html");
 
-    const allTiles = [];
+          doc.querySelectorAll('img[data-sketchbook="true"]').forEach(img => {
 
-    for (const entry of entries) {
+            const tile = document.createElement("div");
+            tile.className = "sketchbook-tile";
 
-      const res = await fetch(`JE1/${entry}`);
-      const html = await res.text();
+            // ✅ IMPORTANT (restores filter)
+            tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
 
-      const doc = new DOMParser().parseFromString(html, "text/html");
+            const inner = document.createElement("div");
+            inner.className = "tile-inner";
 
-      const imgs = doc.querySelectorAll('img[data-sketchbook="true"]');
+            const newImg = document.createElement("img");
 
-      imgs.forEach(img => {
+            const entryPath = `JE1/${entry}`;
+            const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
 
-        const tile = document.createElement("div");
-        tile.className = "sketchbook-tile";
+            newImg.src = new URL(
+              img.getAttribute("src"),
+              window.location.origin + "/" + entryDir
+            ).href;
 
-        // ✅ IMPORTANT for filter
-        tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
+            newImg.dataset.date = img.dataset.date || "";
+            newImg.dataset.title = img.dataset.title || "";
 
-        const inner = document.createElement("div");
-        inner.className = "tile-inner";
+            inner.appendChild(newImg);
 
-        const newImg = document.createElement("img");
+            const overlay = document.createElement("div");
+            overlay.className = "overlay";
 
-        const entryPath = `JE1/${entry}`;
-        const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
+            overlay.innerHTML = `
+              <span class="title"></span>
+              <span class="date"></span>
+            `;
 
-        newImg.src = new URL(
-          img.getAttribute("src"),
-          window.location.origin + "/" + entryDir
-        ).href;
+            inner.appendChild(overlay);
+            tile.appendChild(inner);
+            gallery.appendChild(tile);
 
-        newImg.dataset.date = img.dataset.date || "";
-        newImg.dataset.title = img.dataset.title || "";
+            populateMeta(tile, newImg);
 
-        inner.appendChild(newImg);
-
-        const overlay = document.createElement("div");
-        overlay.className = "overlay";
-
-        overlay.innerHTML = `
-          <span class="title"></span>
-          <span class="date"></span>
-        `;
-
-        inner.appendChild(overlay);
-        tile.appendChild(inner);
-
-        populateMeta(tile, newImg);
-
-        allTiles.push(tile);
-      });
-    }
-
-    // ✅ Append all at once
-    allTiles.forEach(tile => gallery.appendChild(tile));
-
-    // ✅ Run once
-    sortGallery();
-
-    setTimeout(() => {
-      resizeAllTiles();
-    }, 100);
-
-    // ✅ Setup filter AFTER tiles exist
-    setupFilter();
-
+            newImg.addEventListener("load", () => {
+              sortGallery();
+              resizeAllTiles();
+            });
+          });
+        });
+    });
   });
-
-/* =========================
-   RESIZE HANDLING
-========================= */
-window.addEventListener("resize", () => {
-  resizeAllTiles();
-});
