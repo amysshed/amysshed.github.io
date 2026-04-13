@@ -160,13 +160,22 @@ function handleClicks(tile, img) {
 fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
+
+    let imagesLoaded = 0;
+    let totalImages = 0;
+
+    const allImages = [];
+
     entries.forEach(entry => {
       fetch(`JE1/${entry}`)
         .then(res => res.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, "text/html");
 
-          doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
+          const imgs = doc.querySelectorAll('img[data-photoalbum="true"]');
+          totalImages += imgs.length;
+
+          imgs.forEach(img => {
 
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
@@ -204,17 +213,22 @@ fetch("JE1/manifest.json")
             populateMeta(tile, newImg);
             handleClicks(tile, newImg);
 
+            allImages.push(newImg);
+
             newImg.addEventListener("load", () => {
-  resizeAllTiles();
-});
-             setTimeout(() => {
-  sortAndGroup();
-  resizeAllTiles();
-}, 500);
+              imagesLoaded++;
 
-
+              // ✅ Only run once ALL images are loaded
+              if (imagesLoaded === totalImages) {
+                sortAndGroup();
+                resizeAllTiles();
+              }
             });
+
           });
         });
     });
+
   });
+
+
