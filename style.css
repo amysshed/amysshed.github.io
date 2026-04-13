@@ -350,38 +350,33 @@ body.sketchbook-page .sketchbook-gallery {
 }
 
 /* =========================
-   Photo Album Page
+   Photo Album Page (FINAL)
    ========================= */
 
 body.photoalbum-page {
   background: #DBC8AE;
 }
 
+/* IMPORTANT: stack sections vertically */
 body.photoalbum-page .sketchbook-gallery {
-  display: block !important;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
-/* DATE SECTION */
+/* Each date section */
 .date-section {
   width: 100%;
-  margin-bottom: 4rem;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.date-section.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Divider with centered date */
+/* Divider */
 .date-divider {
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 3rem 0 2rem;
+  margin: 2rem 0 1.5rem;
 }
 
 .date-divider::before,
@@ -392,32 +387,59 @@ body.photoalbum-page .sketchbook-gallery {
 }
 
 .date-divider::before {
-  margin-right: 1.5rem;
+  margin-right: 1rem;
 }
 
 .date-divider::after {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
 }
 
 .date-title {
   font-family: "Rock 3D", serif;
-  font-size: 1.3rem;
-  color: #222;
+  font-size: 1.2rem;
+  color: #333;
   white-space: nowrap;
-  letter-spacing: 0.05em;
 }
 
-/* Grid inside each date */
+/* GRID PER DATE */
 .date-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 50px;
-  gap: 1rem;
   width: 100%;
+  gap: 1rem;
+
+  /* 🔥 KEY: responsive columns */
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 50px;
 }
 
+/* Masonry still works */
 .date-grid .sketchbook-tile {
   grid-row-end: span var(--row-span);
+}
+
+/* =========================
+   RESPONSIVE GRID
+   ========================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .date-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Small tablet */
+@media (max-width: 768px) {
+  .date-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  .date-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* =========================
