@@ -57,13 +57,25 @@ function sortGallery() {
 }
 
 /* =========================
-   FILTER (RESTORED)
+   FILTER (BUTTON VERSION)
 ========================= */
-const filterSelect = document.getElementById("sketchbook-filter");
 
-if (filterSelect) {
-  filterSelect.addEventListener("change", () => {
-    const filter = filterSelect.value.toLowerCase();
+const filterButtons = document.querySelectorAll(".filter-menu button");
+const filterToggle = document.querySelector(".filter-toggle");
+const filterMenu = document.querySelector(".filter-menu");
+
+/* Toggle dropdown */
+if (filterToggle && filterMenu) {
+  filterToggle.addEventListener("click", () => {
+    filterMenu.style.display =
+      filterMenu.style.display === "block" ? "none" : "block";
+  });
+}
+
+/* Apply filter */
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const filter = button.dataset.filter.toLowerCase();
 
     document.querySelectorAll(".sketchbook-tile").forEach(tile => {
       const tags = tile.dataset.tags?.split(",").map(t => t.trim());
@@ -74,9 +86,12 @@ if (filterSelect) {
       );
     });
 
+    filterMenu.style.display = "none";
+
     requestAnimationFrame(resizeAllTiles);
   });
-}
+});
+
 
 /* =========================
    LOAD
