@@ -1,6 +1,6 @@
 /* =========================
    Global Reset & Defaults
-========================= */
+   ========================= */
 
 * {
   box-sizing: border-box;
@@ -10,7 +10,7 @@
 
 /* =========================
    General Layout
-========================= */
+   ========================= */
 
 body {
   font-family: "Atkinson Hyperlegible Mono", sans-serif;
@@ -23,9 +23,18 @@ body {
   z-index: 1;
 }
 
+main article {
+  margin-bottom: 3rem;
+}
+
+h1,
+h2 {
+  font-weight: normal;
+}
+
 /* =========================
-   Background Video (INDEX FIX)
-========================= */
+   Background Video (Index)
+   ========================= */
 
 #bg-video {
   position: fixed;
@@ -34,6 +43,7 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: -1;
+  pointer-events: none;
 }
 
 #video-overlay {
@@ -45,7 +55,7 @@ body {
 
 /* =========================
    Header
-========================= */
+   ========================= */
 
 .site-header {
   position: relative;
@@ -59,6 +69,10 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.header-title a {
+  display: inline-block;
 }
 
 .header-title img {
@@ -83,11 +97,12 @@ nav a:hover {
 }
 
 /* =========================
-   INDEX INTRO (FIXED)
-========================= */
+   Index Page Intro
+   ========================= */
 
 .intro {
   font-family: "Rock 3D", serif;
+  font-weight: 400;
   letter-spacing: 0.02em;
   margin-top: 30vh;
   margin-bottom: 4rem;
@@ -99,7 +114,7 @@ nav a:hover {
 
 /* =========================
    Footer
-========================= */
+   ========================= */
 
 footer {
   position: fixed;
@@ -112,14 +127,80 @@ footer {
 }
 
 /* =========================
-   Sketchbook
-========================= */
+   Journal List Page
+   ========================= */
+
+body.journal-page {
+  background: #DBC8AE;
+}
+
+.journal-preview {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+.preview-image img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+}
+
+.journal-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-title {
+  margin-top: 0;
+  line-height: 1.2;
+  font-family: "Rock 3D", serif;
+  font-size: 2rem;
+  color: #0D0D0D;
+  text-decoration: none;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.journal-title:visited {
+  color: #0D0D0D;
+}
+
+.journal-title:hover {
+  text-decoration: underline;
+}
+
+.journal-date {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.journal-excerpt {
+  margin-top: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* =========================
+   Sketchbook Masonry Grid
+   ========================= */
 
 body.sketchbook-page {
   background: #DBC8AE;
 }
 
-.sketchbook-gallery {
+body.sketchbook-page .sketchbook-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-auto-rows: 50px;
@@ -136,37 +217,12 @@ body.sketchbook-page {
   border-radius: 8px;
 }
 
-/* =========================
-   FILTER (RESTORED 🔥)
-========================= */
-
-.sketchbook-controls {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-}
-
-#sketchbook-filter {
-  font-family: "Atkinson Hyperlegible Mono", sans-serif;
-  font-size: 0.95rem;
-  color: #000;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  appearance: none;
-}
-
-#sketchbook-filter:hover {
-  opacity: 0.7;
-}
-
-/* =========================
-   Images + Overlay
-========================= */
-
 .sketchbook-tile img {
   width: 100%;
+  height: auto;
   display: block;
+  will-change: transform;
+  transform: translateZ(0);
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
@@ -175,16 +231,24 @@ body.sketchbook-page {
   filter: brightness(60%);
 }
 
+/* Overlay */
 .tile-inner .overlay {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 0.4rem;
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tile-inner img {
+  position: relative;
+  z-index: 1;
 }
 
 .sketchbook-tile:hover .overlay,
@@ -193,34 +257,130 @@ body.sketchbook-page {
 }
 
 .overlay .title {
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
   font-size: 0.95rem;
   color: #F6F1E0;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  line-height: 1.3;
+  max-width: 90%;
 }
 
 .overlay .date {
   font-family: "Rock 3D", serif;
   font-size: 1.1rem;
   color: #fff;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+}
+
+/* Filter UI */
+.sketchbook-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.filter-container {
+  position: relative;
+  margin-left: 1.5rem;
+}
+
+.filter-toggle {
+  background: none;
+  border: none;
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.filter-menu {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.5rem;
+  display: none;
+  z-index: 10;
+}
+
+.filter-menu button {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.filter-menu button:hover {
+  background: #f0f0f0;
+}
+
+/* Text-only dropdown */
+#sketchbook-filter {
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: 0.95rem;
+  color: #000;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+#sketchbook-filter:focus {
+  outline: none;
+}
+
+#sketchbook-filter:hover {
+  opacity: 0.7;
+}
+
+.sketchbook-tile.is-hidden {
+  display: none;
 }
 
 /* =========================
-   PHOTO ALBUM (SAFE FIX)
-========================= */
+   Photo Album Page
+   ========================= */
 
-body.photoalbum-page .sketchbook-gallery {
-  display: block; /* 🔥 KEY FIX */
+body.photoalbum-page {
+  background: #DBC8AE;
 }
 
-/* Date sections */
+body.photoalbum-page .sketchbook-gallery {
+  display: block !important;
+  width: 100%;
+}
+
+/* DATE SECTION */
 .date-section {
   width: 100%;
   margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-/* Divider */
+.date-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Divider with centered date */
 .date-divider {
   display: flex;
   align-items: center;
+  width: 100%;
   margin: 3rem 0 2rem;
 }
 
@@ -228,7 +388,7 @@ body.photoalbum-page .sketchbook-gallery {
 .date-divider::after {
   content: "";
   flex: 1;
-  border-bottom: 1px solid rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 .date-divider::before {
@@ -243,14 +403,17 @@ body.photoalbum-page .sketchbook-gallery {
   font-family: "Rock 3D", serif;
   font-size: 1.3rem;
   color: #222;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
 }
 
-/* Grid per date */
+/* Grid inside each date */
 .date-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 50px;
   gap: 1rem;
+  width: 100%;
 }
 
 .date-grid .sketchbook-tile {
@@ -258,13 +421,13 @@ body.photoalbum-page .sketchbook-gallery {
 }
 
 /* =========================
-   LIGHTBOX
-========================= */
+   Lightbox
+   ========================= */
 
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,34 +445,210 @@ body.photoalbum-page .sketchbook-gallery {
 .lightbox img {
   max-width: 90%;
   max-height: 90%;
+  object-fit: contain;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.lightbox.active img {
+  transform: scale(1);
+}
+
+/* =========================
+   Journal Entry Pages
+   ========================= */
+
+body.journal-entry-page {
+  background: #F0FCFF;
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  color: #111;
+  padding: 3rem 2rem;
+  line-height: 1.8;
+}
+
+/* Headings */
+body.journal-entry-page h1,
+body.journal-entry-page h2,
+body.journal-entry-page h3 {
+  font-family: "Rock 3D", serif;
+  color: #0D0D0D;
+  margin-bottom: 1rem;
+}
+
+/* Paragraphs */
+body.journal-entry-page p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Images inside entries */
+body.journal-entry-page img {
+  max-width: calc(100% - 2rem);
+  height: auto;
+  display: block;
+  margin: 1.5rem auto;
+  border-radius: 4px;
+}
+
+/* Wrapped image inside journal entry */
+.journal-inline-image {
+  float: right;
+  width: 30%;
+  max-width: 400px;
+  margin: 0 0 1rem 2rem;
+  border-radius: 4px;
+}
+
+.journal-image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1rem auto;
+  max-width: 1000px;
+  padding: 0 0.5rem;
+}
+
+/* Two large images variant */
+.journal-image-grid.grid-two-large {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 900px;
+}
+
+.journal-image-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+.clear-below {
+  clear: both;
+}
+
+/* Journal entry layout */
+.journal-entry {
+  max-width: 1000px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.journal-entry::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* Figure captions */
+body.journal-entry-page figure figcaption {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+/* Links inside entries */
+body.journal-entry-page a {
+  color: #0D0D0D;
+  text-decoration: none;
+}
+
+body.journal-entry-page a:hover {
+  text-decoration: underline;
+}
+
+/* Journal inline links */
+.journal-entry-page .journal-link {
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  font-size: inherit;
+  color: #0D0D0D;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.journal-entry-page .journal-link:hover {
+  opacity: 0.7;
+}
+
+.journal-entry-page .journal-link:visited {
+  color: #3E4A5A;
 }
 
 /* =========================
    Responsive
-========================= */
+   ========================= */
 
 @media (max-width: 1024px) {
-
   .site-header {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 2rem;
   }
 
   .header-title {
     position: static;
     transform: none;
+    order: 1;
   }
 
   .header-nav {
+    position: static;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
     margin-left: 0;
+    order: 2;
   }
 
   .header-nav a {
     margin-left: 0;
+    font-size: 1rem;
+  }
+
+  .date-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .journal-image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .journal-inline-image {
+    float: none;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 1rem 0;
+  }
+
+  .journal-entry-page img {
+    max-width: 100%;
+  }
+
+  .date-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .journal-image-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .date-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro {
+    font-size: 2.8rem;
+    margin-top: 20vh;
+  }
+
+  body {
+    padding: 1rem;
   }
 }
