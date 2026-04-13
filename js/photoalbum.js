@@ -1,9 +1,5 @@
 const gallery = document.querySelector(".sketchbook-gallery");
 
-if (!gallery) {
-  console.warn("Sketchbook gallery not found");
-}
-
 /* =========================
    MASONRY
 ========================= */
@@ -11,15 +7,13 @@ function resizeAllTiles() {
   const tiles = document.querySelectorAll(".sketchbook-tile");
 
   const rowHeight = parseInt(
-    getComputedStyle(document.querySelector(".date-grid")).getPropertyValue("grid-auto-rows")
+    getComputedStyle(gallery).getPropertyValue("grid-auto-rows")
   );
   const rowGap = parseInt(
-    getComputedStyle(document.querySelector(".date-grid")).getPropertyValue("gap")
+    getComputedStyle(gallery).getPropertyValue("gap")
   );
 
   tiles.forEach(tile => {
-    if (tile.classList.contains("is-hidden")) return;
-
     const img = tile.querySelector("img");
     if (!img) return;
 
@@ -31,125 +25,118 @@ function resizeAllTiles() {
 }
 
 /* =========================
-   OVERLAY HELPERS
+   OVERLAY
 ========================= */
-function populateDates() {
-  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-    const img = tile.querySelector("img");
-    const dateSpan = tile.querySelector(".date");
-    if (img?.dataset.date && dateSpan) {
-      dateSpan.textContent = img.dataset.date;
-    }
-  });
-}
+function populateMeta(tile, img) {
+  const title = tile.querySelector(".title");
+  const date = tile.querySelector(".date");
 
-function populateTitles() {
-  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-    const img = tile.querySelector("img");
-    const titleSpan = tile.querySelector(".title");
-    if (img?.dataset.title && titleSpan) {
-      titleSpan.textContent = img.dataset.title;
-    }
-  });
+  if (title) title.textContent = img.dataset.title || "";
+  if (date) date.textContent = img.dataset.date || "";
 }
 
 /* =========================
-   SORT + GROUP BY DATE
+   SORT + GROUP
 ========================= */
-function sortGalleryByDate() {
+function sortAndGroup() {
   const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
   tiles.sort((a, b) => {
-    const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
-    const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
-    return dateB - dateA;
+    const dA = new Date(a.querySelector("img").dataset.date || 0);
+    const dB = new Date(b.querySelector("img").dataset.date || 0);
+    return dB - dA;
   });
 
   gallery.innerHTML = "";
 
+  const groups = {};
+
   tiles.forEach(tile => {
-    const img = tile.querySelector("img");
-    const dateKey = img?.dataset.date || "undated";
-
-    let section = gallery.querySelector(`[data-date-group="${dateKey}"]`);
-
-    if (!section) {
-      section = document.createElement("div");
-      section.className = "date-section";
-      section.dataset.dateGroup = dateKey;
-
-      const header = document.createElement("div");
-      header.className = "date-divider";
-
-      const title = document.createElement("span");
-      title.className = "date-title";
-      title.textContent = dateKey;
-
-      header.appendChild(title);
-      section.appendChild(header);
-
-      const grid = document.createElement("div");
-      grid.className = "date-grid";
-
-      section.appendChild(grid);
-      gallery.appendChild(section);
-    }
-
-    section.querySelector(".date-grid").appendChild(tile);
+    const date = tile.querySelector("img").dataset.date || "undated";
+    if (!groups[date]) groups[date] = [];
+    groups[date].push(tile);
   });
 
-  initScrollReveal(); // rebind reveal
+  Object.keys(groups).forEach(date => {
+    const section = document.createElement("div");
+    section.className = "date-section";
+
+    const divider = document.createElement("div");
+    divider.className = "date-divider";
+
+    const title = document.createElement("span");
+    title.className = "date-title";
+    title.textContent = date;
+
+    divider.appendChild(title);
+
+    const grid = document.createElement("div");
+    grid.className = "date-grid";
+
+    groups[date].forEach(tile => grid.appendChild(tile));
+
+    section.appendChild(divider);
+    section.appendChild(grid);
+
+    gallery.appendChild(section);
+  });
+
+  setupReveal();
+}
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+function setupReveal() {
+  const sections = document.querySelectorAll(".date-section");
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  sections.forEach(section => observer.observe(section));
 }
 
 /* =========================
    LIGHTBOX
 ========================= */
-function createLightbox() {
-  const lightbox = document.createElement("div");
-  lightbox.className = "lightbox";
+const lightbox = document.createElement("div");
+lightbox.className = "lightbox";
+lightbox.innerHTML = `<img src="" alt="">`;
+document.body.appendChild(lightbox);
 
-  const img = document.createElement("img");
-  lightbox.appendChild(img);
-
-  document.body.appendChild(lightbox);
-
-  // close on click
-  lightbox.addEventListener("click", () => {
-    lightbox.classList.remove("active");
-  });
-
-  // close on ESC
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      lightbox.classList.remove("active");
-    }
-  });
-
-  return lightbox;
-}
-
-const lightbox = createLightbox();
+lightbox.addEventListener("click", () => {
+  lightbox.classList.remove("active");
+});
 
 /* =========================
-   SCROLL REVEAL
+   CLICK HANDLING
 ========================= */
-let observer;
+let clickTimer = null;
 
-function initScrollReveal() {
-  if (observer) observer.disconnect();
+function handleClicks(tile, img) {
+  tile.addEventListener("click", () => {
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = null;
 
-  const sections = document.querySelectorAll(".date-section");
-
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  sections.forEach(section => observer.observe(section));
+      // DOUBLE CLICK → OPEN
+      lightbox.querySelector("img").src = img.src;
+      lightbox.classList.add("active");
+    } else {
+      clickTimer = setTimeout(() => {
+        tile.classList.toggle("show-info");
+        clickTimer = null;
+      }, 250);
+    }
+  });
 }
 
 /* =========================
@@ -166,50 +153,44 @@ fetch("JE1/manifest.json")
 
           doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
 
-            const uniqueId = `${entry}-${img.getAttribute("src")}`;
-            if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
-
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
-            tile.dataset.id = uniqueId;
-            tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
 
             const inner = document.createElement("div");
             inner.className = "tile-inner";
 
             const newImg = document.createElement("img");
-            newImg.src = img.getAttribute("src");
+
+            const entryPath = `JE1/${entry}`;
+            const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
+
+            newImg.src = new URL(
+              img.getAttribute("src"),
+              window.location.origin + "/" + entryDir
+            ).href;
+
             newImg.dataset.date = img.dataset.date || "";
             newImg.dataset.title = img.dataset.title || "";
-
-            // 🔥 LIGHTBOX CLICK
-            newImg.addEventListener("click", () => {
-              lightbox.querySelector("img").src = newImg.src;
-              lightbox.classList.add("active");
-            });
 
             inner.appendChild(newImg);
 
             const overlay = document.createElement("div");
             overlay.className = "overlay";
 
-            const titleSpan = document.createElement("span");
-            titleSpan.className = "title";
+            overlay.innerHTML = `
+              <span class="title"></span>
+              <span class="date"></span>
+            `;
 
-            const dateSpan = document.createElement("span");
-            dateSpan.className = "date";
-
-            overlay.appendChild(titleSpan);
-            overlay.appendChild(dateSpan);
             inner.appendChild(overlay);
-
             tile.appendChild(inner);
             gallery.appendChild(tile);
 
+            populateMeta(tile, newImg);
+            handleClicks(tile, newImg);
+
             newImg.addEventListener("load", () => {
-              populateDates();
-              populateTitles();
-              sortGalleryByDate();
+              sortAndGroup();
               resizeAllTiles();
             });
           });
