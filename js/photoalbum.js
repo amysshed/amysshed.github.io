@@ -1,148 +1,129 @@
 const gallery = document.querySelector(".sketchbook-gallery");
 
+if (!gallery) {
+  console.warn("Sketchbook gallery not found");
+}
+
 /* =========================
    MASONRY
 ========================= */
 function resizeAllTiles() {
+  const tiles = document.querySelectorAll(".sketchbook-tile");
 
-  // 🔥 disable masonry on mobile
-  if (window.innerWidth <= 768) return;
+  const grid = document.querySelector(".date-grid");
+  if (!grid) return;
 
-  const grids = document.querySelectorAll(".date-grid");
+  const rowHeight = parseInt(
+    getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+  );
+  const rowGap = parseInt(
+    getComputedStyle(grid).getPropertyValue("gap")
+  );
 
-  grids.forEach(grid => {
+  tiles.forEach(tile => {
+    if (tile.classList.contains("is-hidden")) return;
 
-    const rowHeight = parseInt(
-      getComputedStyle(grid).getPropertyValue("grid-auto-rows")
-    );
+    const img = tile.querySelector("img");
+    if (!img) return;
 
-    const rowGap = parseInt(
-      getComputedStyle(grid).getPropertyValue("gap")
-    );
+    const height = img.getBoundingClientRect().height;
+    const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
 
-    const tiles = grid.querySelectorAll(".sketchbook-tile");
-
-    tiles.forEach(tile => {
-      const img = tile.querySelector("img");
-      if (!img) return;
-
-      const height = img.getBoundingClientRect().height;
-
-      const rowSpan = Math.ceil(
-        (height + rowGap) / (rowHeight + rowGap)
-      );
-
-      tile.style.setProperty("--row-span", rowSpan);
-    });
-
+    tile.style.setProperty("--row-span", rowSpan);
   });
 }
 
-
 /* =========================
-   OVERLAY
+   OVERLAY HELPERS
 ========================= */
-function populateMeta(tile, img) {
-  const title = tile.querySelector(".title");
-  const date = tile.querySelector(".date");
+function populateDates() {
+  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+    const img = tile.querySelector("img");
+    const dateSpan = tile.querySelector(".date");
+    if (img?.dataset.date && dateSpan) {
+      dateSpan.textContent = img.dataset.date;
+    }
+  });
+}
 
-  if (title) title.textContent = img.dataset.title || "";
-  if (date) date.textContent = img.dataset.date || "";
+function populateTitles() {
+  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+    const img = tile.querySelector("img");
+    const titleSpan = tile.querySelector(".title");
+    if (img?.dataset.title && titleSpan) {
+      titleSpan.textContent = img.dataset.title;
+    }
+  });
 }
 
 /* =========================
-   SORT + GROUP
+   SORT + GROUP BY DATE
 ========================= */
-function sortAndGroup() {
+function sortGalleryByDate() {
   const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
   tiles.sort((a, b) => {
-    const dA = new Date(a.querySelector("img").dataset.date || 0);
-    const dB = new Date(b.querySelector("img").dataset.date || 0);
-    return dB - dA;
+    const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
+    const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
+    return dateB - dateA;
   });
 
   gallery.innerHTML = "";
 
-  const groups = {};
-
   tiles.forEach(tile => {
-    const date = tile.querySelector("img").dataset.date || "undated";
-    if (!groups[date]) groups[date] = [];
-    groups[date].push(tile);
+    const img = tile.querySelector("img");
+    const dateKey = img?.dataset.date || "undated";
+
+    let section = gallery.querySelector(`[data-date-group="${dateKey}"]`);
+
+    if (!section) {
+      section = document.createElement("div");
+      section.className = "date-section";
+      section.dataset.dateGroup = dateKey;
+
+      const header = document.createElement("div");
+      header.className = "date-divider";
+
+      const title = document.createElement("span");
+      title.className = "date-title";
+      title.textContent = dateKey;
+
+      header.appendChild(title);
+      section.appendChild(header);
+
+      const grid = document.createElement("div");
+      grid.className = "date-grid";
+
+      section.appendChild(grid);
+      gallery.appendChild(section);
+    }
+
+    section.querySelector(".date-grid").appendChild(tile);
   });
 
-  Object.keys(groups).forEach(date => {
-    const section = document.createElement("div");
-    section.className = "date-section";
-
-    const divider = document.createElement("div");
-    divider.className = "date-divider";
-
-    const title = document.createElement("span");
-    title.className = "date-title";
-    title.textContent = date;
-
-    divider.appendChild(title);
-
-    const grid = document.createElement("div");
-    grid.className = "date-grid";
-
-    groups[date].forEach(tile => grid.appendChild(tile));
-
-    section.appendChild(divider);
-    section.appendChild(grid);
-
-    gallery.appendChild(section);
-  });
-
-  setupReveal();
+  initScrollReveal();
 }
 
 /* =========================
    SCROLL REVEAL
 ========================= */
-function setupReveal() {
+let observer;
+
+function initScrollReveal() {
+  if (observer) observer.disconnect();
+
   const sections = document.querySelectorAll(".date-section");
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
 
   sections.forEach(section => observer.observe(section));
-}
-/* =========================
-   LIGHTBOX
-========================= */
-const lightbox = document.createElement("div");
-lightbox.className = "lightbox";
-lightbox.innerHTML = `<img src="" alt="">`;
-document.body.appendChild(lightbox);
-
-lightbox.addEventListener("click", () => {
-  lightbox.classList.remove("active");
-});
-
-/* =========================
-   CLICK HANDLING
-========================= */
-let clickTimer = null;
-
-function handleClicks(tile, img) {
-  tile.addEventListener("click", () => {
-    if (clickTimer) {
-      clearTimeout(clickTimer);
-      clickTimer = null;
-
-    
-  });
 }
 
 /* =========================
@@ -151,71 +132,70 @@ function handleClicks(tile, img) {
 fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
-
-    let imagesLoaded = 0;
-    let totalImages = 0;
-
-    const allImages = [];
-
     entries.forEach(entry => {
       fetch(`JE1/${entry}`)
         .then(res => res.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, "text/html");
 
-          const imgs = doc.querySelectorAll('img[data-photoalbum="true"]');
-          totalImages += imgs.length;
+          doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
 
-          imgs.forEach(img => {
+            const uniqueId = `${entry}-${img.getAttribute("src")}`;
+            if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
 
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
+            tile.dataset.id = uniqueId;
+            tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
 
             const inner = document.createElement("div");
             inner.className = "tile-inner";
 
             const newImg = document.createElement("img");
-
-            const entryPath = `JE1/${entry}`;
-            const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
-
-            newImg.src = new URL(
-              img.getAttribute("src"),
-              window.location.origin + "/" + entryDir
-            ).href;
-
+            newImg.src = img.getAttribute("src");
             newImg.dataset.date = img.dataset.date || "";
             newImg.dataset.title = img.dataset.title || "";
+
+            /* =========================
+               SINGLE CLICK ONLY
+            ========================= */
+            newImg.addEventListener("click", () => {
+
+              // close others
+              document.querySelectorAll(".sketchbook-tile").forEach(t => {
+                t.classList.remove("show-info");
+              });
+
+              // toggle this one
+              tile.classList.toggle("show-info");
+
+            });
 
             inner.appendChild(newImg);
 
             const overlay = document.createElement("div");
             overlay.className = "overlay";
 
-            overlay.innerHTML = `
-              <span class="title"></span>
-              <span class="date"></span>
-            `;
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "title";
 
+            const dateSpan = document.createElement("span");
+            dateSpan.className = "date";
+
+            overlay.appendChild(titleSpan);
+            overlay.appendChild(dateSpan);
             inner.appendChild(overlay);
+
             tile.appendChild(inner);
             gallery.appendChild(tile);
 
-            populateMeta(tile, newImg);
-            handleClicks(tile);
-
-            allImages.push(newImg);
-
             newImg.addEventListener("load", () => {
-              imagesLoaded++;
-
-              // ✅ Only run once ALL images are loaded
-              if (imagesLoaded === totalImages) {
-                sortAndGroup();
-                resizeAllTiles();
-              }
+              populateDates();
+              populateTitles();
+              sortGalleryByDate();
+              resizeAllTiles();
             });
-
           });
         });
     });
+  });
