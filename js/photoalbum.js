@@ -1,17 +1,14 @@
 const gallery = document.querySelector(".sketchbook-gallery");
 
 /* =========================
-   MASONRY
+   MASONRY (DESKTOP ONLY)
 ========================= */
 function resizeAllTiles() {
-
-  // 🔥 disable masonry on mobile
   if (window.innerWidth <= 768) return;
 
   const grids = document.querySelectorAll(".date-grid");
 
   grids.forEach(grid => {
-
     const rowHeight = parseInt(
       getComputedStyle(grid).getPropertyValue("grid-auto-rows")
     );
@@ -34,13 +31,11 @@ function resizeAllTiles() {
 
       tile.style.setProperty("--row-span", rowSpan);
     });
-
   });
 }
 
-
 /* =========================
-   OVERLAY
+   META
 ========================= */
 function populateMeta(tile, img) {
   const title = tile.querySelector(".title");
@@ -51,10 +46,18 @@ function populateMeta(tile, img) {
 }
 
 /* =========================
+   CLICK (SINGLE ONLY)
+========================= */
+function handleClicks(tile) {
+  tile.addEventListener("click", () => {
+    tile.classList.toggle("show-info");
+  });
+}
+
+/* =========================
    SORT + GROUP
 ========================= */
-function sortAndGroup() {
-  const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
+function sortAndGroup(tiles) {
 
   tiles.sort((a, b) => {
     const dA = new Date(a.querySelector("img").dataset.date || 0);
@@ -73,6 +76,7 @@ function sortAndGroup() {
   });
 
   Object.keys(groups).forEach(date => {
+
     const section = document.createElement("div");
     section.className = "date-section";
 
@@ -97,6 +101,9 @@ function sortAndGroup() {
   });
 
   setupReveal();
+
+  // run masonry after DOM updated
+  setTimeout(resizeAllTiles, 100);
 }
 
 /* =========================
@@ -120,35 +127,21 @@ function setupReveal() {
 }
 
 /* =========================
-title reveal on click 
-
-========================= */
-function handleClicks(tile) {
-  tile.addEventListener("click", () => {
-    tile.classList.toggle("show-info");
-  });
-}
-
-/* =========================
-   LOAD IMAGES
+   LOAD IMAGES (STABLE)
 ========================= */
 fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
 
-    let imagesLoaded = 0;
-    let totalImages = 0;
-
-    entries.forEach(entry => {
-      fetch(`JE1/${entry}`)
+    const tilePromises = entries.map(entry => {
+      return fetch(`JE1/${entry}`)
         .then(res => res.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, "text/html");
 
           const imgs = doc.querySelectorAll('img[data-photoalbum="true"]');
-          totalImages += imgs.length;
 
-          imgs.forEach(img => {
+          return Array.from(imgs).map(img => {
 
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
@@ -181,27 +174,25 @@ fetch("JE1/manifest.json")
 
             inner.appendChild(overlay);
             tile.appendChild(inner);
-            gallery.appendChild(tile);
 
             populateMeta(tile, newImg);
             handleClicks(tile);
 
-            allImages.push(newImg);
-
-            newImg.addEventListener("load", () => {
-              imagesLoaded++;
-
-              // ✅ Only run once ALL images are loaded
-              if (imagesLoaded === totalImages) {
-                sortAndGroup();
-                resizeAllTiles();
-              }
+            return new Promise(resolve => {
+              newImg.onload = () => resolve(tile);
+              newImg.onerror = () => resolve(tile);
             });
-
           });
         });
     });
 
+    // Wait for EVERYTHING properly
+    Promise.all(tilePromises)
+      .then(results => {
+
+        const allTiles = results.flat();
+
+        sortAndGroup(allTiles);
+      });
+
   });
-
-
