@@ -56,20 +56,42 @@ function sortGallery() {
   tiles.forEach(tile => gallery.appendChild(tile));
 }
 
+/* =========================
+   FILTER (BUTTON VERSION)
+========================= */
 
-   /* ========================= FILTER ========================= */ 
-const filterSelect = 
-   document.getElementById("sketchbook-filter"); 
-   if (filterSelect){ 
-      filterSelect.addEventListener("change", () => { 
-         const filter = filterSelect.value.toLowerCase();  
-         
-         document.querySelectorAll(".sketchbook-tile").forEach(tile => { 
-            const tags = 
-               tile.dataset.tags?.split(",").map(t => t.trim()); 
-               tile.classList.toggle( "is-hidden", 
-               filter !== "all" && !tags?.includes(filter) ); 
-         })
+const filterButtons = document.querySelectorAll(".filter-menu button");
+const filterToggle = document.querySelector(".filter-toggle");
+const filterMenu = document.querySelector(".filter-menu");
+
+/* Toggle dropdown */
+if (filterToggle && filterMenu) {
+  filterToggle.addEventListener("click", () => {
+    filterMenu.style.display =
+      filterMenu.style.display === "block" ? "none" : "block";
+  });
+}
+
+/* Apply filter */
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const filter = button.dataset.filter.toLowerCase();
+
+    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
+
+      tile.classList.toggle(
+        "is-hidden",
+        filter !== "all" && !tags?.includes(filter)
+      );
+    });
+
+    filterMenu.style.display = "none";
+
+    requestAnimationFrame(resizeAllTiles);
+  });
+});
+
 
 /* =========================
    LOAD
