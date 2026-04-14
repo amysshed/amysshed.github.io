@@ -118,7 +118,40 @@ function setupReveal() {
 
   sections.forEach(section => observer.observe(section));
 }
+/* =========================
+   LIGHTBOX
+========================= */
+const lightbox = document.createElement("div");
+lightbox.className = "lightbox";
+lightbox.innerHTML = `<img src="" alt="">`;
+document.body.appendChild(lightbox);
 
+lightbox.addEventListener("click", () => {
+  lightbox.classList.remove("active");
+});
+
+/* =========================
+   CLICK HANDLING
+========================= */
+let clickTimer = null;
+
+function handleClicks(tile, img) {
+  tile.addEventListener("click", () => {
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = null;
+
+      // DOUBLE CLICK → OPEN
+      lightbox.querySelector("img").src = img.src;
+      lightbox.classList.add("active");
+    } else {
+      clickTimer = setTimeout(() => {
+        tile.classList.toggle("show-info");
+        clickTimer = null;
+      }, 250);
+    }
+  });
+}
 
 /* =========================
    LOAD IMAGES
