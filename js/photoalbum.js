@@ -119,6 +119,15 @@ function setupReveal() {
   sections.forEach(section => observer.observe(section));
 }
 
+/* =========================
+title reveal on click 
+
+========================= */
+function handleClicks(tile) {
+  tile.addEventListener("click", () => {
+    tile.classList.toggle("show-info");
+  });
+}
 
 /* =========================
    LOAD IMAGES
@@ -129,8 +138,6 @@ fetch("JE1/manifest.json")
 
     let imagesLoaded = 0;
     let totalImages = 0;
-
-    const allImages = [];
 
     entries.forEach(entry => {
       fetch(`JE1/${entry}`)
@@ -177,7 +184,7 @@ fetch("JE1/manifest.json")
             gallery.appendChild(tile);
 
             populateMeta(tile, newImg);
-            handleClicks(tile, newImg);
+            handleClicks(tile);
 
             allImages.push(newImg);
 
