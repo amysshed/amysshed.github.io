@@ -1,25 +1,17 @@
-/* =========================
-   CONFIGURATION
-========================= */
-const CONFIG = {
-  MANIFEST_PATH: "JE1/manifest.json",
-  MOBILE_BREAKPOINT: 768,
-  REVEAL_THRESHOLD: 0.1,
-  RESIZE_DEBOUNCE_MS: 250,
-};
-
 const gallery = document.querySelector(".sketchbook-gallery");
 
 /* =========================
    MASONRY
 ========================= */
 function resizeAllTiles() {
+
   // 🔥 disable masonry on mobile
-  if (window.innerWidth <= CONFIG.MOBILE_BREAKPOINT) return;
+  if (window.innerWidth <= 768) return;
 
   const grids = document.querySelectorAll(".date-grid");
 
   grids.forEach(grid => {
+
     const rowHeight = parseInt(
       getComputedStyle(grid).getPropertyValue("grid-auto-rows")
     );
@@ -42,8 +34,10 @@ function resizeAllTiles() {
 
       tile.style.setProperty("--row-span", rowSpan);
     });
+
   });
 }
+
 
 /* =========================
    OVERLAY
@@ -116,16 +110,14 @@ function setupReveal() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target); // Stop observing after visible
         }
       });
     },
-    { threshold: CONFIG.REVEAL_THRESHOLD }
+    { threshold: 0.1 }
   );
 
   sections.forEach(section => observer.observe(section));
 }
-
 /* =========================
    LIGHTBOX
 ========================= */
@@ -141,70 +133,41 @@ lightbox.addEventListener("click", () => {
 /* =========================
    CLICK HANDLING
 ========================= */
+let clickTimer = null;
+
 function handleClicks(tile, img) {
   tile.addEventListener("click", () => {
-    try {
-      const img = tile.querySelector("img");
-      if (!img) return;
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = null;
 
-      const lightboxImg = lightbox.querySelector("img");
-      lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt || img.dataset.title || "";
-      lightbox.classList.add("active");
-    } catch (error) {
-      console.error("Error opening lightbox:", error);
-    }
+    
   });
 }
 
 /* =========================
-   WINDOW RESIZE HANDLER
-========================= */
-let resizeTimeout;
-window.addEventListener("resize", () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => resizeAllTiles(), CONFIG.RESIZE_DEBOUNCE_MS);
-});
-
-/* =========================
    LOAD IMAGES
 ========================= */
-async function loadImages() {
-  try {
-    const manifestRes = await fetch(CONFIG.MANIFEST_PATH);
-    if (!manifestRes.ok) throw new Error(`Failed to load manifest: ${manifestRes.status}`);
-    
-    const entries = await manifestRes.json();
+fetch("JE1/manifest.json")
+  .then(res => res.json())
+  .then(entries => {
 
     let imagesLoaded = 0;
     let totalImages = 0;
 
-    // First pass: count total images
-    const htmlPromises = entries.map(entry =>
+    const allImages = [];
+
+    entries.forEach(entry => {
       fetch(`JE1/${entry}`)
-        .then(res => {
-          if (!res.ok) throw new Error(`Failed to load ${entry}: ${res.status}`);
-          return res.text();
-        })
-    );
+        .then(res => res.text())
+        .then(html => {
+          const doc = new DOMParser().parseFromString(html, "text/html");
 
-    const htmls = await Promise.all(htmlPromises);
+          const imgs = doc.querySelectorAll('img[data-photoalbum="true"]');
+          totalImages += imgs.length;
 
-    // Count images in all fetched content
-    htmls.forEach(html => {
-      const doc = new DOMParser().parseFromString(html, "text/html");
-      const imgs = doc.querySelectorAll('img[data-photoalbum="true"]');
-      totalImages += imgs.length;
-    });
+          imgs.forEach(img => {
 
-    // Second pass: create tiles and load images
-    htmls.forEach(html => {
-      try {
-        const doc = new DOMParser().parseFromString(html, "text/html");
-        const imgs = doc.querySelectorAll('img[data-photoalbum="true"]');
-
-        imgs.forEach(img => {
-          try {
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
 
@@ -213,15 +176,7 @@ async function loadImages() {
 
             const newImg = document.createElement("img");
 
-            // Find the entry name from the HTML to construct correct path
-            let entryName = "";
-            for (let i = 0; i < entries.length; i++) {
-              // We can't determine which entry this came from, so use a fallback
-              entryName = entries[i];
-              break;
-            }
-
-            const entryPath = `JE1/${entryName}`;
+            const entryPath = `JE1/${entry}`;
             const entryDir = entryPath.substring(0, entryPath.lastIndexOf("/") + 1);
 
             newImg.src = new URL(
@@ -247,7 +202,9 @@ async function loadImages() {
             gallery.appendChild(tile);
 
             populateMeta(tile, newImg);
-            handleClicks(tile, newImg);
+            handleClicks(tile);
+
+            allImages.push(newImg);
 
             newImg.addEventListener("load", () => {
               imagesLoaded++;
@@ -259,29 +216,6 @@ async function loadImages() {
               }
             });
 
-            newImg.addEventListener("error", () => {
-              imagesLoaded++;
-              console.error(`Failed to load image: ${newImg.src}`);
-
-              // Still trigger layout update if all images processed
-              if (imagesLoaded === totalImages) {
-                sortAndGroup();
-                resizeAllTiles();
-              }
-            });
-          } catch (error) {
-            console.error("Error creating tile:", error);
-          }
+          });
         });
-      } catch (error) {
-        console.error("Error parsing HTML:", error);
-      }
     });
-
-  } catch (error) {
-    console.error("Error loading images:", error);
-  }
-}
-
-// Initialize
-loadImages();
