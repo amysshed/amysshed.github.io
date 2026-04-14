@@ -69,7 +69,7 @@ const filterSelect =
                tile.dataset.tags?.split(",").map(t => t.trim()); 
                tile.classList.toggle( "is-hidden", 
                filter !== "all" && !tags?.includes(filter) ); 
-         }); 
+         })
 
 /* =========================
    LOAD
