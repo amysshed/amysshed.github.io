@@ -63,37 +63,40 @@ function sortGallery() {
 /* =========================
    FILTER (BUTTON VERSION)
 ========================= */
-const filterButtons = document.querySelectorAll(".filter-menu button");
-const filterToggle = document.querySelector(".filter-toggle");
-const filterMenu = document.querySelector(".filter-menu");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (filterToggle && filterMenu) {
-  filterToggle.addEventListener("click", () => {
-    filterMenu.style.display =
-      filterMenu.style.display === "block" ? "none" : "block";
-  });
-}
+  const filterButtons = document.querySelectorAll(".filter-menu button");
+  const filterToggle = document.querySelector(".filter-toggle");
+  const filterMenu = document.querySelector(".filter-menu");
 
-filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    const filter = button.dataset.filter.toLowerCase();
-
-    document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-      const tags = (tile.dataset.tags || "")
-        .toLowerCase()
-        .split(",")
-        .map(t => t.trim());
-
-      const match = filter === "all" || tags.includes(filter);
-
-      tile.classList.toggle("is-hidden", !match);
+  if (filterToggle && filterMenu) {
+    filterToggle.addEventListener("click", () => {
+      filterMenu.style.display =
+        filterMenu.style.display === "block" ? "none" : "block";
     });
+  }
 
-    filterMenu.style.display = "none";
-    requestAnimationFrame(resizeAllTiles);
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter.toLowerCase();
+
+      document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+        const tags = (tile.dataset.tags || "")
+          .toLowerCase()
+          .split(",")
+          .map(t => t.trim());
+
+        const match = filter === "all" || tags.includes(filter);
+
+        tile.classList.toggle("is-hidden", !match);
+      });
+
+      filterMenu.style.display = "none";
+      requestAnimationFrame(resizeAllTiles);
+    });
   });
-});
 
+});
 
 /* =========================
    LOAD FROM JOURNAL
