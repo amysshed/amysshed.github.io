@@ -61,6 +61,55 @@ function sortGallery() {
 }
 
 /* =========================
+   Json w image list
+========================= */
+const gallery = document.querySelector(".sketchbook-gallery");
+
+fetch("sketchbook-data.json")
+  .then(res => res.json())
+  .then(data => {
+
+    data.forEach(item => {
+
+      const tile = document.createElement("div");
+      tile.className = "sketchbook-tile";
+      tile.dataset.tags = item.tags;
+
+      const inner = document.createElement("div");
+      inner.className = "tile-inner";
+
+      const img = document.createElement("img");
+      img.src = item.src;
+      img.dataset.title = item.title;
+      img.dataset.date = item.date;
+
+      // overlay (same as before)
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
+
+      const title = document.createElement("span");
+      title.className = "title";
+      title.textContent = item.title;
+
+      const date = document.createElement("span");
+      date.className = "date";
+      date.textContent = item.date;
+
+      overlay.appendChild(title);
+      overlay.appendChild(date);
+
+      inner.appendChild(img);
+      inner.appendChild(overlay);
+      tile.appendChild(inner);
+
+      gallery.appendChild(tile);
+
+    });
+
+  });
+
+
+/* =========================
    FILTER (BUTTON VERSION)
 ========================= */
 
