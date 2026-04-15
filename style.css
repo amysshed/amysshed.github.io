@@ -257,7 +257,7 @@ body.sketchbook-page .sketchbook-gallery {
 }
 
 .sketchbook-tile:hover .overlay,
-.sketchbook-tile.show-info .overlay {
+.sketchbook-tile.show-meta .overlay {
   opacity: 1;
 }
 
