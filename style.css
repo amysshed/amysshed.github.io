@@ -213,6 +213,14 @@ body.journal-entry-page {
   border-radius: 6px;
   margin: 0 auto;
 }
+.journal-image-grid:has(img:only-child) {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.journal-image-grid:has(img:only-child) img {
+  max-width: 500px;
+}
 
 .entry-content {
   max-width: 990px;
