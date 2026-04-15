@@ -63,7 +63,6 @@ function sortGallery() {
 /* =========================
    FILTER (BUTTON VERSION)
 ========================= */
-document.addEventListener("DOMContentLoaded", () => {
 
   const filterButtons = document.querySelectorAll(".filter-menu button");
   const filterToggle = document.querySelector(".filter-toggle");
@@ -96,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-});
 
 /* =========================
    LOAD FROM JOURNAL
