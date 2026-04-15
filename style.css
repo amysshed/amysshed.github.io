@@ -214,13 +214,11 @@ body.journal-entry-page {
 }
 
 .journal-image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
   max-width: 900px;
   margin: 3rem auto;
-   
-}
-
-.journal-image-grid.grid-two-large {
-  grid-template-columns: repeat(2, 1fr);
 }
 
 .entry-content {
