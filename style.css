@@ -199,6 +199,7 @@ body.journal-entry-page {
   color: #333333;
   text-decoration: underline;
 }
+
 .entry-content a.journal-link:hover {
   opacity: 0.6;
 }
