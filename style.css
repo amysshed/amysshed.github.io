@@ -193,7 +193,7 @@ body.journal-entry-page {
 }
 
 .journal-inline-image {
-  float: right;
+  float: center;
   width: 30%;
   margin-left: 2rem;
 }
@@ -206,7 +206,7 @@ body.journal-entry-page {
 }
 
 .journal-image-grid img {
-  width: 75%;
+  width: 95%;
   height: auto;
   display: block;
   border-radius: 6px;
