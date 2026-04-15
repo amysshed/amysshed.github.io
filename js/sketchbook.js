@@ -226,11 +226,7 @@ fetch("JE1/manifest.json")
               }, 200);
             });
 
-            tile.addEventListener("dblclick", () => {
-            clearTimeout(clickTimer);
-            clickTimer = null;
-            window.location.href = `JE1/${entry}`;
-            });
+  
 
             // ✅ Populate meta
             populateMeta(tile, newImg);
