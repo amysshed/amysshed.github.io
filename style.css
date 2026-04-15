@@ -192,15 +192,15 @@ body.journal-entry-page {
   margin: 0 auto;
 }
 
-.journal-link,
-.journal-link:visited {
+.entry-content a.journal-link,
+.entry-content a.journal-link:visited,
+.entry-content a.journal-link:active {
   font-weight: bold;
   color: #333333;
   text-decoration: underline;
 }
-
-.journal-link:hover {
-  opacity: 0.7;
+.entry-content a.journal-link:hover {
+  opacity: 0.6;
 }
 
 .journal-inline-image {
