@@ -245,6 +245,15 @@ body.journal-entry-page {
   color: #555;
   margin-bottom: 2rem;
 }
+.poem {
+  line-height: 1.6;
+  text-align: left;
+}
+
+.poem-divider {
+  text-align: center;
+  margin: 1.5rem 0;
+}
 
 .clear-below {
   clear: both;
