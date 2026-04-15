@@ -63,8 +63,7 @@ function sortGallery() {
 /* =========================
    Json w image list
 ========================= */
-
-fetch("/sketchbook-data.json")
+fetch("sketchbook-data.json")
   .then(res => res.json())
   .then(data => {
 
@@ -97,13 +96,12 @@ fetch("/sketchbook-data.json")
       inner.appendChild(img);
       inner.appendChild(overlay);
       tile.appendChild(inner);
-
       gallery.appendChild(tile);
 
-      // ✅ IMPORTANT
+      // ✅ populate meta
       populateMeta(tile, img);
 
-      // ✅ IMPORTANT
+      // ✅ fix layout
       img.addEventListener("load", () => {
         sortGallery();
         resizeAllTiles();
@@ -113,43 +111,6 @@ fetch("/sketchbook-data.json")
 
   })
   .catch(err => console.error("JSON load error:", err));
-
-
-/* =========================
-   FILTER (BUTTON VERSION)
-========================= */
-
-  const filterButtons = document.querySelectorAll(".filter-menu button");
-  const filterToggle = document.querySelector(".filter-toggle");
-  const filterMenu = document.querySelector(".filter-menu");
-
-  if (filterToggle && filterMenu) {
-    filterToggle.addEventListener("click", () => {
-      filterMenu.style.display =
-        filterMenu.style.display === "block" ? "none" : "block";
-    });
-  }
-
-  filterButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const filter = button.dataset.filter.toLowerCase();
-
-      document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-        const tags = (tile.dataset.tags || "")
-          .toLowerCase()
-          .split(",")
-          .map(t => t.trim());
-
-        const match = filter === "all" || tags.includes(filter);
-
-        tile.classList.toggle("is-hidden", !match);
-      });
-
-      filterMenu.style.display = "none";
-      requestAnimationFrame(resizeAllTiles);
-    });
-  });
-
 
 /* =========================
    LOAD FROM JOURNAL
@@ -210,17 +171,7 @@ fetch("JE1/manifest.json")
             inner.appendChild(overlay);
             tile.appendChild(inner);
             gallery.appendChild(tile);
-            let clickTimer = null;
 
-            tile.addEventListener("click", () => {
-              if (clickTimer) return;
-
-            clickTimer = setTimeout(() => {
-            tile.classList.toggle("show-info");
-            clickTimer = null;
-            }, 200);
-            });
-            
             // ✅ Double-click navigation
             tile.addEventListener("dblclick", () => {
               window.location.href = `JE1/${entry}`;
@@ -231,7 +182,7 @@ fetch("JE1/manifest.json")
               if (clickTimer) return;
 
             clickTimer = setTimeout(() => {
-            tile.classList.toggle("show-info");
+            tile.classList.toggle("show-meta");
             clickTimer = null;
               }, 200);
             });
