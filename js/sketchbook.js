@@ -212,14 +212,21 @@ fetch("JE1/manifest.json")
             gallery.appendChild(tile);
             let clickTimer = null;
 
-            tile.addEventListener("click", () => {
-              if (clickTimer) return;
+tile.addEventListener("click", () => {
+  if (clickTimer) return;
 
-            clickTimer = setTimeout(() => {
-            tile.classList.toggle("show-info");
-            clickTimer = null;
-            }, 200);
-            });
+  clickTimer = setTimeout(() => {
+    tile.classList.toggle("show-info");
+    clickTimer = null;
+  }, 200);
+});
+
+tile.addEventListener("dblclick", () => {
+  clearTimeout(clickTimer);
+  clickTimer = null;
+  window.location.href = `JE1/${entry}`;
+});
+
             
             // ✅ Double-click navigation
             tile.addEventListener("dblclick", () => {
