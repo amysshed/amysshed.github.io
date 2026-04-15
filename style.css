@@ -200,7 +200,6 @@ body.journal-entry-page {
 
 .journal-image-grid {
   display: grid;
-  gap: 1rem;
   margin: 2rem 0;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem; 
