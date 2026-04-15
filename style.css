@@ -497,3 +497,9 @@ body.photoalbum-page .sketchbook-gallery {
     padding: 1rem;
   }
 }
+/* =========================
+   UTILITIES
+========================= */
+.is-hidden {
+  display: none !important;
+}
