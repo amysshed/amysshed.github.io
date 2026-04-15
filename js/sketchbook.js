@@ -210,7 +210,17 @@ fetch("JE1/manifest.json")
             inner.appendChild(overlay);
             tile.appendChild(inner);
             gallery.appendChild(tile);
+            let clickTimer = null;
 
+            tile.addEventListener("click", () => {
+              if (clickTimer) return;
+
+            clickTimer = setTimeout(() => {
+            tile.classList.toggle("show-info");
+            clickTimer = null;
+            }, 200);
+            });
+            
             // ✅ Double-click navigation
             tile.addEventListener("dblclick", () => {
               window.location.href = `JE1/${entry}`;
