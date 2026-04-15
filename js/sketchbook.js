@@ -1,5 +1,9 @@
 const gallery = document.querySelector(".sketchbook-gallery");
 
+if (!gallery) {
+  console.warn("Gallery not found");
+}
+
 /* =========================
    MASONRY
 ========================= */
@@ -48,8 +52,8 @@ function sortGallery() {
   const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
   tiles.sort((a, b) => {
-    const dA = new Date(a.querySelector("img").dataset.date || 0);
-    const dB = new Date(b.querySelector("img").dataset.date || 0);
+    const dA = new Date(a.querySelector("img")?.dataset.date || 0);
+    const dB = new Date(b.querySelector("img")?.dataset.date || 0);
     return dB - dA;
   });
 
@@ -87,14 +91,12 @@ filterButtons.forEach(button => {
     });
 
     filterMenu.style.display = "none";
-
     requestAnimationFrame(resizeAllTiles);
   });
 });
 
-
 /* =========================
-   LOAD
+   LOAD FROM JOURNAL
 ========================= */
 fetch("JE1/manifest.json")
   .then(res => res.json())
@@ -107,10 +109,15 @@ fetch("JE1/manifest.json")
 
           doc.querySelectorAll('img[data-sketchbook="true"]').forEach(img => {
 
+            // ✅ Prevent duplicates
+            const uniqueId = `${entry}-${img.getAttribute("src")}`;
+            if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
+
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
+            tile.dataset.id = uniqueId;
 
-            // ✅ IMPORTANT (restores filter)
+            // ✅ Filter support
             tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
 
             const inner = document.createElement("div");
@@ -131,20 +138,32 @@ fetch("JE1/manifest.json")
 
             inner.appendChild(newImg);
 
+            // Overlay
             const overlay = document.createElement("div");
             overlay.className = "overlay";
 
-            overlay.innerHTML = `
-              <span class="title"></span>
-              <span class="date"></span>
-            `;
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "title";
+
+            const dateSpan = document.createElement("span");
+            dateSpan.className = "date";
+
+            overlay.appendChild(titleSpan);
+            overlay.appendChild(dateSpan);
 
             inner.appendChild(overlay);
             tile.appendChild(inner);
             gallery.appendChild(tile);
 
+            // ✅ Double-click navigation
+            tile.addEventListener("dblclick", () => {
+              window.location.href = `JE1/${entry}`;
+            });
+
+            // ✅ Populate meta
             populateMeta(tile, newImg);
 
+            // ✅ Wait for image load (fix masonry)
             newImg.addEventListener("load", () => {
               sortGallery();
               resizeAllTiles();
@@ -152,4 +171,18 @@ fetch("JE1/manifest.json")
           });
         });
     });
+  })
+  .catch(err => console.error("Manifest load error:", err));
+
+/* =========================
+   INITIAL LOAD (manual tiles)
+========================= */
+window.addEventListener("load", () => {
+  document.querySelectorAll(".sketchbook-tile").forEach(tile => {
+    const img = tile.querySelector("img");
+    if (img) populateMeta(tile, img);
   });
+
+  sortGallery();
+  resizeAllTiles();
+});
