@@ -63,7 +63,6 @@ function sortGallery() {
 /* =========================
    Json w image list
 ========================= */
-const gallery = document.querySelector(".sketchbook-gallery");
 
 fetch("sketchbook-data.json")
   .then(res => res.json())
