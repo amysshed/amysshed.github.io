@@ -64,36 +64,26 @@ function sortGallery() {
    FILTER (BUTTON VERSION)
 ========================= */
 
-const filterButtons = document.querySelectorAll(".filter-menu button");
-const filterToggle = document.querySelector(".filter-toggle");
-const filterMenu = document.querySelector(".filter-menu");
-
-/* Toggle dropdown */
-if (filterToggle && filterMenu) {
-  filterToggle.addEventListener("click", () => {
-    filterMenu.style.display =
-      filterMenu.style.display === "block" ? "none" : "block";
-  });
-}
-
-/* Apply filter */
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     const filter = button.dataset.filter.toLowerCase();
 
     document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-      const tags = tile.dataset.tags?.split(",").map(t => t.trim());
+      const tags = (tile.dataset.tags || "")
+        .toLowerCase()
+        .split(",")
+        .map(t => t.trim());
 
-      tile.classList.toggle(
-        "is-hidden",
-        filter !== "all" && !tags?.includes(filter)
-      );
+      const match = filter === "all" || tags.includes(filter);
+
+      tile.classList.toggle("is-hidden", !match);
     });
 
     filterMenu.style.display = "none";
     requestAnimationFrame(resizeAllTiles);
   });
 });
+
 
 /* =========================
    LOAD FROM JOURNAL
@@ -159,6 +149,10 @@ fetch("JE1/manifest.json")
             tile.addEventListener("dblclick", () => {
               window.location.href = `JE1/${entry}`;
             });
+            tile.addEventListener("click", () => {
+              tile.classList.toggle("show-meta");
+            });
+
 
             // ✅ Populate meta
             populateMeta(tile, newImg);
