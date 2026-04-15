@@ -518,11 +518,10 @@ body.photoalbum-page .sketchbook-gallery {
     margin: 0;
   }
 
-  .journal-image-grid {
-    .journal-image-grid:not(.grid-two-large) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.journal-image-grid:not(.grid-two-large) {
+  grid-template-columns: repeat(2, 1fr);
 }
+
   .intro {
     font-size: 2.8rem;
   }
