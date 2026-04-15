@@ -100,14 +100,26 @@ fetch("/sketchbook-data.json")
 
       gallery.appendChild(tile);
 
-      // ✅ IMPORTANT
-      populateMeta(tile, img);
+// ✅ CLICK TO SHOW META
+let clickTimer = null;
 
-      // ✅ IMPORTANT
-      img.addEventListener("load", () => {
-        sortGallery();
-        resizeAllTiles();
-      });
+tile.addEventListener("click", () => {
+  if (clickTimer) return;
+
+  clickTimer = setTimeout(() => {
+    tile.classList.toggle("show-info");
+    clickTimer = null;
+  }, 200);
+});
+
+// ✅ populate meta
+populateMeta(tile, img);
+
+// ✅ layout fix
+img.addEventListener("load", () => {
+  sortGallery();
+  resizeAllTiles();
+});
 
     });
 
@@ -227,27 +239,6 @@ tile.addEventListener("dblclick", () => {
   window.location.href = `JE1/${entry}`;
 });
 
-            
-            // ✅ Double-click navigation
-            tile.addEventListener("dblclick", () => {
-              window.location.href = `JE1/${entry}`;
-            });
-            let clickTimer = null;
-
-            tile.addEventListener("click", () => {
-              if (clickTimer) return;
-
-            clickTimer = setTimeout(() => {
-            tile.classList.toggle("show-info");
-            clickTimer = null;
-              }, 200);
-            });
-
-            tile.addEventListener("dblclick", () => {
-            clearTimeout(clickTimer);
-            clickTimer = null;
-            window.location.href = `JE1/${entry}`;
-            });
 
             // ✅ Populate meta
             populateMeta(tile, newImg);
