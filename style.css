@@ -223,13 +223,10 @@ body.journal-entry-page {
   max-width: 500px;
 }
 
-.journal-image-grid:has(img:two-child) {
-  grid-template-columns: 2fr;
-  justify-items: center;
-}
-
-.journal-image-grid:has(img:two-child) img {
-  max-width: 750px;
+.journal-image-grid:has(img:nth-child(2):last-child) {
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  max-width: 700px;
 }
 
 .entry-content {
