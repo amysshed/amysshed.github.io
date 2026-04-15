@@ -63,7 +63,6 @@ function sortGallery() {
 /* =========================
    Json w image list
 ========================= */
-
 fetch("sketchbook-data.json")
   .then(res => res.json())
   .then(data => {
@@ -82,17 +81,14 @@ fetch("sketchbook-data.json")
       img.dataset.title = item.title;
       img.dataset.date = item.date;
 
-      // overlay (same as before)
       const overlay = document.createElement("div");
       overlay.className = "overlay";
 
       const title = document.createElement("span");
       title.className = "title";
-      title.textContent = item.title;
 
       const date = document.createElement("span");
       date.className = "date";
-      date.textContent = item.date;
 
       overlay.appendChild(title);
       overlay.appendChild(date);
@@ -100,49 +96,21 @@ fetch("sketchbook-data.json")
       inner.appendChild(img);
       inner.appendChild(overlay);
       tile.appendChild(inner);
-
       gallery.appendChild(tile);
 
-    });
+      // ✅ populate meta
+      populateMeta(tile, img);
 
-  });
-
-
-/* =========================
-   FILTER (BUTTON VERSION)
-========================= */
-
-  const filterButtons = document.querySelectorAll(".filter-menu button");
-  const filterToggle = document.querySelector(".filter-toggle");
-  const filterMenu = document.querySelector(".filter-menu");
-
-  if (filterToggle && filterMenu) {
-    filterToggle.addEventListener("click", () => {
-      filterMenu.style.display =
-        filterMenu.style.display === "block" ? "none" : "block";
-    });
-  }
-
-  filterButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const filter = button.dataset.filter.toLowerCase();
-
-      document.querySelectorAll(".sketchbook-tile").forEach(tile => {
-        const tags = (tile.dataset.tags || "")
-          .toLowerCase()
-          .split(",")
-          .map(t => t.trim());
-
-        const match = filter === "all" || tags.includes(filter);
-
-        tile.classList.toggle("is-hidden", !match);
+      // ✅ fix layout
+      img.addEventListener("load", () => {
+        sortGallery();
+        resizeAllTiles();
       });
 
-      filterMenu.style.display = "none";
-      requestAnimationFrame(resizeAllTiles);
     });
-  });
 
+  })
+  .catch(err => console.error("JSON load error:", err));
 
 /* =========================
    LOAD FROM JOURNAL
