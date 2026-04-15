@@ -221,7 +221,7 @@ fetch("JE1/manifest.json")
               if (clickTimer) return;
 
             clickTimer = setTimeout(() => {
-            tile.classList.toggle("show-meta");
+            tile.classList.toggle("show-info");
             clickTimer = null;
               }, 200);
             });
