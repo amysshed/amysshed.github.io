@@ -63,6 +63,16 @@ function sortGallery() {
 /* =========================
    FILTER (BUTTON VERSION)
 ========================= */
+const filterButtons = document.querySelectorAll(".filter-menu button");
+const filterToggle = document.querySelector(".filter-toggle");
+const filterMenu = document.querySelector(".filter-menu");
+
+if (filterToggle && filterMenu) {
+  filterToggle.addEventListener("click", () => {
+    filterMenu.style.display =
+      filterMenu.style.display === "block" ? "none" : "block";
+  });
+}
 
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
@@ -149,10 +159,22 @@ fetch("JE1/manifest.json")
             tile.addEventListener("dblclick", () => {
               window.location.href = `JE1/${entry}`;
             });
+            let clickTimer = null;
+
             tile.addEventListener("click", () => {
-              tile.classList.toggle("show-meta");
+              if (clickTimer) return;
+
+            clickTimer = setTimeout(() => {
+            tile.classList.toggle("show-meta");
+            clickTimer = null;
+              }, 200);
             });
 
+            tile.addEventListener("dblclick", () => {
+            clearTimeout(clickTimer);
+            clickTimer = null;
+            window.location.href = `JE1/${entry}`;
+            });
 
             // ✅ Populate meta
             populateMeta(tile, newImg);
