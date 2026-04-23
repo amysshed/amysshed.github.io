@@ -13,19 +13,15 @@
 <body class="journal-entry-page">
 
 <!-- Header & navigation (matches index.html) -->
-<header class="site-header">
-  <div class="header-title">
-    <a href="../index.html">
-      <img src="../IX8/UI/title.png" alt="Site title">
-    </a>
-  </div>
+<div id="header"></div>
 
-  <nav class="header-nav">
-    <a href="../journal.html">Follow</a>
-    <a href="../sketchbook.html">Portfolio</a>
-   <a href="../photoalbum.html">Photo Album</a>
-  </nav>
-</header>
+<script>
+  fetch("../header.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("header").innerHTML = data;
+    });
+</script>
 
 <main class="journal-entry">
   <article class="journal-entry">
