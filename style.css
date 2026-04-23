@@ -125,7 +125,7 @@ nav a:hover {
 
 .intro {
   font-family: "Rock 3D", serif;
-  margin-top: 30vh;
+  margin-top: 50vh;
   margin-bottom: 4rem;
   font-size: 4rem;
   line-height: 1.9;
@@ -141,6 +141,7 @@ footer {
   bottom: 0;
   left: 0;
   padding: 1rem 1rem;
+  margin-bottom: 0rem;
   font-size: 0.9rem;
   color: #fff;
 }
