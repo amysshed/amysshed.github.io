@@ -12,25 +12,15 @@
 
 <body class="journal-page">
 
-<header class="site-header">
+<div id="header"></div>
 
-  <nav class="header-left">
-    <a href="Amy.html">Amy</a>
-  </nav>
-
-  <div class="header-title">
-    <a href="index.html">
-      <img src="IX8/UI/title.png" alt="Site title">
-    </a>
-  </div>
-
-  <nav class="header-right">
-    <a href="journal.html">Follow</a>
-    <a href="sketchbook.html">Portfolio</a>
-    <a href="photoalbum.html">Photo Album</a>
-  </nav>
-
-</header>
+<script>
+  fetch("header.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("header").innerHTML = data;
+    });
+</script>
 
 <main>
 </section>
