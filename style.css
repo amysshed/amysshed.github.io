@@ -119,6 +119,19 @@ nav a:hover {
   text-underline-offset: 4px;
 }
 
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* space between the two nav groups */
+}
+
+.main-nav,
+.about-nav {
+  display: flex;
+  align-items: center;
+}
+
 /* =========================
    Index Intro
    ========================= */
