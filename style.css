@@ -258,6 +258,7 @@ body.journal-entry-page {
   gap: 0.5rem;
   max-width: 1000px;
   margin: 3rem auto;
+  align-items: start;
 }
 
 /* NEW: wrap each image */
@@ -265,6 +266,8 @@ body.journal-entry-page {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+   width: 100%;
 }
 
 /* Image styling */
@@ -283,6 +286,7 @@ body.journal-entry-page {
   text-align: center;
   text-decoration: none;
   line-height: 1.4;
+   max-width: 90%;
 }
 
 /* Hover effect */
