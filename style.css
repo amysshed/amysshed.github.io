@@ -248,36 +248,71 @@ body.journal-entry-page {
   margin-left: 2rem;
 }
 
+/* =========================
+   Image Grid
+   ========================= */
+
 .journal-image-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
   max-width: 1000px;
   margin: 3rem auto;
-   
 }
 
-.journal-image-grid img {
+/* NEW: wrap each image */
+.journal-image-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Image styling */
+.journal-image-item img {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 6px;
-  margin: 0 auto;
 }
-.journal-image-grid:has(img:only-child) {
+
+/* Caption (clickable museum link) */
+.image-caption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #555;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+/* Hover effect */
+.image-caption:hover {
+  text-decoration: underline;
+  opacity: 0.7;
+}
+
+/* =========================
+   Grid variations
+   ========================= */
+
+.journal-image-grid:has(.journal-image-item:only-child) {
   grid-template-columns: 1fr;
   justify-items: center;
 }
 
-.journal-image-grid:has(img:only-child) img {
+.journal-image-grid:has(.journal-image-item:only-child) img {
   max-width: 500px;
 }
 
-.journal-image-grid:has(img:nth-child(2):last-child) {
+.journal-image-grid:has(.journal-image-item:nth-child(2):last-child) {
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   max-width: 700px;
 }
+
+/* =========================
+   Text Content
+   ========================= */
 
 .entry-content {
   max-width: 1000px;
@@ -295,6 +330,7 @@ body.journal-entry-page {
   color: #555;
   margin-bottom: 2rem;
 }
+
 .poem {
   line-height: 1.6;
   text-align: left;
@@ -307,37 +343,6 @@ body.journal-entry-page {
 
 .clear-below {
   clear: both;
-}
-/* =========================
-   Journal Image Captions
-   ========================= */
-
-.journal-image-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.journal-image-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Caption styling */
-.image-caption {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #555;
-  text-align: center;
-  text-decoration: none;
-  line-height: 1.4;
-}
-
-/* Hover effect (subtle + editorial feel) */
-.image-caption:hover {
-  text-decoration: underline;
-  opacity: 0.7;
 }
 
 /* =========================
