@@ -124,11 +124,12 @@ nav a:hover {
    ========================= */
 
 .intro {
-  font-family: "Rock 3D", bold;
+  font-family: "Rock 3D", serif;
   margin-top: 30vh;
   margin-bottom: 4rem;
   font-size: 4rem;
   line-height: 1.9;
+   font-weight: bold;
 }
 
 /* =========================
