@@ -57,36 +57,44 @@ function populateTitles() {
 }
 
 /* =========================
-   SORT + GROUP BY DATE
+   SORT + GROUP BY location and date
 ========================= */
-function sortGalleryByDate() {
+function sortGalleryByShoot() {
   const tiles = Array.from(document.querySelectorAll(".sketchbook-tile"));
 
+  // Sort newest first
   tiles.sort((a, b) => {
-    const dateA = new Date(a.querySelector("img")?.dataset.date || 0);
-    const dateB = new Date(b.querySelector("img")?.dataset.date || 0);
-    return dateB - dateA;
+    const dA = new Date(a.querySelector("img")?.dataset.date || 0);
+    const dB = new Date(b.querySelector("img")?.dataset.date || 0);
+    return dB - dA;
   });
 
   gallery.innerHTML = "";
 
   tiles.forEach(tile => {
     const img = tile.querySelector("img");
-    const dateKey = img?.dataset.date || "undated";
 
-    let section = gallery.querySelector(`[data-date-group="${dateKey}"]`);
+    const date = img?.dataset.date || "undated";
+    const location = img?.dataset.location || "Unknown";
+
+    // 👇 KEY: group by BOTH date + location
+    const groupKey = `${date}-${location}`;
+
+    let section = gallery.querySelector(`[data-group="${groupKey}"]`);
 
     if (!section) {
       section = document.createElement("div");
       section.className = "date-section";
-      section.dataset.dateGroup = dateKey;
+      section.dataset.group = groupKey;
 
       const header = document.createElement("div");
       header.className = "date-divider";
 
       const title = document.createElement("span");
       title.className = "date-title";
-      title.textContent = dateKey;
+
+      // 👇 what user sees
+      title.textContent = `${location} — ${date}`;
 
       header.appendChild(title);
       section.appendChild(header);
@@ -155,6 +163,8 @@ fetch("JE1/manifest.json")
             newImg.src = img.getAttribute("src");
             newImg.dataset.date = img.dataset.date || "";
             newImg.dataset.title = img.dataset.title || "";
+            newImg.dataset.location = img.dataset.location || "Unknown";
+
 
             /* =========================
                SINGLE CLICK ONLY
@@ -192,7 +202,7 @@ fetch("JE1/manifest.json")
             newImg.addEventListener("load", () => {
               populateDates();
               populateTitles();
-              sortGalleryByDate();
+              sortGalleryByShoot();
               resizeAllTiles();
             });
           });
