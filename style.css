@@ -249,7 +249,7 @@ body.journal-entry-page {
 }
 
 /* =========================
-   Image Grid
+   Image Grid (UNIFIED)
    ========================= */
 
 .journal-image-grid {
@@ -258,25 +258,25 @@ body.journal-entry-page {
   gap: 0.5rem;
   max-width: 1000px;
   margin: 3rem auto;
-align-items: start;
+  align-items: start;
 }
 
-/* NEW: wrap each image */
+/* Each image block */
 .journal-image-item {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Image styling */
-.journal-image-grid img {
+/* Image */
+.journal-image-item img {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 6px;
 }
 
-/* Caption (clickable museum link) */
+/* Caption (optional) */
 .image-caption {
   margin-top: 0.5rem;
   font-size: 0.85rem;
@@ -286,16 +286,16 @@ align-items: start;
   line-height: 1.4;
 }
 
-/* Hover effect */
 .image-caption:hover {
   text-decoration: underline;
   opacity: 0.7;
 }
 
 /* =========================
-   Grid variations
+   Smart Layout Variations
    ========================= */
 
+/* 1 image */
 .journal-image-grid:has(.journal-image-item:only-child) {
   grid-template-columns: 1fr;
   justify-items: center;
@@ -305,6 +305,7 @@ align-items: start;
   max-width: 500px;
 }
 
+/* 2 images */
 .journal-image-grid:has(.journal-image-item:nth-child(2):last-child) {
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
