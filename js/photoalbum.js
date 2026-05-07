@@ -160,6 +160,8 @@ fetch("JE1/manifest.json")
             inner.className = "tile-inner";
 
             const newImg = document.createElement("img");
+            newImg.loading = "lazy";
+            newImg.decoding = "async";
             newImg.src = img.getAttribute("src");
             newImg.dataset.date = img.dataset.date || "";
             newImg.dataset.title = img.dataset.title || "";
