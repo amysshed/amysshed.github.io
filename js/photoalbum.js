@@ -29,7 +29,7 @@ const imageObserver = new IntersectionObserver(entries => {
 });
 
 /*japan second page to reduce crowding*/
-const countryFilter =
+const pageCountry =
   document.body.dataset.country || null;
 
 /* =========================
@@ -181,11 +181,14 @@ fetch("JE1/manifest.json")
 
           doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
 
-            if (
-             countryFilter &&
-             img.dataset.location !== countryFilter
-              ) {
-            return;
+            if (pageCountry === "Japan") {
+
+              if (img.dataset.location !== "Japan") return;
+
+            } else {
+
+              if (img.dataset.location === "Japan") return;
+  
             }
             const uniqueId = `${entry}-${img.getAttribute("src")}`;
 
