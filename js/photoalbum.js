@@ -184,6 +184,7 @@ fetch("JE1/manifest.json")
         
           doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
         
+          /* temptest
             const album =
               img.dataset.album?.toLowerCase();
         
@@ -195,7 +196,7 @@ fetch("JE1/manifest.json")
             
                   if (album === "japan") return;
             
-                }
+                } */
         
             const uniqueId =
               `${entry}-${img.getAttribute("src")}`;
