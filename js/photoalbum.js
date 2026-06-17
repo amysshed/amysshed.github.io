@@ -186,17 +186,16 @@ fetch("JE1/manifest.json")
         
             const album =
               img.dataset.album?.toLowerCase();
-          
         
-            if (pageCountry === "Japan") {
-        
-              if (album !== "japan") return;
-        
-            } else {
-        
-              if (album === "japan") return;
-        
-            }
+                if (pageCountry === "Japan") {
+            
+                  if (album !== "japan") return;
+            
+                } else {
+            
+                  if (album === "japan") return;
+            
+                }
         
             const uniqueId =
               `${entry}-${img.getAttribute("src")}`;
