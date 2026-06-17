@@ -183,8 +183,6 @@ fetch("JE1/manifest.json")
           );
         
           doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
-        
-          doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
 
             const album =
               img.dataset.album?.toLowerCase();
