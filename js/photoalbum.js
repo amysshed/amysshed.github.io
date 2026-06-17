@@ -259,7 +259,7 @@ fetch("JE1/manifest.json")
             newImg.addEventListener("load", () => {
               resizeAllTiles();
             });
-
+          });
           });
 
           // one journal file processed
