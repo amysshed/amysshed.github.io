@@ -202,10 +202,15 @@ fetch("JE1/manifest.json")
             gallery.appendChild(tile);
 
             newImg.addEventListener("load", () => {
-              populateDates();
-              populateTitles();
-              sortGalleryByShoot();
-              resizeAllTiles();
+              pendingImages--;
+              if (pendingImages === 0) {
+                populateDates();
+                populateTitles();
+                sortGalleryByShoot();
+                resizeAllTiles();
+              }
+
+});
             });
           });
         });
