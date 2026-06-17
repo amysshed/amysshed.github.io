@@ -28,6 +28,10 @@ const imageObserver = new IntersectionObserver(entries => {
   rootMargin: "500px"
 });
 
+/*japan second page to reduce crowding*/
+const countryFilter =
+  document.body.dataset.country || null;
+
 /* =========================
    MASONRY
 ========================= */
@@ -177,6 +181,12 @@ fetch("JE1/manifest.json")
 
           doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
 
+            if (
+             countryFilter &&
+             img.dataset.location !== countryFilter
+              ) {
+            return;
+            }
             const uniqueId = `${entry}-${img.getAttribute("src")}`;
 
             if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
