@@ -187,12 +187,13 @@ fetch("JE1/manifest.json")
             const album =
               img.dataset.album?.toLowerCase();
             console.log(
-  "PAGE:",
-  pageCountry,
-  "ALBUM:",
-  album,
-  img.getAttribute("src")
-);
+              "PAGE:",
+              pageCountry,
+              "ALBUM:",
+              album,
+              "SRC:",
+              img.getAttribute("src")
+            );
         
             if (pageCountry === "Japan") {
         
