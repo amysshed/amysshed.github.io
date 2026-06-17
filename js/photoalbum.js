@@ -177,19 +177,18 @@ fetch("JE1/manifest.json")
         .then(res => res.text())
         .then(html => {
 
-          const doc = new DOMParser().parseFromString(html, "text/html");
+            const album =
+              img.dataset.album?.toLowerCase();
 
-          doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
-
-            if (pageCountry === "Japan") {
-
-              if (img.dataset.location !== "Japan") return;
-
-            } else {
-
-              if (img.dataset.location === "Japan") return;
-  
-            }
+              if (pageCountry === "Japan") {
+              
+                if (album !== "japan") return;
+              
+              } else {
+              
+                if (album === "japan") return;
+              
+              }
             const uniqueId = `${entry}-${img.getAttribute("src")}`;
 
             if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
