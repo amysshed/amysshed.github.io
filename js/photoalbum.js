@@ -4,6 +4,8 @@ if (!gallery) {
   console.warn("Sketchbook gallery not found");
 }
 
+let pendingImages = 0;
+
 /* =========================
    IMAGE LAZY LOADER
 ========================= */
@@ -182,6 +184,8 @@ fetch("JE1/manifest.json")
 
             const inner = document.createElement("div");
             inner.className = "tile-inner";
+
+            pendingImages++;
 
             const newImg = document.createElement("img");
             newImg.loading = "lazy";
