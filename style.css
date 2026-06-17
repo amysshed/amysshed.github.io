@@ -216,6 +216,7 @@ body.journal-page {
   line-height: 1.5;
 }
 
+
 /* =========================
    Journal Entry
    ========================= */
@@ -246,6 +247,23 @@ body.journal-entry-page {
   float: right;
   width: 30%;
   margin-left: 2rem;
+}
+
+/* Journal Subheaders with divider */
+
+.entry-subheader {
+  font-family: "Rock 3D", serif;
+  font-size: 1.8rem;
+  font-weight: normal;
+  color: #0D0D0D;
+  margin: 4rem 0 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #999;
+}
+@media (max-width: 768px) {
+  .entry-subheader {
+    font-size: 1.4rem;
+  }
 }
 
 /* =========================
