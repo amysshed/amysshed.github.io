@@ -707,7 +707,7 @@ body.photoalbum-page .sketchbook-gallery {
   display:flex;
   align-items:center;
   justify-content:center;
-
+  font-family: "Rock 3D", serif;
   font-size:5rem;
   letter-spacing:.2em;
 }
