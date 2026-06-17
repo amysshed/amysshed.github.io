@@ -4,8 +4,6 @@ if (!gallery) {
   console.warn("Sketchbook gallery not found");
 }
 
-let pendingImages = 0;
-
 /* =========================
    IMAGE LAZY LOADER
 ========================= */
@@ -166,47 +164,51 @@ function initScrollReveal() {
 fetch("JE1/manifest.json")
   .then(res => res.json())
   .then(entries => {
+
+    let filesProcessed = 0;
+
     entries.forEach(entry => {
+
       fetch(`JE1/${entry}`)
         .then(res => res.text())
         .then(html => {
+
           const doc = new DOMParser().parseFromString(html, "text/html");
 
           doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
 
             const uniqueId = `${entry}-${img.getAttribute("src")}`;
+
             if (gallery.querySelector(`[data-id="${uniqueId}"]`)) return;
 
             const tile = document.createElement("div");
             tile.className = "sketchbook-tile";
             tile.dataset.id = uniqueId;
-            tile.dataset.tags = img.dataset.tags?.toLowerCase() || "journal";
+            tile.dataset.tags =
+              img.dataset.tags?.toLowerCase() || "journal";
 
             const inner = document.createElement("div");
             inner.className = "tile-inner";
 
-            pendingImages++;
-
             const newImg = document.createElement("img");
+
             newImg.loading = "lazy";
             newImg.decoding = "async";
+
+            // lazy-load source
             newImg.dataset.src = img.getAttribute("src");
+
             newImg.dataset.date = img.dataset.date || "";
             newImg.dataset.title = img.dataset.title || "";
-            newImg.dataset.location = img.dataset.location || "Unknown";
+            newImg.dataset.location =
+              img.dataset.location || "Unknown";
 
-
-            /* =========================
-               SINGLE CLICK ONLY
-            ========================= */
             newImg.addEventListener("click", () => {
 
-              // close others
-              document.querySelectorAll(".sketchbook-tile").forEach(t => {
-                t.classList.remove("show-info");
-              });
+              document
+                .querySelectorAll(".sketchbook-tile")
+                .forEach(t => t.classList.remove("show-info"));
 
-              // toggle this one
               tile.classList.toggle("show-info");
 
             });
@@ -224,24 +226,42 @@ fetch("JE1/manifest.json")
 
             overlay.appendChild(titleSpan);
             overlay.appendChild(dateSpan);
+
             inner.appendChild(overlay);
 
             tile.appendChild(inner);
             gallery.appendChild(tile);
+
             imageObserver.observe(newImg);
 
             newImg.addEventListener("load", () => {
-              pendingImages--;
-              if (pendingImages === 0) {
-                populateDates();
-                populateTitles();
-                sortGalleryByShoot();
-                resizeAllTiles();
-              }
-
-});
+              resizeAllTiles();
             });
+
           });
+
+          // one journal file processed
+          filesProcessed++;
+
+          // all journal files processed
+          if (filesProcessed === entries.length) {
+
+            populateDates();
+            populateTitles();
+
+            sortGalleryByShoot();
+
+            requestAnimationFrame(() => {
+              resizeAllTiles();
+            });
+
+          }
+
         });
+
     });
+
+  })
+  .catch(err => {
+    console.error("Manifest load error:", err);
   });
