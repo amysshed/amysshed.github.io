@@ -184,19 +184,24 @@ fetch("JE1/manifest.json")
         
           doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
         
-          /* temptest
+          doc.querySelectorAll('img[data-photoalbum="true"]').forEach(img => {
+
             const album =
               img.dataset.album?.toLowerCase();
-        
-                if (pageCountry === "Japan") {
-            
-                  if (album !== "japan") return;
-            
-                } else {
-            
-                  if (album === "japan") return;
-            
-                } */
+          
+            // Japan page
+            if (pageCountry === "Japan") {
+          
+              if (album !== "japan") return;
+          
+            }
+          
+            // Main photoalbum page
+            else {
+          
+              if (album === "japan") return;
+          
+            }
         
             const uniqueId =
               `${entry}-${img.getAttribute("src")}`;
