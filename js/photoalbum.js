@@ -5,6 +5,30 @@ if (!gallery) {
 }
 
 /* =========================
+   IMAGE LAZY LOADER
+========================= */
+
+const imageObserver = new IntersectionObserver(entries => {
+
+  entries.forEach(entry => {
+
+    if (!entry.isIntersecting) return;
+
+    const img = entry.target;
+
+    if (!img.src) {
+      img.src = img.dataset.src;
+    }
+
+    imageObserver.unobserve(img);
+
+  });
+
+}, {
+  rootMargin: "500px"
+});
+
+/* =========================
    MASONRY
 ========================= */
 function resizeAllTiles() {
@@ -162,7 +186,7 @@ fetch("JE1/manifest.json")
             const newImg = document.createElement("img");
             newImg.loading = "lazy";
             newImg.decoding = "async";
-            newImg.src = img.getAttribute("src");
+            newImg.dataset.src = img.getAttribute("src");
             newImg.dataset.date = img.dataset.date || "";
             newImg.dataset.title = img.dataset.title || "";
             newImg.dataset.location = img.dataset.location || "Unknown";
@@ -200,6 +224,7 @@ fetch("JE1/manifest.json")
 
             tile.appendChild(inner);
             gallery.appendChild(tile);
+            imageObserver.observe(newImg);
 
             newImg.addEventListener("load", () => {
               pendingImages--;
