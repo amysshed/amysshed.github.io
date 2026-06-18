@@ -712,6 +712,23 @@ body.photoalbum-page .sketchbook-gallery {
   color: #0D0D0D;
   letter-spacing:.2em;
 }
+
+/* Hero card responsive */
+@media (max-width: 768px) {
+
+  .album-card {
+    height: 180px;
+    margin-bottom: 2rem;
+  }
+
+  .album-title {
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+}
 /* =========================
    UTILITIES
 ========================= */
