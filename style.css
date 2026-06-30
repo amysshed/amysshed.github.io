@@ -115,9 +115,10 @@ h2 {
 /* Base link styles */
 nav a,
 nav a:visited {
-  color: #C76D32;
+  color: #C95100;
   text-decoration: none;
   font-size: 1.5rem;
+  font-weight: bold;
 }
 
 /* Spacing: only between right-side links */
