@@ -246,12 +246,22 @@
          
     <div class="journal-image-grid">
            <div class="journal-image-item">
-            <img src="../IX8/Enter/japan/sketches/Momat/VID_20260712_085427_337.mp4" data-photoalbum="false" data-tags="photos" data-date="2026-04" data-location="Fukuoka" >
-                 <a href="https://benesse-artsite.jp/en/art/la-foret-des-murmures.html" class="image-caption" target="_blank">
+             <video id="myVideo" autoplay loop>
+               <source src="../IX8/Enter/japan/sketches/Momat/VID_20260712_085427_337.mp4" type="video/mp4">
+               </video>
+                     <a href="https://benesse-artsite.jp/en/art/la-foret-des-murmures.html" class="image-caption" target="_blank">
       La Forêt des murmures, Christian Boltanski (2016).
-          </a>
+                    </a>
            </div>
           </div> 
+              
+
+              <script>
+              const video = document.getElementById("myVideo");
+              video.volume = 0.3;   // Volume between 0.0 and 1.0
+              video.muted = false;  // Enable audio
+              </script>
+            
 
       <p>Here is some more sketches I did whilst travelling through the rest of Japan from the Kumano Kodu, through Matsuyama and up to Amori.
       </p>
