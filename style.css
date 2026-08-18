@@ -313,10 +313,23 @@ body.journal-entry-page {
 /* =========================
    Amy bio
    ========================= */
-.amy-image {
-   width: 100%;
-   max-width: 220px;
+/* =========================
+   Amy bio
+   ========================= */
+
+.amy-intro {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 3rem;
+  align-items: start;
+  max-width: 1000px;
+  margin: 2rem auto 4rem;
 }
+
+.amy-image {
+  width: 220px;
+}
+
 .amy-image img {
   width: 100%;
   height: auto;
@@ -324,7 +337,28 @@ body.journal-entry-page {
   display: block;
 }
 
+.amy-intro-text {
+  max-width: 650px;
+}
 
+.amy-intro-text p {
+  margin-bottom: 1.5rem;
+}
+
+/* Email */
+.amy-email {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #FF9F70;
+  text-decoration: none;
+  border-bottom: 1px solid #FF9F70;
+  padding-bottom: 2px;
+}
+
+.amy-email:hover {
+  opacity: 0.65;
+}
 /* =========================
    Smart Layout Variations
    ========================= */
@@ -590,6 +624,20 @@ body.photoalbum-page .sketchbook-gallery {
   /* Journal images */
   .journal-image-grid.grid-two-large {
     grid-template-columns: 1fr;
+  }
+   
+  .amy-intro {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .amy-image {
+    width: 180px;
+  }
+
+  .amy-intro-text {
+    max-width: none;
   }
 
 }
