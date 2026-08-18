@@ -76,10 +76,6 @@ h2 {
    Header
    ========================= */
 
-/* =========================
-   Header
-   ========================= */
-
 .site-header {
   position: relative;
   display: flex;
@@ -103,6 +99,7 @@ h2 {
   display: flex;
   justify-content: center;
   order: 1;
+  width: 100%;
 }
 
 .header-title a {
