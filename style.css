@@ -317,9 +317,6 @@ body.journal-entry-page {
 /* =========================
    Amy bio
    ========================= */
-/* =========================
-   Amy bio
-   ========================= */
 
 .amy-intro {
   display: grid;
@@ -443,7 +440,7 @@ body.sketchbook-page .sketchbook-gallery {
 
 .sketchbook-tile img {
   width: 100%;
-  height: auto; /* 🔥 THIS FIXES YOUR OVERLAP */
+  height: auto; /* THIS FIXES YOUR OVERLAP */
   display: block;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
