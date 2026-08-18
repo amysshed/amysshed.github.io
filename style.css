@@ -165,20 +165,6 @@ footer {
 }
 
 /* =========================
-   Amy bio
-   ========================= */
-.amy-image {
-   width: 100%;
-   max-width: 220px;
-}
-.amy-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-  display: block;
-}
-
-/* =========================
    Journal List
    ========================= */
 
@@ -324,6 +310,21 @@ body.journal-entry-page {
   text-decoration: underline;
   opacity: 0.7;
 }
+
+/* =========================
+   Amy bio
+   ========================= */
+.amy-image {
+   width: 100%;
+   max-width: 220px;
+}
+.amy-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+}
+
 
 /* =========================
    Smart Layout Variations
