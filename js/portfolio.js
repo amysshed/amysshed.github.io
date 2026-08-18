@@ -163,7 +163,7 @@ fetch("JE1/manifest.json")
         .then(html => {
           const doc = new DOMParser().parseFromString(html, "text/html");
 
-          doc.querySelectorAll('img[data-sketchbook="true"]').forEach(img => {
+          doc.querySelectorAll('img[data-portfolio="true"]').forEach(img => {
 
             // ✅ Prevent duplicates
             const uniqueId = `${entry}-${img.getAttribute("src")}`;
