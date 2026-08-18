@@ -738,7 +738,7 @@ body.photoalbum-page .sketchbook-gallery {
   }
 }
 
-@media (max-width: 480px) {
+ @media (max-width: 480px) {
 
   .journal-image-grid {
     grid-template-columns: 1fr;
@@ -746,6 +746,11 @@ body.photoalbum-page .sketchbook-gallery {
 
   body {
     padding: 1rem;
+  }
+
+  .header-left {
+    top: 1rem;
+    left: 1rem;
   }
 }
 
