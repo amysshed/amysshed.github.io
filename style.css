@@ -105,12 +105,11 @@ h2 {
   display: block;
   max-height: 60px;
 }
-
-/* Right-side navigation (main links) */
+ /* Right-side navigation (main links)
 .header-right {
   display: flex;
   align-items: center;
-}
+}  */
 
 /* Base link styles */
 nav a,
@@ -129,7 +128,7 @@ nav a:visited {
 /* Optional: spacing if you ever add more left links */
 .header-left a:not(:first-child) {
   margin-left: 1.5rem;
-}
+} 
 
 /* Hover effect */
 nav a:hover {
