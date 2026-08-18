@@ -666,50 +666,6 @@ body.photoalbum-page .sketchbook-gallery {
    Responsive
    ========================= */
 
-/* @media (max-width: 1024px) {
-
-  .site-header {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  /* Title goes first */
-  .header-title {
-    position: static;
-    transform: none;
-    order: 1;
-  }
-
-  /* Combine navs visually under title */
-  .header-left,
-  .header-right {
-    order: 2;
-    justify-content: center;
-  }
-
-  /* Wrap both navs into a centered row */
-  .header-left,
-  .header-right {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Stack them nicely if needed */
-  .header-right {
-    margin-top: 0.5rem;
-  }
-
-  /* Remove side spacing on mobile */
-  .header-right a,
-  .header-left a {
-    margin-left: 0;
-    margin: 0 0.75rem;
-  }
-} */
-
 @media (max-width: 768px) {
 
   .journal-preview {
