@@ -76,25 +76,32 @@ h2 {
    Header
    ========================= */
 
+/* =========================
+   Header
+   ========================= */
+
 .site-header {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 4rem;
 }
 
-/* Left-side navigation (About) */
+/* About — fixed in the top-left */
 .header-left {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
 }
 
-/* Centered logo */
+/* Centered logo / title */
 .header-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  order: 1;
 }
 
 .header-title a {
@@ -105,13 +112,17 @@ h2 {
   display: block;
   max-height: 60px;
 }
- /* Right-side navigation (main links)
+
+/* Main navigation — underneath title */
 .header-right {
   display: flex;
   align-items: center;
-}  */
+  justify-content: center;
+  order: 2;
+  margin-top: 1.25rem;
+}
 
-/* Base link styles */
+/* Navigation links */
 nav a,
 nav a:visited {
   color: #FF9F70;
@@ -120,15 +131,10 @@ nav a:visited {
   font-weight: bold;
 }
 
-/* Spacing: only between right-side links */
+/* Space between navigation links */
 .header-right a:not(:first-child) {
   margin-left: 1.5rem;
 }
-
-/* Optional: spacing if you ever add more left links */
-.header-left a:not(:first-child) {
-  margin-left: 1.5rem;
-} 
 
 /* Hover effect */
 nav a:hover {
@@ -662,7 +668,7 @@ body.photoalbum-page .sketchbook-gallery {
    Responsive
    ========================= */
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
 
   .site-header {
     flex-direction: column;
@@ -704,7 +710,7 @@ body.photoalbum-page .sketchbook-gallery {
     margin-left: 0;
     margin: 0 0.75rem;
   }
-}
+} */
 
 @media (max-width: 768px) {
 
