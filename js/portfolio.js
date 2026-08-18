@@ -64,7 +64,7 @@ function sortGallery() {
    Json w image list
 ========================= */
 
-fetch("sketchbook-data.json")
+fetch("portfolio-data.json")
   .then(res => res.json())
   .then(data => {
 
