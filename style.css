@@ -659,11 +659,77 @@ body.photoalbum-page .sketchbook-gallery {
   justify-content: center;
 }
 
-/* =========================
-   Responsive
+
+  /* =========================
+   Responsive — Mobile
    ========================= */
 
 @media (max-width: 768px) {
+
+  /* -------------------------
+     Mobile Header / Navigation
+     ------------------------- */
+
+  .site-header {
+    width: 100%;
+    margin-bottom: 2.5rem;
+    padding-top: 0.25rem;
+  }
+
+  .header-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  .header-title {
+    width: 100%;
+    padding: 0 4rem;
+  }
+
+  .header-title img {
+    max-width: 100%;
+    max-height: 48px;
+    height: auto;
+  }
+
+  .header-right {
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header-right nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .header-right nav a,
+  .header-right nav a:visited {
+    font-size: 1rem;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .header-right a:not(:first-child) {
+    margin-left: 0;
+  }
+
+  .entry-subheader {
+    font-size: 1.4rem;
+  }
+   }
+
+
+  /* -------------------------
+     General Mobile Layout
+     ------------------------- */
 
   .journal-preview {
     grid-template-columns: 1fr;
@@ -679,68 +745,56 @@ body.photoalbum-page .sketchbook-gallery {
     margin: 0;
   }
 
-.journal-image-grid:not(.grid-two-large) {
-  grid-template-columns: repeat(2, 1fr);
-}
-
   .intro {
     font-size: 2.8rem;
   }
-}
 
- @media (max-width: 480px) {
+  /* -------------------------
+     Journal Images
+     ------------------------- */
 
-  .journal-image-grid {
+  .journal-image-grid:not(.grid-two-large) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .journal-image-grid.grid-two-large {
     grid-template-columns: 1fr;
   }
 
-  body {
-    padding: 1rem;
+  /* -------------------------
+     Photo Album / Sketchbook
+     ------------------------- */
+
+  .date-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
   }
 
-  .header-left {
-    top: 1rem;
-    left: 1rem;
+  .date-grid .sketchbook-tile {
+    grid-row-end: auto !important;
   }
-}
 
-/*herocard*/
-.album-card {
-  display:block;
-  position:relative;
-  height:300px;
-  margin-bottom:4rem;
-  overflow:hidden;
-}
+  /* -------------------------
+     Amy Bio
+     ------------------------- */
 
-.album-preview {
-  position:absolute;
-  inset:0;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-}
+  .amy-intro {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
 
-.album-preview img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:.4;
-}
+  .amy-image {
+    width: 180px;
+  }
 
-.album-title {
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family: "Rock 3D", serif;
-  font-size:5rem;
-  color: #0D0D0D;
-  letter-spacing:.2em;
-}
+  .amy-intro-text {
+    max-width: none;
+  }
 
-/* Hero card responsive */
-@media (max-width: 768px) {
+  /* -------------------------
+     Album Card
+     ------------------------- */
 
   .album-card {
     height: 180px;
@@ -753,8 +807,58 @@ body.photoalbum-page .sketchbook-gallery {
     text-align: center;
     padding: 0 1rem;
   }
-
 }
+
+
+/* =========================
+   Responsive — Small Mobile
+   ========================= */
+
+@media (max-width: 480px) {
+
+  body {
+    padding: 1rem;
+  }
+
+  /* -------------------------
+     Header / Navigation
+     ------------------------- */
+
+  .header-left {
+    top: 0;
+    left: 0;
+  }
+
+  .header-title {
+    padding: 0 3.5rem;
+  }
+
+  .header-title img {
+    max-height: 42px;
+  }
+
+  .header-right {
+    margin-top: 0.8rem;
+  }
+
+  .header-right nav {
+    gap: 0.5rem 1rem;
+  }
+
+  .header-right nav a,
+  .header-right nav a:visited {
+    font-size: 0.9rem;
+  }
+
+  /* -------------------------
+     Journal Images
+     ------------------------- */
+
+  .journal-image-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* =========================
    UTILITIES
 ========================= */
