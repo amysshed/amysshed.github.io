@@ -662,8 +662,69 @@ body.photoalbum-page .sketchbook-gallery {
 /* =========================
    Responsive
    ========================= */
+/* =========================
+   Mobile Header / Navigation
+   ========================= */
 
 @media (max-width: 768px) {
+
+  .site-header {
+    width: 100%;
+    margin-bottom: 2.5rem;
+    padding-top: 0.25rem;
+  }
+
+  /* Keep About in the top-left, but make it part of
+     the mobile header rather than competing with the logo */
+  .header-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  /* Smaller logo on phones */
+  .header-title {
+    width: 100%;
+    padding: 0 4rem;
+  }
+
+  .header-title img {
+    max-width: 100%;
+    max-height: 48px;
+    height: auto;
+  }
+
+  /* Navigation sits cleanly underneath the logo */
+  .header-right {
+    width: 100%;
+    margin-top: 1rem;
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Slightly smaller mobile navigation */
+  .header-right nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .header-right nav a,
+  .header-right nav a:visited {
+    font-size: 1rem;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  /* Remove the old margin-based spacing */
+  .header-right a:not(:first-child) {
+    margin-left: 0;
+  }
+ 
 
   .journal-preview {
     grid-template-columns: 1fr;
@@ -688,7 +749,37 @@ body.photoalbum-page .sketchbook-gallery {
   }
 }
 
- @media (max-width: 480px) {
+@media (max-width: 480px) {
+
+  .site-header {
+    margin-bottom: 2rem;
+  }
+
+  .header-title {
+    padding: 0 3.5rem;
+  }
+
+  .header-title img {
+    max-height: 42px;
+  }
+
+  .header-right {
+    margin-top: 0.8rem;
+  }
+
+  .header-right nav {
+    gap: 0.5rem 1rem;
+  }
+
+  .header-right nav a,
+  .header-right nav a:visited {
+    font-size: 0.9rem;
+  }
+
+  .header-left {
+    top: 0;
+    left: 0;
+  }
 
   .journal-image-grid {
     grid-template-columns: 1fr;
