@@ -719,7 +719,7 @@ body.photoalbum-page .sketchbook-gallery {
   /* Navigation sits cleanly underneath the logo */
   .header-right {
      grid-column: 1 / -1;
-    grid-row: 2;
+    
     width: 100%;
     margin: 0;
     padding: 0;
