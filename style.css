@@ -669,27 +669,38 @@ body.photoalbum-page .sketchbook-gallery {
 @media (max-width: 768px) {
 
   .site-header {
+    position: relative;
     width: 100%;
     margin-bottom: 2.5rem;
-    padding-top: 0.25rem;
+    padding-top: 0.75rem 1rem 0;
   }
 
   /* Keep About in the top-left, but make it part of
      the mobile header rather than competing with the logo */
   .header-left {
     position: absolute;
-    top: 10;
-    left: 10;
+    top: 0.75rem;
+    left: 1rem;
     z-index: 10;
+  }
+   
+  .header-left nav a,
+  .header-left nav a:visited {
+    font-size: 1rem;
   }
 
   /* Smaller logo on phones */
   .header-title {
     width: 100%;
     padding: 0 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .header-title img {
+    display: block;
+    width: auto;
     max-width: 100%;
     max-height: 48px;
     height: auto;
@@ -698,26 +709,29 @@ body.photoalbum-page .sketchbook-gallery {
   /* Navigation sits cleanly underneath the logo */
   .header-right {
     width: 100%;
-    margin-top: 1rem;
-    gap: 1;
-    flex-wrap: wrap;
+    margin-top: 1.25rem;
     justify-content: center;
   }
 
   /* Slightly smaller mobile navigation */
   .header-right nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    max-width: 360px;
+    magin: 0 auto;
     gap: 0.75rem 1.25rem;
   }
 
   .header-right nav a,
   .header-right nav a:visited {
-    font-size: 0.5rem;
-    line-height: 1.3;
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    
   }
 
   /* Remove the old margin-based spacing */
