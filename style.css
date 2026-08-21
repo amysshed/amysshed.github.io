@@ -678,8 +678,8 @@ body.photoalbum-page .sketchbook-gallery {
      the mobile header rather than competing with the logo */
   .header-left {
     position: absolute;
-    top: -1;
-    left: -1;
+    top: -10;
+    left: -10;
     z-index: 10;
   }
 
@@ -715,7 +715,7 @@ body.photoalbum-page .sketchbook-gallery {
 
   .header-right nav a,
   .header-right nav a:visited {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
     line-height: 1.3;
     white-space: nowrap;
   }
