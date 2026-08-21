@@ -678,8 +678,8 @@ body.photoalbum-page .sketchbook-gallery {
      the mobile header rather than competing with the logo */
   .header-left {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -1;
+    left: -1;
     z-index: 10;
   }
 
