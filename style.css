@@ -669,30 +669,40 @@ body.photoalbum-page .sketchbook-gallery {
 @media (max-width: 768px) {
 
   .site-header {
-    position: relative;
     width: 100%;
     margin-bottom: 2.5rem;
-    padding-top: 0.75rem 1rem 0;
+    padding: 0.75rem 1rem 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto auto;
+     align-items: center;
+     row-gap: 1.25rem;
   }
 
   /* Keep About in the top-left, but make it part of
      the mobile header rather than competing with the logo */
   .header-left {
-    position: absolute;
-    top: 0.75rem;
-    left: 1rem;
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+     align-self: start;
+     justify-self: start;
     z-index: 10;
   }
    
   .header-left nav a,
   .header-left nav a:visited {
     font-size: 1rem;
+     line-height: 1;
+     white-space: nowrap;
   }
 
   /* Smaller logo on phones */
   .header-title {
-    width: 100%;
-    padding: 0 4rem;
+     grid-column: 2;
+    grid-row: 1;
+    width: auto;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -701,26 +711,32 @@ body.photoalbum-page .sketchbook-gallery {
   .header-title img {
     display: block;
     width: auto;
-    max-width: 100%;
-    max-height: 48px;
+    max-width: 180px;
+    max-height: 52px;
     height: auto;
   }
 
   /* Navigation sits cleanly underneath the logo */
   .header-right {
+     grid-column: 1 / -1;
+    grid-row: 2;
     width: 100%;
-    margin-top: 1.25rem;
+    margin: 0;
+    padding: 0;
+     display: flex;
     justify-content: center;
   }
 
   /* Slightly smaller mobile navigation */
   .header-right nav {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr;
+     column-gap: 1.5rem;
+     row-gap: 0.65rem;
     width: 100%;
     max-width: 360px;
-    magin: 0 auto;
-    gap: 0.75rem 1.25rem;
+    margin: 0 auto;
+    padding: 0;
   }
 
   .header-right nav a,
@@ -728,9 +744,13 @@ body.photoalbum-page .sketchbook-gallery {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 0.25rem;
-    font-size: 0.75rem;
-    line-height: 1.25;
+     min-width: 0;
+    padding: 0.4rem 0.25rem;
+    font-size: 0.72rem;
+    line-height: 1.15;
+     text-align: center;
+     white-space: nowrap;
+     margin: 0;
     
   }
 
